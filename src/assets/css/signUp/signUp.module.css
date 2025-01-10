@@ -1,0 +1,20 @@
+.signUp {
+  background: linear-gradient(135deg, #f7ecff, #d1e9ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  height: auto;
+  padding: 30px 0;
+}
+
+.dateInput[type="date"]::-webkit-inner-spin-button,
+.dateInput[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.dateInput::placeholder{
+    color: gray;
+    font-size: 14px;
+}
