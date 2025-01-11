@@ -1,6 +1,6 @@
 'use client'
 import Navbar from '@/components/Navbar/Navbar'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from '@/assets/css/profile/profile.module.css'
 import Image from 'next/image'
 import profile_icon from "@/assets/img/profile-tick.svg";
@@ -12,9 +12,28 @@ import buliding from "@/assets/img/buliding.svg";
 import logout_icon from "@/assets/img/logout.svg";
 
 
-function Profile() {
+interface User {
+  name: string;
+  surname: string;
+  email: string;
+  phoneNumber: string;
+  country: string;
+  city: string;
+  gender: string;
+  password: string;
+}
 
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+function Profile() {
+  const [user, setUser] = useState<User | null>(null); 
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+    setUser(storedUser);
+  }, []);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -29,13 +48,13 @@ function Profile() {
               alt={'avatar'}
             />
             <div>
-              <h2 className={styles.fullname}>Raul Gasimov</h2>
+              <h2 className={styles.fullname}>{user.name} {user.surname}</h2>
               <p className={styles.location}>
                 <Image
                   src={location}
                   alt={'location'}
                 />
-                Azerbaijan, Baku</p>
+                {user.country}, {user.city}</p>
               <span className={styles.rating}>
                 <Image
                   src={star1}
