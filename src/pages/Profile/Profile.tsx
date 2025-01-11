@@ -37,7 +37,7 @@ function Profile() {
 
   return (
     <div>
-      <Navbar />
+   
 
       <div className={styles.profileContainer}>
         <div className={styles.sidebar}>
