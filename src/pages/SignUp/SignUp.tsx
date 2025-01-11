@@ -14,7 +14,7 @@ import eye from "@/assets/img/eye.svg";
 import toast from "react-hot-toast";
 import SuccessModal from "@/components/SuccessModal/SuccessModal";
 // @ts-ignore
-import { LoginSocialGoogle } from "reactjs-social-login";
+// import { LoginSocialGoogle } from "reactjs-social-login";
 
 interface GoogleProviderData {
   data: {
@@ -77,6 +77,7 @@ function SignUp() {
     setShowPasswordConfirm((prev) => !prev);
   };
 
+  
 
 
   const handleChange = (
@@ -472,7 +473,7 @@ function SignUp() {
               <span></span>
             </div>
             <button type="button" className={styles.google_button}>
-            <LoginSocialGoogle
+            {/* <LoginSocialGoogle
   client_id="650935634351-7mr5vjrtaarg7t4s9ogetopg0mfll6cu.apps.googleusercontent.com"
   scope="openid profile email"
   discoveryDocs="claims_supported"
@@ -487,7 +488,7 @@ function SignUp() {
   <span className="px-2 font-bold" style={{ color: "#746bd4" }}>
     <Image src={google_icon} alt="Google Login" />
   </span>
-</LoginSocialGoogle>
+</LoginSocialGoogle> */}
             </button>
           </form>
         </div>

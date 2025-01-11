@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import styles from "@/assets/css/login/login.module.css";
@@ -14,7 +14,7 @@ import { postApi } from "@/services/api";
 import toast from "react-hot-toast";
 // @ts-ignore
 
-import { LoginSocialGoogle } from "reactjs-social-login";
+// import { LoginSocialGoogle } from "reactjs-social-login";
 
 
 interface FormState {
@@ -30,6 +30,7 @@ interface GoogleProviderData {
 }
 
 function Login() {
+  
   const [form, setForm] = useState<FormState>({
     email: "",
     password: "",
@@ -132,20 +133,25 @@ function Login() {
     login();
   };
 
-  const loginByGoogle = async (code:string) => {
-    try {
+  // const loginByGoogle = async (code:string) => {
+  //   try {
 
-      const res = await postApi("Manage/LoginByGoogle", {
-        code:String(code)
-      });
+  //     const res = await postApi("Manage/LoginByGoogle", {
+  //       code:String(code)
+  //     });
       
-      console.log("responseData", res);
-    } catch (error) {
-      console.log("loginByGoogle", error);
-    }
-  };
+  //     console.log("responseData", res);
+  //   } catch (error) {
+  //     console.log("loginByGoogle", error);
+  //   }
+  // };
 
-
+useEffect (() => {
+  if (typeof window !== "undefined") {
+    window.alert("window.alert from client component");
+  }
+  
+})
   return (
     <>
       {loading && (
@@ -264,7 +270,7 @@ function Login() {
 
                
 
-<LoginSocialGoogle
+{/* <LoginSocialGoogle
   client_id="650935634351-7mr5vjrtaarg7t4s9ogetopg0mfll6cu.apps.googleusercontent.com"
   scope="openid profile email"
   discoveryDocs="claims_supported"
@@ -279,7 +285,7 @@ function Login() {
   <span className="px-2 font-bold" style={{ color: "#746bd4" }}>
     <Image src={google_icon} alt="Google Login" />
   </span>
-</LoginSocialGoogle>
+</LoginSocialGoogle> */}
               </button>
             </form>
             <div className={styles.signup_link}>
