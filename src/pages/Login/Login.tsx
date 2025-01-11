@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import styles from "@/assets/css/login/login.module.css";
@@ -30,7 +30,6 @@ interface GoogleProviderData {
 }
 
 function Login() {
-  
   const [form, setForm] = useState<FormState>({
     email: "",
     password: "",
@@ -133,18 +132,18 @@ function Login() {
     login();
   };
 
-  // const loginByGoogle = async (code:string) => {
-  //   try {
+  const loginByGoogle = async (code:string) => {
+    try {
 
-  //     const res = await postApi("Manage/LoginByGoogle", {
-  //       code:String(code)
-  //     });
+      const res = await postApi("Manage/LoginByGoogle", {
+        code:String(code)
+      });
       
-  //     console.log("responseData", res);
-  //   } catch (error) {
-  //     console.log("loginByGoogle", error);
-  //   }
-  // };
+      console.log("responseData", res);
+    } catch (error) {
+      console.log("loginByGoogle", error);
+    }
+  };
 
 
   return (

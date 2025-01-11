@@ -77,7 +77,6 @@ function SignUp() {
     setShowPasswordConfirm((prev) => !prev);
   };
 
-  
 
 
   const handleChange = (

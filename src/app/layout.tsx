@@ -6,6 +6,7 @@ import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
+import Navbar from "@/components/Navbar/Navbar";
 
 
 const geistSans = Geist({
@@ -31,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-[#fbfbfb]`}
       >
         {/* <NextTopLoader
           color="#31302E"
@@ -45,7 +46,10 @@ export default function RootLayout({
         <main>{children}</main>
         </RootLayout> */}
         <Toaster position="top-right"/>
-        <main>{children}</main>
+        <main>
+      <Navbar />
+          
+          {children}</main>
 
       </body>
     </html>

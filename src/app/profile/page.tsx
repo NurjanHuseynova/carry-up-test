@@ -3,7 +3,9 @@ import React from 'react'
 
 function Page() {
   return (
-    <div><Profile /></div>
+    <div className='custom_container'>
+      <Profile />
+    </div>
   )
 }
 

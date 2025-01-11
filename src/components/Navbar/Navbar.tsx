@@ -56,6 +56,7 @@ function Navbar() {
             <Link href="/login" className={styles.navLink}>
               Login
             </Link>
+            <span className={styles.radius}></span>
             <Link href="/signUp" className={styles.navLink}>
               Sign Up
             </Link>

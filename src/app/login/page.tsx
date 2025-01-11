@@ -5,9 +5,7 @@ import styles from "@/assets/css/login/login.module.css"
 
 function Page() {
   return (
-    <section className={styles.login_container}>
-      <Login />
-    </section>
+    <section className={styles.login_container}><Login /></section>
   )
 }
 
