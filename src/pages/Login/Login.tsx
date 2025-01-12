@@ -12,7 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { postApi } from "@/services/api";
 import toast from "react-hot-toast";
-// @ts-ignore
+// // @ts-ignore
 
 // import { LoginSocialGoogle } from "reactjs-social-login";
 

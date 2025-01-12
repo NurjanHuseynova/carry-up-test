@@ -130,3 +130,7 @@ input {
 .react-datepicker-wrapper{
   width: 100%;
 }
+
+.checkbox-icon.error  {
+  border: 2px solid red;
+}

@@ -4,6 +4,7 @@ import styles from "@/assets/css/navbar/navbar.module.css";
 import carry_logo from "@/assets/img/Carry UP.svg";
 import logout_icon from "@/assets/img/logout.svg";
 import profile_icon from "@/assets/img/profile-tick.svg";
+import { useRouter } from "next/navigation";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -18,6 +19,8 @@ function Navbar() {
   const [user, setUser] = useState<User | null>(null);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -40,8 +43,15 @@ function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    window.location.reload();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+
+    setUser(null);
+    router.push("/");
   };
+
+  const base64Image = `data:image/png;base64,${user?.photo}`;
+
 
   return (
 <section className={styles.navbar}>

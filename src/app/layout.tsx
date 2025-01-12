@@ -31,6 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+    
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-[#fbfbfb]`}
       >
@@ -47,7 +48,6 @@ export default function RootLayout({
         </RootLayout> */}
         <Toaster position="top-right"/>
         <main>
-      <Navbar />
           
           {children}</main>
 
