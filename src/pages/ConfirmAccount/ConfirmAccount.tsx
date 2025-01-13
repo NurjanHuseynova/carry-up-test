@@ -23,7 +23,7 @@ function ConfirmAccount() {
             {
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                token: `${token}`,
               },
             }
           );
