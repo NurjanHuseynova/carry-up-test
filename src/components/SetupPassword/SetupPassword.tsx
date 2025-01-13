@@ -65,15 +65,17 @@ function SetupPassword() {
         }
       );
 
-      if (res.status ) {
+      if (res.status == 200 ) {
         setIsSubmitted(true);
         setIsModalOpen(true);
 
       } else {
         
         toast.error("Failed to set up password.");
+        setIsModalOpen(false);
         
       }
+      setIsLoading(false)
     } catch (err) {
       console.error("Error setting up password:", err);
       setIsLoading(false);
@@ -205,7 +207,7 @@ function SetupPassword() {
             ) : (
               <>
                 <h2>{"Success!"}</h2>
-                <p>{"A password reset link has been sent to your email."}</p>
+                <p>{"A password  has been successful."}</p>
                 <button onClick={handleCloseModal} className={modalStyles.closeButton}>
                   Ok
                 </button>
