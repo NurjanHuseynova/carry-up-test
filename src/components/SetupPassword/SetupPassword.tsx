@@ -54,7 +54,7 @@ function SetupPassword() {
     setIsLoading(true);
 
       const bodyData = { password: form.password };
-      const res = await axios.put(
+      const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/Manage/ForgotPassword`,
         bodyData,
         {
