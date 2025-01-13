@@ -11,9 +11,6 @@ function ConfirmAccount() {
   const params = useParams();
   const token = params?.token;
 
-
-  
-
   useEffect(() => {
     if (token) {
       const verifyEmail = async () => {
@@ -26,7 +23,7 @@ function ConfirmAccount() {
             {
               headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
               },
             }
           );
@@ -46,7 +43,7 @@ function ConfirmAccount() {
   }, [token]);
 
   if (!token) {
-    return ;
+    return;
   }
 
   return (

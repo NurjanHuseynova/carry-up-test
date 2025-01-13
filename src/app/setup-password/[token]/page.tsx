@@ -1,10 +1,10 @@
-import ConfirmAccount from '@/pages/ConfirmAccount/ConfirmAccount'
+import SetupPassword from '@/components/SetupPassword/SetupPassword'
 import React from 'react'
 
 function page() {
   return (
     <div>
-      <ConfirmAccount />
+      <SetupPassword />
     </div>
   )
 }

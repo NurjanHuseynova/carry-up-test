@@ -1,10 +1,10 @@
-import ConfirmAccount from '@/pages/ConfirmAccount/ConfirmAccount'
+import VerifyEmail from '@/components/VerifyEmail/VerifyEmail'
 import React from 'react'
 
 function page() {
   return (
     <div>
-      <ConfirmAccount />
+      <VerifyEmail />
     </div>
   )
 }
