@@ -1,37 +1,43 @@
-import SendSidebar from '@/components/SendSidebar/SendSidebar'
-import Link from 'next/link'
-import React from 'react'
-import styles from "@/assets/css/main/main.module.css"
+"use client";
+import React, { useState } from "react";
+import SendSidebar from "@/components/SendSidebar/SendSidebar";
+import Link from "next/link";
+import styles from "@/assets/css/main/main.module.css";
+import CarrySidebar from "@/components/CarrySidebar/CarrySidebar";
 
 function MainPage() {
+  const [activeTab, setActiveTab] = useState("send");
+
   return (
-    <section className={`custom_container grid grid-cols-3 ${styles.main_container}`}>
-    <article className={`col-span-1 ${styles.left_section}`}>
-      <div>
-      <Link href ="" className={`${styles.tab_button} ${styles.active_tab_button}`} >
-        For Send
-        </Link>
-        <Link href ="" className={`${styles.tab_button} `}>
-        For Carry
-        </Link>
-      </div>
+    <section className={`custom_container flex ${styles.main_container}`}>
+      <article className={`col-span-1 distanceScroll ${styles.left_section} w-1/4`}>
+        <div className={styles.top_button}>
+          <button
+            className={`${styles.tab_button} ${
+              activeTab === "send" ? styles.active_tab_button : ""
+            }`}
+            onClick={() => setActiveTab("send")}
+          >
+            For Send
+          </button>
+          <button
+            className={`${styles.tab_button} ${
+              activeTab === "carry" ? ` ${styles.carry_tab_button}` : ""
+            }`}
+            onClick={() => setActiveTab("carry")}
+          >
+            For Carry
+          </button>
+        </div>
 
-      <SendSidebar />
+        {activeTab === "send" && <SendSidebar />}
+        {activeTab === "carry" && <CarrySidebar />}
 
-      <div>
-        <button className={`${styles.clear_button} `}>Clear all</button>
-        <button className={`${styles.search_button} `}>Search</button>
-
-      </div>
-    </article>
-    <article className={`col-span-2 ${styles.right_section}`}>
-        right
-    </article>
-
-
-      
+       
+      </article>
+      <article className={`col-span-2 ${styles.right_section}`}>right</article>
     </section>
-  )
+  );
 }
 
-export default MainPage
+export default MainPage;

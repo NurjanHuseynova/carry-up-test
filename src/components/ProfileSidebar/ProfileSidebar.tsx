@@ -10,17 +10,26 @@ import microphone from "@/assets/img/microphone.svg";
 import buliding from "@/assets/img/buliding.svg";
 import logout_icon from "@/assets/img/logout.svg";
 
-function ProfileSidebar() {
-    const [user, setUser] = useState<any>(null); 
 
+// Define the type for props
+interface ProfileSidebarProps {
+    onTabChange: (tab: string) => void;
+    activeTab: string;
+}
+
+const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab }) => {
+    const [user, setUser] = useState<any>(null);
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
         setUser(storedUser);
     }, []);
 
     if (!user) {
-        return <div>Loading...</div>; 
+        return <div>Loading...</div>;
     }
+
+    const getTabClass = (tabName: string) =>
+        `${styles.flex} ${activeTab === tabName ? styles.activeTab : ""}`;
 
     return (
         <div className={styles.sidebar}>
@@ -49,7 +58,7 @@ function ProfileSidebar() {
             <hr />
             <ul className={styles.menu}>
                 <li>
-                    <button className={styles.flex}>
+                    <button className={getTabClass("profile")} onClick={() => onTabChange("profile")}>
                         <Image
                             src={profile_icon}
                             alt={'profile'}
@@ -58,7 +67,7 @@ function ProfileSidebar() {
                         Profile</button>
                 </li>
                 <li>
-                    <button className={styles.flex}>
+                    <button className={getTabClass("myAdsTrip")} onClick={() => onTabChange("myAdsTrip")}>
                         <Image
                             src={microphone}
                             alt={'microphone'}
@@ -67,7 +76,7 @@ function ProfileSidebar() {
                         My Ads Trip</button>
                 </li>
                 <li>
-                    <button className={styles.flex}>
+                    <button className={getTabClass("myAdsSend")} onClick={() => onTabChange("myAdsSend")}>
                         <Image
                             src={buliding}
                             alt={'building'}

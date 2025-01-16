@@ -4,7 +4,7 @@
 
 html,
 body {
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 input:focus,
@@ -134,3 +134,49 @@ input {
 .checkbox-icon.error  {
   border: 2px solid red;
 }
+
+/* .scroller {
+  --scrollbar-color-track: #fff;
+  --scrollbar-color-thumb: #ff69b4;
+}
+
+@supports (scrollbar-width: auto) {
+  .scroller {
+    scrollbar-color: var(--scrollbar-color-thumb) var(--scrollbar-color-track);
+  }
+}
+ */
+
+
+/* .scroller:has(.content) {
+  background: white;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+} */
+
+.distanceScroll {
+  overflow-y: auto;
+}
+.distanceScroll::-webkit-scrollbar {
+  width: 13px;
+}
+
+.distanceScroll::-webkit-scrollbar-track {
+  background-color: white;
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+}
+
+.distanceScroll::-webkit-scrollbar-thumb {
+  border-radius: 150px;
+
+  border: 5px solid transparent;
+  background-clip: content-box;
+  background-image: linear-gradient(
+    270deg,
+    rgba(77, 180, 255, 0.4) 0%,
+    rgba(183, 48, 255, 0.4) 100%
+  );
+  box-shadow: inset 2px 2px 5px 0 rgba(255, 255, 255, 0.5);
+}
+

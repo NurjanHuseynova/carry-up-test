@@ -54,7 +54,7 @@ function SetupPassword() {
     setIsLoading(true);
 
       const bodyData = { password: form.password };
-      const res = await axios.post(
+      const res = await axios.put(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/Manage/ForgotPassword`,
         bodyData,
         {
@@ -65,17 +65,15 @@ function SetupPassword() {
         }
       );
 
-      if (res.status == 200 ) {
+      if (res.status ) {
         setIsSubmitted(true);
         setIsModalOpen(true);
 
       } else {
         
         toast.error("Failed to set up password.");
-        setIsModalOpen(false);
         
       }
-      setIsLoading(false)
     } catch (err) {
       console.error("Error setting up password:", err);
       setIsLoading(false);
@@ -207,7 +205,7 @@ function SetupPassword() {
             ) : (
               <>
                 <h2>{"Success!"}</h2>
-                <p>{"A password  has been successful."}</p>
+                <p>{"A password reset link has been sent to your email."}</p>
                 <button onClick={handleCloseModal} className={modalStyles.closeButton}>
                   Ok
                 </button>

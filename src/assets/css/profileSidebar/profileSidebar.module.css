@@ -27,6 +27,10 @@
     color: red;
 }
 
+.activeTab {
+    color: #8552F3;
+    font-weight: bold;
+}
 
 .flex {
     display: flex;
