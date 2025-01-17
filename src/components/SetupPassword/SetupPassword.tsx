@@ -72,7 +72,7 @@ function SetupPassword() {
       } else {
         
         toast.error("Failed to set up password.");
-        
+        setIsModalOpen(false);
       }
     } catch (err) {
       console.error("Error setting up password:", err);
