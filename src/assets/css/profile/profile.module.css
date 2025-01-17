@@ -1,6 +1,6 @@
 .profileContainer {
-    padding: 20px 235px 0 30px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     column-gap: 44px;
+    margin: 20px 30px 50px;
 }

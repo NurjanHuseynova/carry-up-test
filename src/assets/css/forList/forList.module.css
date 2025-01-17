@@ -1,0 +1,138 @@
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .list_card {
+    border-radius: 8px;
+   
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    border-radius: 8px;
+    box-shadow: 0 2px 20px 0 rgba(219, 219, 219, 0.05);
+    border: solid 0.5px rgba(160, 204, 255, 0.26);
+    background-color: #fff;
+  }
+  
+
+
+  .list_card:hover .plane {
+    animation: planMove 4s forwards;
+  }
+  
+  @keyframes planMove {
+    100% {
+      transform: translateX(var(--plane-distance, 0px));
+    }
+  }
+
+  
+  .routeContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  
+  .routeText {
+    font-size: 20px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+  }
+  
+  .lineContainer {
+    position: relative;
+    flex: 1;
+    margin: 0 10px;
+  }
+  
+  .line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    margin: 15px 0 0 0;
+    border-radius: 10px;
+  }
+  
+  .plane {
+    position: absolute;
+    top: -8px;
+    left: 0;
+    transition: transform 1s ease;
+  }
+  
+  /* .list_card:hover .plane {
+    transform: translateX(100%); 
+  } */
+  
+  .description {
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #5c5c5c;
+    margin-top: 11px;
+  }
+  
+  .dates {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+   
+  }
+  .dates p{
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+  
+
+  }
+  .label {
+    font-size: 14px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c5c5c;
+  margin-right: 16px;
+
+  }
+  
+  .price {
+    position: absolute;
+    top: 109px;
+    right: 0;
+    color: white;
+    padding: 2px 14px;
+    font-size: 18px;
+    font-weight: bold;
+    background-image: url(/_next/static/media/price_bg.cf466cbc.svg);
+    background-repeat: no-repeat;
+   
+  }
+  
+  .applyDate {
+    padding:9px 12px;
+    box-shadow: 0 2px 20px 0 rgba(219, 219, 219, 0.05);
+  
+    font-size: 14px;
+    color: #fff;
+  }
+  

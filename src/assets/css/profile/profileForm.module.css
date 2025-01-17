@@ -1,9 +1,11 @@
 .mainContent {
+    padding: 24px;
+    background-color: #fff;
     color: #5C5C5C;
 }
 
 .formGroup input {
-    width: 349px;
+    width: 294.3px;
     height: 48px;
     padding: 10px;
     border: 1px solid #5C5C5C;

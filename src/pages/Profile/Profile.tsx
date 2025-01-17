@@ -18,7 +18,7 @@ function Profile() {
       {activeTab === "profile" && <ProfileForm />}
       {activeTab === "myAdsTrip" && <CarryList />}
       {activeTab === "myAdsSend" && <SendList />}
-      {JSON.stringify(activeTab)}
+      {/* {JSON.stringify(activeTab)} */}
     </div>
   )
 }

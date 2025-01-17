@@ -16,7 +16,6 @@ import toast from "react-hot-toast";
 
 // import { LoginSocialGoogle } from "reactjs-social-login";
 
-
 interface FormState {
   email: string;
   password: string;
@@ -74,8 +73,6 @@ function Login() {
       const response = await postApi("Manage/Login", userData);
 
       const responseData = response?.value;
-  
-      
 
       if (response?.errors && response.errors.length > 0) {
         response.errors.forEach((error: string) => {
@@ -85,27 +82,19 @@ function Login() {
         return;
       }
 
-   
-
       if (responseData) {
         const { accessToken, refreshToken, user } = responseData;
-    
-        
 
         if (accessToken && refreshToken && user) {
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
           localStorage.setItem("user", JSON.stringify(user));
-
-          
         }
-      
+
         if (response?.success) {
           router.push("/");
         }
       }
-
-   
     } catch (error) {
       console.error("Login error:", error);
       setLoading(false);
@@ -132,19 +121,17 @@ function Login() {
     login();
   };
 
-  const loginByGoogle = async (code:string) => {
+  const loginByGoogle = async (code: string) => {
     try {
-
       const res = await postApi("Manage/LoginByGoogle", {
-        code:String(code)
+        code: String(code),
       });
-      
+
       console.log("responseData", res);
     } catch (error) {
       console.log("loginByGoogle", error);
     }
   };
-
 
   return (
     <>
@@ -260,11 +247,7 @@ function Login() {
                 <span></span>
               </div>
               <button type="button" className={styles.google_button}>
-               
-
-               
-
-{/* <LoginSocialGoogle
+                {/* <LoginSocialGoogle
   client_id="650935634351-7mr5vjrtaarg7t4s9ogetopg0mfll6cu.apps.googleusercontent.com"
   scope="openid profile email"
   discoveryDocs="claims_supported"

@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import styles from '@/assets/css/profileForm/profileForm.module.css';
+import styles from '@/assets/css/profile/profileForm.module.css';
 
 interface User {
     name: string;
@@ -37,18 +37,17 @@ function ProfileForm() {
                         <label>Surname</label>
                         <input type="text" defaultValue={user.surname || ''} />
                     </div>
-                </div>
-                <div className={styles.row}>
                     <div className={styles.formGroup}>
                         <label>Email</label>
                         <input type="email" defaultValue={user.email || ''} />
                     </div>
+                </div>
+                <div className={styles.row}>
+
                     <div className={styles.formGroup}>
                         <label>Number</label>
                         <input type="text" defaultValue={user.phoneNumber || ''} />
                     </div>
-                </div>
-                <div className={styles.row}>
                     <div className={styles.formGroup}>
                         <label>Location</label>
                         <input type="text" defaultValue={user.country || ''} />
@@ -67,6 +66,25 @@ function ProfileForm() {
                         <label>Password</label>
                         <input type="password" defaultValue={user.password || ''} />
                     </div>
+                    <div className={styles.formGroup}>
+                        <label>Confirm Password</label>
+                        <input type="password" defaultValue={user.password || ''} />
+                    </div>
+                </div>
+                <div className={styles.row}>
+                    <div className={styles.formGroup}>
+                        <label>WhatsApp</label>
+                        <input type="text" defaultValue={user.gender || ''} />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label>Instagram</label>
+                        <input type="text" defaultValue={user.password || ''} />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label>Url</label>
+                        <input type="url" defaultValue={user.password || ''} />
+                    </div>
+
                 </div>
                 <div className={styles.buttonGroup}>
                     <button type="button" className={styles.cancelBtn}>Cancel</button>

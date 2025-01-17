@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import styles from '@/assets/css/profileSidebar/profileSidebar.module.css';
+import styles from '@/assets/css/profile/profileSidebar.module.css';
 import Image from 'next/image';
 import profile_icon from "@/assets/img/profile-tick.svg";
 import carry_logo from "@/assets/img/Carry UP.svg";
@@ -9,6 +9,7 @@ import star1 from "@/assets/img/star1.svg";
 import microphone from "@/assets/img/microphone.svg";
 import buliding from "@/assets/img/buliding.svg";
 import logout_icon from "@/assets/img/logout.svg";
+import message from "@/assets/img/message.svg";
 
 
 // Define the type for props
@@ -83,6 +84,15 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab 
                             className="icon"
                         />
                         My Ads Send</button>
+                </li>
+                <li>
+                    <button className={getTabClass("myPoints")} onClick={() => onTabChange("myPoints")}>
+                        <Image
+                            src={message}
+                            alt={'message'}
+                            className="icon"
+                        />
+                        My Points</button>
                 </li>
                 <li>
                     <button className={styles.flex}>

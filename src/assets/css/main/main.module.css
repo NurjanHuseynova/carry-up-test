@@ -4,7 +4,7 @@
 }
 
 .right_section{
-    height: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -24,6 +24,7 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto; 
+    border-radius: 8px;
 }
 
 .left_section .top_button{
@@ -42,7 +43,7 @@
     /* padding: 20px; */
     border-radius: 8px;
     border: solid 0.5px rgba(41, 45, 50, 0.65);
-    font-size: 20px;
+    font-size: 18px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
@@ -63,7 +64,7 @@
     /* padding: 20px; */
     border-radius: 8px;
     background-color: #63aaff;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     font-stretch: normal;
     border: 1px solid #63aaff;

@@ -4,7 +4,7 @@
 
 html,
 body {
-  overflow: hidden;
+  overflow: visible;
 }
 
 input:focus,
@@ -25,10 +25,9 @@ select:focus {
   margin: 0 auto;
   padding: 0 16px;
 }
-.container-inner{
+.container-inner {
   max-width: 1266px;
   margin: 0 auto;
-
 }
 
 input {
@@ -45,7 +44,7 @@ input {
   overflow-x: auto !important;
 }
 
-.scroll-y-auto{
+.scroll-y-auto {
   overflow-x: auto !important;
 }
 .flowbite-scroll-x-auto {
@@ -55,7 +54,8 @@ input {
 }
 
 .scroll-x-auto::-webkit-scrollbar,
-.flowbite-scroll-x-auto::-webkit-scrollbar, .scroll-y-auto::-webkit-scrollbar {
+.flowbite-scroll-x-auto::-webkit-scrollbar,
+.scroll-y-auto::-webkit-scrollbar {
   display: none;
 }
 
@@ -65,16 +65,18 @@ input {
   aspect-ratio: 1;
   border-radius: 50%;
   background: #8552f3;
-  --_m: 
-    conic-gradient(#0000 10%,#000),
-    linear-gradient(#000 0 0) content-box;
+  --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
   -webkit-mask: var(--_m);
-          mask: var(--_m);
+  mask: var(--_m);
   -webkit-mask-composite: source-out;
-          mask-composite: subtract;
+  mask-composite: subtract;
   animation: l3 1s infinite linear;
 }
-@keyframes l3 {to{transform: rotate(1turn)}}
+@keyframes l3 {
+  to {
+    transform: rotate(1turn);
+  }
+}
 
 .checkbox {
   appearance: none;
@@ -105,7 +107,7 @@ input {
 }
 
 .checkbox:checked + .checkbox-icon {
-  border-color: #292D32;
+  border-color: #292d32;
   background-color: #f0f0f0;
 }
 
@@ -120,39 +122,18 @@ input {
   fill: #fff;
 }
 
-
-
-.checkbox-wrapper label{
+.checkbox-wrapper label {
   color: rgba(0, 0, 0, 0.6);
   cursor: pointer;
 }
 
-.react-datepicker-wrapper{
+.react-datepicker-wrapper {
   width: 100%;
 }
 
-.checkbox-icon.error  {
+.checkbox-icon.error {
   border: 2px solid red;
 }
-
-/* .scroller {
-  --scrollbar-color-track: #fff;
-  --scrollbar-color-thumb: #ff69b4;
-}
-
-@supports (scrollbar-width: auto) {
-  .scroller {
-    scrollbar-color: var(--scrollbar-color-thumb) var(--scrollbar-color-track);
-  }
-}
- */
-
-
-/* .scroller:has(.content) {
-  background: white;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-} */
 
 .distanceScroll {
   overflow-y: auto;
@@ -179,4 +160,3 @@ input {
   );
   box-shadow: inset 2px 2px 5px 0 rgba(255, 255, 255, 0.5);
 }
-

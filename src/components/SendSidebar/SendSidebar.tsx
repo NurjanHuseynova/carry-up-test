@@ -3,87 +3,53 @@ import styles from "@/assets/css/forSidebar/forSidebar.module.css";
 import DatePicker from "react-datepicker";
 import Image from "next/image";
 import date_icon from "@/assets/img/calendar.svg";
+import { SendSidebarProps } from "@/types/type";
+import { IMaskInput } from "react-imask";
+import { currency } from "@/json/constant";
 
-
-interface FormData {
-  createDate: string;
-  title: string;
-  travelType: string;
-  minPrice: string;
-  maxPrice: string;
-  category: string;
-  fromPlace: string;
-  toPlace: string;
-  fromTripDate: string;
-  toTripDate: string;
-}
-
-const SendSidebar: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    createDate: "",
-    title: "",
-    travelType: "",
-    minPrice: "",
-    maxPrice: "",
-    category: "",
-    fromPlace: "",
-    toPlace: "",
-    fromTripDate: "",
-    toTripDate: "",
-  });
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    console.log("Form Data:", formData);
-  };
-
+const SendSidebar: React.FC<SendSidebarProps> = ({
+  handleSubmit,
+  handleInputChange,
+  setSendFormData,
+  fetchSends,
+  sendFormData,
+  sendClearForm,
+  sendCurrentPage,
+}) => {
   return (
     <section className={styles.sidebar_section}>
       <form className={styles.form_section} onSubmit={handleSubmit}>
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>Create Date</label>
           <div className="relative">
-                  <DatePicker
-                 
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Created Date"
-                    className={`pl-10 w-full`}
-                  />
-                  <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
-                    <Image src={date_icon} alt="date_icon" />
-                  </div>
-                </div>
+            <IMaskInput
+              mask="00/00/0000"
+              placeholder="DD/MM/YYYY"
+              name="createDate"
+              value={sendFormData.createDate}
+              onAccept={(value: any) =>
+                setSendFormData((prevData) => ({
+                  ...prevData,
+                  createDate: value,
+                }))
+              }
+            />
+            <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+              <Image src={date_icon} alt="date_icon" />
+            </div>
+          </div>
         </div>
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>Title</label>
           <input
             type="text"
             name="title"
-            value={formData.title}
+            value={sendFormData.title}
             placeholder="Enter"
             onChange={handleInputChange}
           />
         </div>
-        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>Travel Type</label>
-          <select
-            name="travelType"
-            value={formData.travelType}
-            onChange={handleInputChange}
-          >
-            <option value="">Select</option>
-            <option value="business">Business</option>
-            <option value="leisure">Leisure</option>
-          </select>
-        </div>
+
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>Price</label>
           <div className="!grid !grid-cols-2 gap-2">
@@ -92,7 +58,7 @@ const SendSidebar: React.FC = () => {
               <input
                 type="text"
                 name="minPrice"
-                value={formData.minPrice}
+                value={sendFormData.minPrice}
                 placeholder="Min price"
                 onChange={handleInputChange}
               />
@@ -102,7 +68,7 @@ const SendSidebar: React.FC = () => {
               <input
                 type="text"
                 name="maxPrice"
-                value={formData.maxPrice}
+                value={sendFormData.maxPrice}
                 placeholder="Max price"
                 onChange={handleInputChange}
               />
@@ -110,15 +76,34 @@ const SendSidebar: React.FC = () => {
           </div>
         </div>
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
+          <label>Currency</label>
+          <select
+            name="currency"
+            value={sendFormData.currency}
+            onChange={handleInputChange}
+            className="form-select"
+          >
+            <option value="">Select currency</option>
+            {currency &&
+              Object.entries(currency).map(([key, value]) => (
+                <option key={value} value={value}>
+                  {key}
+                </option>
+              ))}
+          </select>
+        </div>
+        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>Category</label>
           <select
             name="category"
-            value={formData.category}
+            value={sendFormData.category}
             onChange={handleInputChange}
+            className="form-select"
           >
-            <option value="">Select</option>
-            <option value="economy">Economy</option>
-            <option value="luxury">Luxury</option>
+            <option value={0} selected>
+              Select category
+            </option>
+            <option value={1}>Document</option>
           </select>
         </div>
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
@@ -126,7 +111,7 @@ const SendSidebar: React.FC = () => {
           <input
             type="text"
             name="fromPlace"
-            value={formData.fromPlace}
+            value={sendFormData.fromPlace}
             placeholder="Enter"
             onChange={handleInputChange}
           />
@@ -136,46 +121,31 @@ const SendSidebar: React.FC = () => {
           <input
             type="text"
             name="toPlace"
-            value={formData.toPlace}
+            value={sendFormData.toPlace}
             placeholder="Enter"
             onChange={handleInputChange}
           />
         </div>
-        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>From Trip Date</label>
-          <div className="relative">
-                  <DatePicker
-                 
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="From Trip Date"
-                    className={`pl-10 w-full`}
-                  />
-                  <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
-                    <Image src={date_icon} alt="date_icon" />
-                  </div>
-                </div>
-        </div>
-        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>To Trip Date</label>
-          <div className="relative">
-                  <DatePicker
-                 
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="To Trip Date"
-                    className={`pl-10 w-full`}
-                  />
-                  <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
-                    <Image src={date_icon} alt="date_icon" />
-                  </div>
-                </div>
-        </div>
-     
       </form>
 
       <div className="mt-9 flex justify-between gap-4">
-          <button className={`${styles.clear_button}`}>Clear all</button>
-          <button className={`${styles.search_button}`}>Search</button>
-        </div>
+        <button
+          type="button"
+          className={`${styles.clear_button}`}
+          onClick={() => sendClearForm}
+        >
+          Clear all
+        </button>
+        <button
+          type="submit"
+          className={`${styles.search_button}`}
+          onClick={() => {
+            fetchSends(sendCurrentPage);
+          }}
+        >
+          Search
+        </button>
+      </div>
     </section>
   );
 };
