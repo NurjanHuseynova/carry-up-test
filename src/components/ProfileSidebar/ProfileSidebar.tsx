@@ -10,6 +10,7 @@ import microphone from "@/assets/img/microphone.svg";
 import buliding from "@/assets/img/buliding.svg";
 import logout_icon from "@/assets/img/logout.svg";
 import message from "@/assets/img/message.svg";
+import keySquare from "@/assets/img/key-square.svg";
 
 
 // Define the type for props
@@ -66,6 +67,15 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab 
                             className={styles.icon}
                         />
                         Profile</button>
+                </li>
+                <li>
+                    <button className={getTabClass("password")} onClick={() => onTabChange("password")}>
+                        <Image
+                            src={keySquare}
+                            alt={'password_icon'}
+                            className={styles.icon}
+                        />
+                        Password</button>
                 </li>
                 <li>
                     <button className={getTabClass("myAdsTrip")} onClick={() => onTabChange("myAdsTrip")}>

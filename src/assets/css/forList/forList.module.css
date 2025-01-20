@@ -18,6 +18,8 @@
   }
   
 
+ 
+
 
   .list_card:hover .plane {
     animation: planMove 4s forwards;
@@ -25,7 +27,7 @@
   
   @keyframes planMove {
     100% {
-      transform: translateX(var(--plane-distance, 0px));
+      transform: translateX(calc(30vh - 20px));
     }
   }
 
@@ -63,9 +65,12 @@
   
   .plane {
     position: absolute;
-    top: -8px;
+    top: -15px;
     left: 0;
-    transition: transform 1s ease;
+    transition: transform 1s ease ;
+  }
+  .plane img{
+    width: 32px;
   }
   
   /* .list_card:hover .plane {
@@ -117,14 +122,15 @@
   
   .price {
     position: absolute;
-    top: 109px;
+    top: 114px;
     right: 0;
     color: white;
     padding: 2px 14px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
-    background-image: url(/_next/static/media/price_bg.cf466cbc.svg);
+    background-image: url('../../img/price_bg.svg');
     background-repeat: no-repeat;
+    background-size: 100% 100%;
    
   }
   

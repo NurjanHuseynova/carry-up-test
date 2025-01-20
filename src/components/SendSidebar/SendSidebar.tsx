@@ -100,7 +100,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
             onChange={handleInputChange}
             className="form-select"
           >
-            <option value={0} selected>
+            <option value={0} >
               Select category
             </option>
             <option value={1}>Document</option>

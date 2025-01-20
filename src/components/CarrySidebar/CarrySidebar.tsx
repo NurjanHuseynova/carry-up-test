@@ -61,7 +61,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
             onChange={handleInputChange}
             className="form-select"
           >
-            <option value="">Select travel type</option>
+            <option value="" >Select travel type</option>
             {travelType &&
               Object.entries(travelType).map(([key, value]) => (
                 <option key={value} value={value}>
@@ -105,7 +105,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
             onChange={handleInputChange}
             className="form-select"
           >
-            <option value="">Select currency</option>
+            <option value=""  >Select currency</option>
             {currency &&
               Object.entries(currency).map(([key, value]) => (
                 <option key={value} value={value}>
@@ -191,7 +191,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
             onChange={handleInputChange}
             className="form-select"
           >
-            <option value={0} selected>
+            <option value={0} >
               Select category
             </option>
             <option value={1}>Document</option>

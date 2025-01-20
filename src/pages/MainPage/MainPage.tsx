@@ -21,6 +21,9 @@ const MainPage: React.FC = () => {
   const [tripCurrentPage, setTripCurrentPage] = useState(1);
   const [totalTrips, setTotalTrips] = useState(0);
   const [sendCurrentPage, setSendCurrentPage] = useState(1);
+  const [tripLoading,setTripLoading] = useState(false);
+  const [sendLoading,setSendLoading] = useState(false);
+
   const [totalSends, setTotalSends] = useState(0);
   const [formData, setFormData] = useState<FormData>({
     createDate: "",
@@ -74,13 +77,18 @@ const MainPage: React.FC = () => {
       },
     };
     try {
+      setTripLoading(true)
       const response = await postApi("Trip/GetTrips", filter);
 
       if (response?.list) {
         setTrips(response.list);
         setTotalTrips(response.totalCount);
       }
+      setTripLoading(false)
+
     } catch (error) {
+      setTripLoading(false)
+
       console.error("Error fetching trips:", error);
     }
   };
@@ -143,13 +151,18 @@ const MainPage: React.FC = () => {
       },
     };
     try {
+      setSendLoading(true)
       const response = await postApi("Send/GetSends", filter);
 
       if (response?.list) {
         setSends(response.list);
         setTotalSends(response.totalCount);
       }
+      setSendLoading(false)
+
     } catch (error) {
+      setSendLoading(false)
+
       console.error("Error fetching trips:", error);
     }
   };
@@ -223,6 +236,7 @@ const MainPage: React.FC = () => {
             setFormData={setFormData}
             clearForm={clearForm}
             tripCurrentPage={tripCurrentPage}
+            
           />
         )}
         {activeTab === "send" && (
@@ -239,8 +253,8 @@ const MainPage: React.FC = () => {
       </article>
 
       <article className={`col-span-2 ${styles.right_section}`}>
-        {activeTab === "carry" && <MainCarryList trips={trips} />}
-        {activeTab === "send" && <MainSendList sends={sends}/>}
+        {activeTab === "carry" && <MainCarryList trips={trips} loading={tripLoading} />}
+        {activeTab === "send" && <MainSendList sends={sends} loading={sendLoading}/>}
 
         {activeTab === "carry" && trips?.length > 0 && (
           <Pagination

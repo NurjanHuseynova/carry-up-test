@@ -69,11 +69,13 @@ export interface FormData {
     }[];
     package: {
       price: string;
+      count:number;
     };
   }
   
   export interface MainSendListProps {
     sends: Send[];
+    loading:boolean;
   }
 
   export interface Trip {
@@ -88,6 +90,7 @@ export interface FormData {
       toPlace: string;
       createDate: string;
       toTripDate: string;
+      travelType:number;
     }[];
     package: {
       price: string;
@@ -96,6 +99,8 @@ export interface FormData {
   
  export interface MainCarryListProps {
     trips: Trip[];
+    loading:boolean;
+
   }
 
   export interface PaginationProps {

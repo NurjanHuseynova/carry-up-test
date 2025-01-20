@@ -10,7 +10,6 @@ interface User {
     country: string;
     city: string;
     gender: string;
-    password: string;
 }
 
 function ProfileForm() {
@@ -49,6 +48,10 @@ function ProfileForm() {
                         <input type="text" defaultValue={user.phoneNumber || ''} />
                     </div>
                     <div className={styles.formGroup}>
+                        <label>Gender</label>
+                        <input type="text" defaultValue={user.gender || ''} />
+                    </div>
+                    <div className={styles.formGroup}>
                         <label>Location</label>
                         <input type="text" defaultValue={user.country || ''} />
                     </div>
@@ -57,20 +60,7 @@ function ProfileForm() {
                         <input type="text" defaultValue={user.city || ''} />
                     </div>
                 </div>
-                <div className={styles.row}>
-                    <div className={styles.formGroup}>
-                        <label>Gender</label>
-                        <input type="text" defaultValue={user.gender || ''} />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>Password</label>
-                        <input type="password" defaultValue={user.password || ''} />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>Confirm Password</label>
-                        <input type="password" defaultValue={user.password || ''} />
-                    </div>
-                </div>
+
                 <div className={styles.row}>
                     <div className={styles.formGroup}>
                         <label>WhatsApp</label>
@@ -78,11 +68,11 @@ function ProfileForm() {
                     </div>
                     <div className={styles.formGroup}>
                         <label>Instagram</label>
-                        <input type="text" defaultValue={user.password || ''} />
+                        <input type="text" defaultValue={user.gender || ''} />
                     </div>
                     <div className={styles.formGroup}>
                         <label>Url</label>
-                        <input type="url" defaultValue={user.password || ''} />
+                        <input type="url" defaultValue={user.gender || ''} />
                     </div>
 
                 </div>

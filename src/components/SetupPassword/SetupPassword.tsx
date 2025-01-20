@@ -127,14 +127,7 @@ function SetupPassword() {
         <div className={styles.logo}>
           <Image src={carry_logo} alt="Carry Logo" />
         </div>
-        {isSubmitted ? (
-          <div className={styles.success_message}>
-            <h2>Password Setup Successful</h2>
-            <p>You can now log in with your new password.</p>
-          </div>
-        ) : (
-          <>
-            <div className={styles.welcome_text}>
+        <div className={styles.welcome_text}>
               <h2>Setup Password</h2>
               <span>Please set up your password.</span>
             </div>
@@ -196,8 +189,6 @@ function SetupPassword() {
                 </button>
               </form>
             </div>
-          </>
-        )}
       </div>
       {isModalOpen && (
         <div className={modalStyles.overlay}>
