@@ -11,7 +11,7 @@
 .login_section {
   width: 668px;
   height: 786px;
-  padding: 60px 105px 59px 104px;
+  padding: 50px;
   border-radius: 21px;
   box-shadow: 0 2px 20px 0 rgba(218, 236, 255, 0.15);
   background-color: #fff;
@@ -194,8 +194,64 @@
   color: #333;
 }
 
-/* HTML: <div class="loader"></div> */
-
+.success_section{
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.success_section h2{
+  font-size: 24px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: 0.12px;
+  text-align: center;
+  color: #333;
+}
+.success_section p{
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: 0.09px;
+  text-align: center;
+  color: #333;
+}
+.success_section div{
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.success_section img{
+  margin-top: 30px;
+}
+.success_section button{
+  height: 48px;
+  align-self: stretch;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background-color: #ada7eb;
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.06;
+  letter-spacing: normal;
+  text-align: left;
+  color: #fff;
+  margin-top: 24px;
+}
 /* responsive */
 
 @media (max-width: 768px) {

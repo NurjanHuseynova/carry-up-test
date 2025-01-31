@@ -1,0 +1,71 @@
+.sidebar {
+    width: 365px;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    padding: 30px 26px 37px 25px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px #DA99FF, 0 0 0 1px #9CD9FF;
+}
+
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    column-gap: 21px;
+    margin-bottom: 17px;
+}
+
+.menu {
+    margin-top: 38px;
+    font-size: 20px;
+    color: rgba(41, 45, 50, 0.65);
+}
+
+.menu li {
+    margin-bottom: 32px;
+}
+
+.menu li:hover>button {
+    color: #8552F3;
+}
+
+.menu li:last-child>button {
+    color: red;
+}
+
+.activeTab {
+    color: #8552F3;
+    font-weight: 500;
+}
+
+
+.flex {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fullname {
+    color: #636363;
+    font-size: 22px;
+}
+
+.location {
+    display: flex;
+    gap: 6px;
+    color: #A1A1A1;
+}
+
+.rating {
+    display: flex;
+    gap: 6px;
+    color: #706AB5;
+}
+
+.avatar {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid black;
+}

@@ -12,6 +12,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { postApi } from "@/services/api";
 import toast from "react-hot-toast";
+// // @ts-ignore
+
+// import { LoginSocialGoogle } from "reactjs-social-login";
 
 interface FormState {
   email: string;
@@ -19,13 +22,22 @@ interface FormState {
   rememberMe: boolean;
 }
 
+interface GoogleProviderData {
+  data: {
+    code: string;
+  };
+}
+
 function Login() {
   const [form, setForm] = useState<FormState>({
     email: "",
     password: "",
-    rememberMe: false, // Default state for Remember Me
+    rememberMe: false,
   });
-  const [formErrors, setFormErrors] = useState<{ email: boolean; password: boolean }>({
+  const [formErrors, setFormErrors] = useState<{
+    email: boolean;
+    password: boolean;
+  }>({
     email: false,
     password: false,
   });
@@ -55,11 +67,12 @@ function Login() {
       const userData = {
         firstTab: form.email,
         password: form.password,
-        rememberMe: form.rememberMe, // Sending Remember Me value
+        rememberMe: form.rememberMe,
       };
 
       const response = await postApi("Manage/Login", userData);
-      const responseData = response?.list?.[0];
+
+      const responseData = response?.value;
 
       if (response?.errors && response.errors.length > 0) {
         response.errors.forEach((error: string) => {
@@ -76,10 +89,10 @@ function Login() {
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
           localStorage.setItem("user", JSON.stringify(user));
+        }
 
-          if (response?.success) {
-            router.push("/");
-          }
+        if (response?.success) {
+          router.push("/");
         }
       }
     } catch (error) {
@@ -106,6 +119,18 @@ function Login() {
     }
 
     login();
+  };
+
+  const loginByGoogle = async (code: string) => {
+    try {
+      const res = await postApi("Manage/LoginByGoogle", {
+        code: String(code),
+      });
+
+      console.log("responseData", res);
+    } catch (error) {
+      console.log("loginByGoogle", error);
+    }
   };
 
   return (
@@ -162,39 +187,57 @@ function Login() {
                 </div>
               </div>
               <div className="flex justify-between">
-              <div className="checkbox-wrapper">
-  <input
-    type="checkbox"
-    id="rememberMe"
-    className="checkbox"
-    checked={form.rememberMe}
-    onChange={(e) =>
-      setForm((prev) => ({ ...prev, rememberMe: e.target.checked }))
-    }
-  />
-  <div className="checkbox-icon">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      strokeWidth="2"
-      stroke="currentColor"
-    >
-      <path
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M5 12l5 5L20 7"
-      />
-    </svg>
-  </div>
-  <label htmlFor="rememberMe">Remember me</label>
-</div>
+                <div className="checkbox-wrapper">
+                  <input
+                    type="checkbox"
+                    id="rememberMe"
+                    className="checkbox"
+                    checked={form.rememberMe}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        rememberMe: e.target.checked,
+                      }))
+                    }
+                  />
+                  <div
+                    className="checkbox-icon"
+                    onClick={() => {
+                      const checkbox = document.getElementById(
+                        "rememberMe"
+                      ) as HTMLInputElement;
 
+                      if (checkbox) {
+                        checkbox.checked = !checkbox.checked;
 
-  <div className={styles.forgot_password}>
-    <Link href="/forgot-password">Forgot password?</Link>
-  </div>
-</div>
+                        setForm((prevData) => ({
+                          ...prevData,
+                          rememberMe: checkbox.checked,
+                        }));
+                      }
+                    }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                      stroke="currentColor"
+                    >
+                      <path
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12l5 5L20 7"
+                      />
+                    </svg>
+                  </div>
+                  <label htmlFor="rememberMe">Remember me</label>
+                </div>
+
+                <div className={styles.forgot_password}>
+                  <Link href="/forgot-password">Forgot password?</Link>
+                </div>
+              </div>
               <button type="submit" className={styles.login_button}>
                 Log In
               </button>
@@ -204,7 +247,22 @@ function Login() {
                 <span></span>
               </div>
               <button type="button" className={styles.google_button}>
-                <Image src={google_icon} alt="Google Login" />
+                {/* <LoginSocialGoogle
+  client_id="650935634351-7mr5vjrtaarg7t4s9ogetopg0mfll6cu.apps.googleusercontent.com"
+  scope="openid profile email"
+  discoveryDocs="claims_supported"
+  access_type="offline"
+  onResolve={(provider: GoogleProviderData) => {
+    loginByGoogle(provider?.data?.code);
+  }}
+  onReject={(error: string) => {
+    console.log("error", error);
+  }}
+>
+  <span className="px-2 font-bold" style={{ color: "#746bd4" }}>
+    <Image src={google_icon} alt="Google Login" />
+  </span>
+</LoginSocialGoogle> */}
               </button>
             </form>
             <div className={styles.signup_link}>

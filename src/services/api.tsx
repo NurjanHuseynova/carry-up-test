@@ -1,33 +1,24 @@
 import axios from "axios";
 
-export const fetchApi = async (url: string, locale: string) => {
+export const fetchApi = async (url: string) => {
   try {
-    const response = await fetch(
+    const res = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/${url}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application-json",
-        //   "Accept-Language": locale,
-        },
-        cache : "no-cache"
       
-      }
+   
     );
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    return await response.json();
+    return res.data;
   } catch (error) {
-    console.log(error);
+    console.error("Error in fetchApi:", error);
+    throw error;
   }
 };
 
 
 
-export const postApi = async (url: string, bodyData?: any) => {
+
+export const postApi = async (url: string, bodyData?: any,accessToken?:any) => {
   try {
     const isFormData = bodyData instanceof FormData;
 
@@ -37,6 +28,7 @@ export const postApi = async (url: string, bodyData?: any) => {
       {
         headers: {
           "Content-Type": isFormData ? "multipart/form-data" : "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );

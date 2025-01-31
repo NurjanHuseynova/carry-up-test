@@ -1,0 +1,203 @@
+
+.modal-header{
+    height: 61px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    background-color: #f7f7f7;
+    margin: 14px;
+    border: none;
+    /* margin: 22px 34px 0 33px;
+    padding: 25.5px 35.5px 25.5px 35px;
+    border-radius: 8px;
+    box-shadow: 0 2px 20px 0 rgba(113, 113, 113, 0.13);
+    background-color: #fff; */
+}
+
+
+.modal-header .btn-close{
+ 
+    padding: 13px;
+    border-radius: 12px;
+    background-color: #fff;
+}
+.modal-header h5{
+    color: #262626;
+    font-size: 20px;
+}
+
+.modal-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.carry-header{
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 0 0 0.5px #DA99FF, 0 0 0 0.5px #9CD9FF; 
+
+    border-image-slice: 1;
+}
+.carry-header h2{
+    font-size: 20px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #505050;
+}
+.carry-header span{
+    font-size: 24px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #e62626;
+}
+
+/* .carry-modal-container{
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 32px;
+} */
+.details-section h3, .description-section h3 , .points-details h3{
+    
+    font-size: 24px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3c87e0;
+    margin-bottom: 21px;
+}
+
+.details-section,.description-section,.points-details,.contact-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 10px;
+    padding: 22px 14px;
+    border-radius: 8px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 0 0 0.5px #DA99FF, 0 0 0 0.5px #9CD9FF; 
+
+    border-image-slice: 1;
+}
+.carry-left , .carry-right{
+    display: grid;
+        grid-template-columns: 60%  auto;
+        gap: 32px
+}
+
+.description-section p{
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #454545;
+}
+.details-grid{
+    display: flex;
+    gap: 200px;
+    
+}
+.details-grid p , .contact-info p{
+    font-size: 20px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #505050;
+  
+}
+.details-grid .label , .contact-info .label{
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: rgba(41, 45, 50, 0.65);
+}
+
+.points-details .all_see{
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3c87e0;
+}
+.points-details .carry_date{
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: normal;
+    text-align: right;
+    color: rgba(69, 69, 69, 0.65);
+}
+.points-details .carry_desc{
+    font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.14;
+  letter-spacing: normal;
+  text-align: left;
+  color: #454545;
+  margin-top: 4px;
+}
+.points-details button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background-image: linear-gradient(to right, #da99ff 0%, #9cd9ff 100%);
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #fff;
+}
+
+.carry-modal-container{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    
+}
+
+.details-section {
+    height: 100%;
+    justify-content: center;
+}

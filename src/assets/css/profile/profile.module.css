@@ -1,0 +1,11 @@
+.profileContainer {
+    /* display: flex;
+    align-items: flex-start;
+    column-gap: 44px;
+    margin: 20px 30px 50px; */
+    display: grid;
+    grid-template-columns: 362px auto;
+    column-gap: 44px;
+    margin: 20px 30px 50px;
+
+}

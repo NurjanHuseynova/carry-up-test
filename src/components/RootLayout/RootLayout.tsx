@@ -12,7 +12,7 @@ export default async function RootLayout({
 
   return (
     <Fragment>
-      <Navbar />
+   
       {children}
     </Fragment>
   );

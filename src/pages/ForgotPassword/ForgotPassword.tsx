@@ -1,86 +1,81 @@
-'use client';
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-
+"use client";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "@/assets/css/login/login.module.css";
 import carry_logo from "@/assets/img/Carry UP.svg";
-
-
-import Image from 'next/image';
-import Link from 'next/link';
-import { postApi } from '@/services/api';
-import toast from 'react-hot-toast';
+import Image from "next/image";
+import { postApi } from "@/services/api";
+import modalStyles from "@/assets/css/succesmodal/successmodal.module.css";
 
 interface FormState {
   email: string;
 }
 
 function ForgotPassword() {
-  const [form, setForm] = useState<FormState>({ email: ''});
-
+  const [form, setForm] = useState<FormState>({
+    email: "",
+  });
+  const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setForm((values) => ({ ...values, [name]: value }));
+    setError(null);
   };
-
-//   const login = async () => {
-//     try {
-//       const userData = {
-//         firstTab: form.email,
-//         password: form.password,
-//         rememberMe: true,
-//       };
-
-//       const response = await postApi('Manage/Login', userData);
-//       const responseData = response?.list?.[0];
-
-//       if (response?.errors && response.errors.length > 0) {
-//         response.errors.forEach((error: string) => {
-//           toast.error(error);
-//         });
-//         return;
-//       }
-
-//       if (responseData) {
-//         const { accessToken, refreshToken, user } = responseData;
-
-//         if (accessToken && refreshToken && user) {
-//           localStorage.setItem('accessToken', accessToken);
-//           localStorage.setItem('refreshToken', refreshToken);
-//           localStorage.setItem('user', JSON.stringify(user));
-
-//           if (response?.success) {
-//             router.push('/');
-//           } else {
-//             console.error('Login unsuccessful');
-//           }
-//         } else {
-//           console.error('Error: Missing tokens or user information');
-//         }
-//       } else {
-//         console.error('Error: Invalid response format');
-//       }
-//     } catch (error) {
-//       console.error('Login error:', error);
-//     }
-//   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // login();
+    forgotPasswordEmail();
+  };
+
+  const forgotPasswordEmail = async () => {
+    try {
+      setIsLoading(true);
+      const userData = {
+        email: form.email,
+      };
+
+      const response = await postApi("Manage/ForgotPasswordEmail", userData);
+
+      if (response.success) {
+        setIsModalOpen(true);
+      } else {
+        setError(response.message || "Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("An error occurred. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    router.push("/"); 
   };
 
   return (
+ <div>
+     {isLoading && (
+      <div className={styles.loading_overlay}>
+        <div className="loader"></div>
+      </div>
+    )}
     <section className={styles.login_container}>
       <div className={styles.login_section}>
         <div className={styles.logo}>
           <Image src={carry_logo} alt="Carry Logo" />
         </div>
+
         <div className={styles.welcome_text}>
-          <h2>Forgot Password ?</h2>
-          <span>Dont’ worry we will help you to recover your account</span>
+          <h2>{"Forgot Password?"}</h2>
+          <span>{"Don’t worry, we will help you recover your account."}</span>
         </div>
+
         <div className={styles.form_container}>
           <form onSubmit={handleSubmit}>
             <div className={styles.input_group}>
@@ -88,24 +83,40 @@ function ForgotPassword() {
               <input
                 type="text"
                 id="email"
-                placeholder="Email"
                 name="email"
+                placeholder="Email"
                 value={form.email}
                 onChange={handleChange}
               />
             </div>
-      
-          
-            <button type="submit" className={styles.login_button}>
-            Contunie
+
+            {error && <p className={styles.error_message}>{error}</p>}
+            <button type="submit" className={styles.login_button} disabled={isLoading}>
+              {isLoading ? "Loading..." : "Continue"}
             </button>
-           
-          
           </form>
-     
         </div>
       </div>
+
+      {isModalOpen && (
+        <div className={modalStyles.overlay}>
+          <div className={modalStyles.modalContent}>
+            {isLoading ? (
+              <div className={modalStyles.spinner}></div>
+            ) : (
+              <>
+                <h2>{"Success!"}</h2>
+                <p>{"A password reset link has been sent to your email."}</p>
+                <button onClick={handleCloseModal} className={modalStyles.closeButton}>
+                  Ok
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </section>
+ </div>
   );
 }
 
