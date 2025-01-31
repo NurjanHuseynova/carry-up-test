@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/assets/css/postanadd/postanadd.module.css";
 import toast from "react-hot-toast";
 import { postApi } from "@/services/api";
@@ -13,12 +13,25 @@ type FormDataType = {
   fromDate: Date | null;
   toDate: Date | null;
 };
+interface User {
+  id: string;
+}
+
 
 function CarryCreate() {
-  const user = localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user") as string)
-    : null;
-  const accessToken = localStorage.getItem("accessToken");
+  const [user, setUser] = useState<User | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("accessToken");
+
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    if (storedToken) {
+      setAccessToken(storedToken);
+    }
+  }, []);
 
   const [tripPlaceDetails, setTripPlaceDetails] = useState<
     {

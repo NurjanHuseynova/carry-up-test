@@ -3,9 +3,10 @@ import styles from "@/assets/css/postanadd/postanadd.module.css";
 import DatePicker from "react-datepicker";
 import Image from "next/image";
 import date_icon from "@/assets/img/calendar.svg";
-import { postApi } from "@/services/api";
-import { currency } from "@/json/constant";
+
 import toast from "react-hot-toast";
+import { postApi } from "../../services/api";
+import { currency } from "../../json/constant";
 
 interface User {
   id: string;
