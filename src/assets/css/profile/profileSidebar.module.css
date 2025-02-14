@@ -1,5 +1,6 @@
 .sidebar {
-    width: 365px;
+
+    margin: 0 auto;
     border: 2px solid transparent;
     border-radius: 20px;
     padding: 30px 26px 37px 25px;
@@ -69,3 +70,25 @@
     object-fit: cover;
     border: 1px solid black;
 }
+
+@media (max-width: 831px) {
+    .menu {
+        display: none;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 460px) {
+
+    .sidebar {
+        width: 335px;
+        margin: auto;
+    }
+
+}
+
+@media (max-width: 420px) {}

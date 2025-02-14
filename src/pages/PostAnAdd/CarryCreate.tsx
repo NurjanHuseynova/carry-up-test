@@ -17,7 +17,6 @@ interface User {
   id: string;
 }
 
-
 function CarryCreate() {
   const [user, setUser] = useState<User | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -42,6 +41,8 @@ function CarryCreate() {
       travelType: number | null;
     }[]
   >([]);
+
+  console.log("ssd", tripPlaceDetails);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -97,11 +98,11 @@ function CarryCreate() {
       !formData.to ||
       !formData.fromDate ||
       !formData.toDate ||
-      !formData.travelType
+      formData.travelType === null
     ) {
-      return toast.error("Fill in all fields.");
+      return toast.error("Lütfen tüm gerekli alanları doldurun.");
     }
-
+  
     setTripPlaceDetails((prev) => [
       ...prev,
       {
@@ -112,14 +113,13 @@ function CarryCreate() {
         travelType: formData.travelType,
       },
     ]);
-
+  
     setFormData((prev) => ({
       ...prev,
       from: "",
-      to: "",
+      to: prev.from,
       fromDate: null,
       toDate: null,
-      appointmentDate: null,
       travelType: null,
     }));
   };
@@ -133,8 +133,7 @@ function CarryCreate() {
         !formData.currency ||
         !formData.price ||
         !formData.count ||
-        !formData.appointmentDate ||
-        tripPlaceDetails.length === 0
+        !formData.appointmentDate
       ) {
         return toast.error("Fill in all fields.");
       }
@@ -259,13 +258,13 @@ function CarryCreate() {
                 To<span className={styles.reqField}> * </span>
               </label>
               <input
-                type="text"
-                id="to"
-                name="to"
-                placeholder="To"
-                value={formData.to}
-                onChange={handleInputChange}
-              />
+  type="text"
+  id="to"
+  name="to"
+  placeholder="To"
+  value={formData.to}
+  onChange={handleInputChange}
+/>
             </div>
             <div className={styles.input_group_item}>
               <label htmlFor="name" className="">
@@ -292,10 +291,10 @@ function CarryCreate() {
               </label>
               <select
                 name="travelType"
-                value={formData.travelType || ""}
+                value={formData.travelType !== null ? formData.travelType : ""}
                 onChange={handleInputChange}
               >
-                <option value="">Select travelType</option>
+                <option value="">Select travel type</option>
                 {Object.entries(travelType).map(([key, value]) => (
                   <option key={value} value={value}>
                     {key}
@@ -382,7 +381,9 @@ function CarryCreate() {
             </div>
           </div>
 
-          <div className={`grid gap-3 md:grid-cols-1 h-3/6 ${styles.input_group}`}>
+          <div
+            className={`grid gap-3 md:grid-cols-1 h-3/6 ${styles.input_group}`}
+          >
             <div className={styles.input_group_item}>
               <label htmlFor="description">
                 Description<span className={styles.reqField}> * </span>
@@ -414,23 +415,6 @@ function CarryCreate() {
         </button>
       </div>
 
-      <div className="flex gap-3 justify-end items-end mt-3">
-        <button
-          type="button"
-          className={styles.cancel_btn}
-          onClick={clearInput}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className={styles.save_btn}
-          onClick={handleSubmit}
-        >
-          Save
-        </button>
-      </div>
-
       {tripPlaceDetails.length > 0 && (
         <table className="w-full mt-10">
           <thead className={styles.thead}>
@@ -447,9 +431,11 @@ function CarryCreate() {
             {tripPlaceDetails.map((item, index) => (
               <tr key={index}>
                 <td>{item.fromPlace}</td>
-                <td>{item.toPlace}</td>
                 <td>{item.fromTripDate?.toLocaleDateString()}</td>
+                <td>{item.toPlace}</td>
+
                 <td>{item.toTripDate?.toLocaleDateString()}</td>
+
                 <td>
                   {item.travelType == 0
                     ? "Bus"
@@ -463,14 +449,35 @@ function CarryCreate() {
                     ? "Train"
                     : null}
                 </td>
-                <th onClick={() => handleDelete(index)} className="cursor-pointer">
-              
+                <th
+                  onClick={() => handleDelete(index)}
+                  className="cursor-pointer"
+                >
                   <Image src={trash} className={""} alt={"delete"} />
                 </th>
               </tr>
             ))}
           </tbody>
         </table>
+      )}
+
+      {tripPlaceDetails.length > 0 && (
+        <div className="flex gap-3 justify-end items-end mt-3">
+          <button
+            type="button"
+            className={styles.cancel_btn}
+            onClick={clearInput}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className={styles.save_btn}
+            onClick={handleSubmit}
+          >
+            Save
+          </button>
+        </div>
       )}
     </div>
   );

@@ -5,12 +5,13 @@ import styles from '@/assets/css/profile/profileCarryList.module.css'
 import Image from 'next/image';
 import brush from "@/assets/img/brush.svg";
 import trash from "@/assets/img/trash.svg";
-import axios from 'axios';
 import toast from 'react-hot-toast';
 import { mapCurrencyType, mapTransportType } from '@/utils/enumsToData';
 import { formatDate } from '@/utils/formatDate';
 import Pagination from "@/components/Pagination/Pagination";
 import ProfileCarryModal from '@/components/ProfileModal/ProfileCarryModal';
+import { deleteApi, postApi } from '@/services/api';
+import { useRouter } from 'next/navigation';
 
 
 interface Trip {
@@ -34,11 +35,10 @@ function CarryList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
+  const router = useRouter();
 
   useEffect(() => {
     fetchTrips(currentPage);
@@ -51,9 +51,15 @@ function CarryList() {
     toggleModal();
   };
 
+  const handleEdit = (e: React.MouseEvent, tripId: number) => {
+    e.stopPropagation(); // Prevent row click event
+    router.push(`/edit-trip?id=${tripId}`);
+  };
+
+
   const handleDelete = async (id: number) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
-    if (!confirmDelete) return;
+    // const confirmDelete = window.confirm("Are you sure you want to delete this item?");
+    // if (!confirmDelete) return;
 
     setIsLoading(true);
 
@@ -67,22 +73,16 @@ function CarryList() {
         return;
       }
 
-      let res = await axios.put(`${apiUrl}/Trip/Delete/${id}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const res = await deleteApi(`Trip/Delete/${id}`, accessToken);
 
-
-      if (res?.data.errors && res?.data.errors.length > 0) {
-        res?.data.errors.forEach((error: string) => {
+      if (res?.errors && res?.errors.length > 0) {
+        res?.errors.forEach((error: string) => {
           toast.error(error);
         });
         return;
       }
 
-      if (res?.data?.success) {
+      if (res?.success) {
         toast.success("Item deleted successfully.");
       }
       // Remove the deleted trip from the state
@@ -116,14 +116,8 @@ function CarryList() {
         }
       }
 
-      const response = await axios.post(`${apiUrl}/Trip/GetTripsByUserId`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
+      const responseData = await postApi(`Trip/GetTripsByUserId`, payload, accessToken);
 
-      const responseData = response?.data;
 
       if (responseData?.list) {
         const mappedTrips = responseData.list.map((trip: any) => {
@@ -161,6 +155,7 @@ function CarryList() {
     <div className={styles.container}
       style={{
         justifyContent: isLoading ? 'center' : '', // Deactivate justify-content when loading
+        alignItems: isLoading ? 'center' : '', // Deactivate justify-content when loading
       }}>
       {isLoading ? (
         <div role="status">
@@ -204,7 +199,7 @@ function CarryList() {
                     <td>{trip.transport}</td>
                     <td>{trip.deadline}</td>
                     <td>
-                      <button title="Edit">
+                      <button title="Edit" onClick={(e) => handleEdit(e, trip.id)}>
                         <Image src={brush} alt="edit" />
                       </button>
                       <button title="Delete" onClick={(e) => {

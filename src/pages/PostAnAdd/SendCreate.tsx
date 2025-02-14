@@ -82,7 +82,7 @@ function SendCreate() {
         !formData?.to ||
         !formData?.appointmentDate
       ) {
-        return toast.error("Fill in all fields.");
+        return  toast.error("Please fill in all required fields.")
       }
 
       const obj = {

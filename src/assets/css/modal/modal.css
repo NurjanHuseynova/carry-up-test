@@ -27,6 +27,7 @@
 .modal-header h5{
     color: #262626;
     font-size: 20px;
+    width: 100%;
 }
 
 .modal-container {
@@ -150,6 +151,8 @@
     letter-spacing: normal;
     text-align: left;
     color: #3c87e0;
+    background-image: none !important;
+    padding: 0;
 }
 .points-details .carry_date{
     font-size: 12px;
@@ -170,7 +173,7 @@
   letter-spacing: normal;
   text-align: left;
   color: #454545;
-  margin-top: 4px;
+  margin-top: 12px;
 }
 .points-details button{
     display: flex;
@@ -200,4 +203,31 @@
 .details-section {
     height: 100%;
     justify-content: center;
+}
+
+
+.carry_icon{
+background-color: #F3FBFF;
+border-radius: 8px;
+padding: 10px;
+height: 53px;
+}
+
+.add_comment{
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background-color: #ada7eb;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #fff;
 }

@@ -9,7 +9,7 @@
     border-radius: 8px;
    
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
     transition: transform 0.2s ease;
     border-radius: 8px;
     box-shadow: 0 2px 20px 0 rgba(219, 219, 219, 0.05);
@@ -140,5 +140,8 @@
   
     font-size: 14px;
     color: #fff;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+
   }
   

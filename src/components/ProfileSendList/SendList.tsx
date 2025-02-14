@@ -4,11 +4,12 @@ import Image from 'next/image';
 import brush from "@/assets/img/brush.svg";
 import trash from "@/assets/img/trash.svg";
 import toast from 'react-hot-toast';
-import axios from 'axios';
 import { formatDate } from '@/utils/formatDate';
 import Pagination from '../Pagination/Pagination';
 import ProfileSendModal from '../ProfileModal/ProfileSendModal';
 import { mapCurrencyType } from '@/utils/enumsToData';
+import { deleteApi, postApi } from '@/services/api';
+import { useRouter } from 'next/navigation';
 
 interface MySends {
   id: number;
@@ -31,10 +32,9 @@ function SendList() {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const router = useRouter();
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
@@ -47,9 +47,14 @@ function SendList() {
     toggleModal();
   };
 
+  const handleEdit = (e: React.MouseEvent, tripId: number) => {
+    e.stopPropagation(); // Prevent row click event
+    router.push(`/edit-send?id=${tripId}`);
+  };
+
   const handleDelete = async (id: number) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
-    if (!confirmDelete) return;
+    // const confirmDelete = window.confirm("Are you sure you want to delete this item?");
+    // if (!confirmDelete) return;
 
     setIsLoading(true);
 
@@ -63,22 +68,17 @@ function SendList() {
         return;
       }
 
-      let res = await axios.put(`${apiUrl}/Send/Delete/${id}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const resData = await deleteApi(`Send/Delete/${id}`, accessToken);
 
 
-      if (res?.data.errors && res?.data.errors.length > 0) {
-        res?.data.errors.forEach((error: string) => {
+      if (resData?.errors && resData?.errors.length > 0) {
+        resData?.errors.forEach((error: string) => {
           toast.error(error);
         });
         return;
       }
 
-      if (res?.data?.success) {
+      if (resData?.success) {
         toast.success("Item deleted successfully.");
       }
 
@@ -117,15 +117,10 @@ function SendList() {
         }
       }
 
-      const response = await axios.post(`${apiUrl}/Send/GetSendsByUserId`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
 
-      const responseData = response?.data;
-      console.log('Response: ', responseData);
+      const responseData = await postApi(`Send/GetSendsByUserId`, payload, accessToken);
+
+      // console.log('Response: ', responseData);
 
       if (responseData?.list) {
         const mappedSends = responseData.list.map((send: any) => {
@@ -165,6 +160,7 @@ function SendList() {
     <div className={styles.container}
       style={{
         justifyContent: isLoading ? 'center' : '', // Deactivate justify-content when loading
+        alignItems: isLoading ? 'center' : '', // Deactivate justify-content when loading
       }}>
       {isLoading ? (
         <div role="status">
@@ -209,6 +205,7 @@ function SendList() {
                   <td>
                     <button
                       title="Edit"
+                      onClick={(e) => handleEdit(e, send.id)}
                     >
                       <Image
                         src={brush}
@@ -248,10 +245,11 @@ function SendList() {
               activetab="carry"
             />)}
         </>
-      )}
+      )
+      }
       <ProfileSendModal toggle={toggleModal} isOpen={isModalOpen} send={selectedSend} />
 
-    </div>
+    </div >
   )
 }
 

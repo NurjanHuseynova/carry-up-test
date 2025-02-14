@@ -1,49 +1,4 @@
-.modal-content {
-    /* width: 1373px; */
-    /* height: 845px; */
-    margin: 22px 34px 0 33px;
-    padding: 25.5px 35.5px 25.5px 35px;
-    border-radius: 8px;
-    box-shadow: 0 2px 20px 0 rgba(113, 113, 113, 0.13);
-    background-color: #fff;
-}
 
-.modal-header {
-    height: 61px;
-    flex-grow: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 8px;
-    background-color: #f7f7f7;
-    margin: 14px;
-    border: none;
-
-}
-
-.modal-header .btn-close {
-
-    padding: 13px;
-    border-radius: 12px;
-    background-color: #fff;
-}
-
-.modal-header h5 {
-    color: #262626;
-    font-size: 22px;
-    line-height: 1.09;
-}
-
-.modal-h3 {
-    font-size: 24px;
-    font-weight: 500;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: left;
-    color: #3c87e0;
-}
 
 .flexRow.alignStart {
     flex-wrap: wrap;

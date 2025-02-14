@@ -92,6 +92,7 @@ export interface FormData {
       toPlace: string;
       createDate: string;
       toTripDate: string;
+      fromTripDate:string;
       travelType:number;
     }[];
     package: {

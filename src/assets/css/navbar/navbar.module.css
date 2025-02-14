@@ -6,14 +6,15 @@
     align-items: center;
     gap: 32px;
     padding: 20px;
-
-
-
 }
 
 .navbar {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     background-color: #fff;
+}
+
+.hamburger {
+    display: none;
 }
 
 .logo {
@@ -104,6 +105,7 @@
     min-width: 150px;
 }
 
+
 .menuItem {
     display: flex;
     align-items: center;
@@ -127,6 +129,7 @@
     background-color: #e3ebff29;
 
 }
+
 
 .popIcon {
     width: 32px;
@@ -156,26 +159,27 @@
 }
 
 /* responsive */
-/* Mobile view */
-@media (max-width: 768px) {
+
+/* Large screen view */
+@media (min-width: 1025px) {
     .navLink {
-        font-size: 16px;
+        font-size: 22px;
     }
 
     .username {
-        font-size: 14px;
+        font-size: 18px;
     }
 
     .menuItem {
-        font-size: 12px;
-    }
-
-    .postAdButton {
         font-size: 14px;
     }
 
+    .postAdButton {
+        font-size: 16px;
+    }
+
     .popupMenu {
-        font-size: 12px;
+        font-size: 14px;
     }
 }
 
@@ -202,25 +206,112 @@
     }
 }
 
-/* Large screen view */
-@media (min-width: 1025px) {
+
+/* Mobile view */
+@media (max-width: 768px) {
     .navLink {
-        font-size: 22px;
-    }
-
-    .username {
-        font-size: 18px;
-    }
-
-    .menuItem {
-        font-size: 14px;
-    }
-
-    .postAdButton {
         font-size: 16px;
     }
 
-    .popupMenu {
+    .username {
         font-size: 14px;
+    }
+
+    .menuItem {
+        font-size: 12px;
+    }
+
+    .postAdButton {
+        font-size: 14px;
+    }
+
+    .popupMenu {
+        font-size: 12px;
+    }
+
+}
+
+@media (max-width: 831px) {
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    .mobileMenu {
+        width: 265px;
+        position: absolute;
+        top: 20px;
+        right: 0;
+        background: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        /* padding: 10px; */
+        z-index: 1000;
+        min-width: 150px;
+    }
+
+    .mobileMenu ul {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 30px;
+        padding: 0px;
+        color: rgba(41, 45, 50, 0.65);
+        margin: 12px 56px 27px 32px;
+    }
+
+    .mobileMenu ul li {
+        width: 100%;
+    }
+
+    .mobileMenu ul li button {
+        margin: 0px;
+        height: 37px;
+        width: 100%;
+    }
+
+    .mobileMenu .username {
+        font-size: 18px !important;
+    }
+
+    .mobileMenu .menuItem {
+        padding: 0px;
+        font-size: 18px !important;
+
+    }
+
+    .mobileMenu .avatar {
+        width: 26px;
+        height: 26px;
+    }
+
+    .mobileMenu .icon {
+        width: 22px;
+        height: 22px;
+    }
+
+    .closeHeader {
+        height: 52px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f3f3f3;
+        /* margin: 14px; */
+        padding: 10px 32px;
+        border: none;
+    }
+
+
+}
+
+@media (min-width: 832px) {
+    .mobileMenu {
+        display: none;
     }
 }

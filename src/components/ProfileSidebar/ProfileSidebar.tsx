@@ -13,20 +13,20 @@ import message from "@/assets/img/message.svg";
 import keySquare from "@/assets/img/key-square.svg";
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import axios from 'axios';
+import { fetchApi } from '@/services/api';
 
 
 // Define the type for props
 interface ProfileSidebarProps {
     onTabChange: (tab: string) => void;
     activeTab: string;
+    profilePhoto: string;
 }
 
-const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab }) => {
+const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab, profilePhoto }) => {
 
     const [user, setUser] = useState<any>(null);
     const router = useRouter();
-    const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
 
 
     useEffect(() => {
@@ -42,17 +42,24 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab 
         `${styles.flex} ${activeTab === tabName ? styles.activeTab : ""}`;
 
     const handleLogout = async () => {
-        const confirmDelete = window.confirm("Are you sure you want to log out?");
-        if (!confirmDelete) return;
+        // const confirmDelete = window.confirm("Are you sure you want to log out?");
+        // if (!confirmDelete) return;
 
         try {
             const refreshToken = localStorage.getItem("refreshToken");
 
-            const response = await axios.get(`${apiUrl}/Manage/Logout`, {
-                params: { refreshToken },
+            const res = await fetchApi(`Manage/Logout`, {
+                refreshToken
             });
 
-            console.log("Logout response:", response.data);
+            // console.log("Logout response:", res);
+
+            if (res?.errors && res?.errors.length > 0) {
+                res?.errors.forEach((error: string) => {
+                    toast.error(error);
+                });
+                return;
+            }
 
             // Clear local storage after logout request
             localStorage.removeItem("user");
@@ -63,7 +70,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab 
             router.push("/");
             toast.success('You have successfully logged out!')
         } catch (error: any) {
-            toast.error(`Logout failed: ${error?.message}`);
+            toast.error(`Logout failed!`);
 
         }
     };
@@ -75,7 +82,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab 
         <div className={styles.sidebar}>
             <div className={styles.userInfo}>
                 <Image
-                    src={base64Image}
+                    src={profilePhoto || base64Image}
                     className={styles.avatar}
                     alt={'avatar'}
                     width={85}
@@ -88,7 +95,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab 
                             src={location}
                             alt={'location'}
                         />
-                        {`${user?.country || 'no country'}, ${user?.city || 'no city'} `}</p>
+                        {`${user?.country?.name || 'no country'}, ${user?.city || 'no city'} `}</p>
                     <span className={styles.rating}>
                         <Image
                             src={star1}
@@ -136,7 +143,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab 
                         />
                         My Ads Send</button>
                 </li>
-                <li>
+                {/* <li>
                     <button className={getTabClass("myPoints")} onClick={() => onTabChange("myPoints")}>
                         <Image
                             src={message}
@@ -144,7 +151,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab 
                             className={styles.icon}
                         />
                         My Points</button>
-                </li>
+                </li> */}
                 <li>
                     <button className={styles.flex} onClick={handleLogout}>
                         <Image

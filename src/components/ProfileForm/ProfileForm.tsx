@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import styles from '@/assets/css/profile/profileForm.module.css';
 import { mapGenderType } from '@/utils/enumsToData';
 import { gender } from "@/json/constant";
-import axios from 'axios';
 import toast from 'react-hot-toast';
+import { getApiWithToken, putApi } from '@/services/api';
+import { useMask } from "@react-input/mask";
 
 interface User {
     id: string;
@@ -12,30 +13,42 @@ interface User {
     surname: string;
     email: string;
     phoneNumber: string;
-    country: string;
+    countryId: string;
+    countryName: string;
     city: string;
     gender: number;
-    whatsapp: string;
-    instagram: string;
-    url: string;
+    // whatsapp: string;
+    // instagram: string;
+    photo: string;
 }
 
-function ProfileForm() {
+interface Country {
+    id: number;
+    name: string;
+}
+
+interface ProfileFormProps {
+    profilePhoto: string;
+    setProfilePhoto: React.Dispatch<React.SetStateAction<any>>;
+}
+
+const ProfileForm: React.FC<ProfileFormProps> = ({ profilePhoto, setProfilePhoto }) => {
     const [user, setUser] = useState<User>({
         id: '',
         name: '',
         surname: '',
         email: '',
         phoneNumber: '',
-        country: '',
+        countryId: '',
+        countryName: '',
         city: '',
         gender: 0,
-        whatsapp: '',
-        instagram: '',
-        url: '',
+        // whatsapp: '',
+        // instagram: '',
+        photo: '',
     });
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+    // const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
 
 
     const [formErrors, setFormErrors] = useState<{
@@ -46,9 +59,9 @@ function ProfileForm() {
         country: boolean,
         city: boolean,
         // gender: boolean;
-        whatsapp: boolean,
-        instagram: boolean,
-        url: boolean,
+        // whatsapp: boolean,
+        // instagram: boolean,
+        photo: boolean,
     }>({
         name: false,
         surname: false,
@@ -57,21 +70,55 @@ function ProfileForm() {
         country: false,
         city: false,
         // gender: false,
-        whatsapp: false,
-        instagram: false,
-        url: false,
+        // whatsapp: false,
+        // instagram: false,
+        photo: false,
+    });
+
+    const [countries, setCountries] = useState<Country[]>([]);
+
+
+    // const countryPhoneMasks = {
+    //     "AZ": "+994-##-###-##-##",  // Azerbaijan
+    //     // Add more country codes and formats here
+    // };
+
+    const inputMaskRef = useMask({
+        mask: "+994-##-###-##-##",
+        replacement: { "#": /\d/ },
     });
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
         // storedUser.gender = mapGenderType(storedUser.gender);
+        const accessToken = localStorage.getItem('accessToken');
 
+        const fetchCountries = async () => {
+
+            try {
+                const res = await getApiWithToken('Country/AllCountries', accessToken);
+                if (res?.success) {
+                    setCountries(res.list || []);
+                } else {
+                    toast.error("Failed to load countries");
+                }
+            } catch (error) {
+                console.error("Error fetching countries:", error);
+                toast.error("Error fetching country data");
+            }
+        };
         console.log('storedUser', storedUser);
+
+        fetchCountries();
 
         setUser({
             ...storedUser,
+            countryId: storedUser?.country?.id || '0',
+            countryName: storedUser?.country?.name || ''
         });
     }, []);
+
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -85,6 +132,25 @@ function ProfileForm() {
         }
 
         setFormErrors((prev) => ({ ...prev, [name]: !value.trim() }));
+    };
+
+    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            setUser((prevUser) => ({
+                ...prevUser,
+                photo: (reader.result as string).split(",")[1], // Base64 URL
+            }));
+            setProfilePhoto(reader?.result);
+
+        };
+        reader.onerror = (error) => {
+            console.error("File reading error:", error);
+        };
     };
 
     const handleCancel = () => {
@@ -103,9 +169,9 @@ function ProfileForm() {
             country: false,
             city: false,
             // gender: false,
-            whatsapp: false,
-            instagram: false,
-            url: false,
+            // whatsapp: false,
+            // instagram: false,
+            photo: false,
         });
     };
 
@@ -118,11 +184,11 @@ function ProfileForm() {
             // gender: (user.gender || "").trim() === "",
             email: (user.email || "").trim() === "",
             phoneNumber: (user.phoneNumber || "").trim() === "",
-            country: (user.country || "").trim() === "",
+            country: (user.countryId || "").trim() === "",
             city: (user.city || "").trim() === "",
-            whatsapp: (user.whatsapp || "").trim() === "",
-            instagram: (user.instagram || "").trim() === "",
-            url: (user.url || "").trim() === "",
+            // whatsapp: (user.whatsapp || "").trim() === "",
+            // instagram: (user.instagram || "").trim() === "",
+            photo: (user.photo || "").trim() === "",
         };
 
         setFormErrors(errors);
@@ -134,7 +200,6 @@ function ProfileForm() {
 
         console.log('Saved Data:', user);
 
-        console.log(apiUrl);
 
         try {
             const accessToken = localStorage.getItem('accessToken');
@@ -144,31 +209,49 @@ function ProfileForm() {
             }
 
             const userId = user.id;
-            const response = await axios.put(`${apiUrl}/User/UserUpdate`, {
+            const payload = {
                 id: userId,
                 name: user.name,
+                // email: user.email,
                 surname: user.surname,
                 gender: user.gender,
-                // birthDate: user.birthDate,
+                // birthDate: '05.12.2003',
+                phoneNumber: user.phoneNumber,
+                countryId: user.countryId,
+                city: user.city,
+                photo: user.photo,
+            }
+            const res = await putApi(`User/UserUpdate`, payload, accessToken);
 
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${accessToken}`
-                }
-            });
-
-            if (response?.data.errors && response?.data.errors.length > 0) {
-                response?.data.errors.forEach((error: string) => {
+            if (res.errors && res?.errors.length > 0) {
+                res.errors.forEach((error: string) => {
                     toast.error(error);
                 });
                 return;
             }
 
-            if (response?.data?.success) {
+            if (res?.success) {
+                setUser({
+                    id: '',
+                    name: '',
+                    surname: '',
+                    email: '',
+                    phoneNumber: '',
+                    countryId: '',
+                    countryName: '',
+                    city: '',
+                    gender: 0,
+                    // whatsapp: '',
+                    // instagram: '',
+                    photo: '',
+                })
+
+                let userObj = res?.list[0];
+                localStorage.setItem('user', JSON.stringify(userObj));
+                window.location.reload();
                 toast.success("User updated successfully");
             }
-            console.log('User updated successfully:', response.data);
+            console.log('User updated successfully:', res);
         } catch (error) {
             console.error('Error updating password:', error);
             toast.error(error);
@@ -183,7 +266,7 @@ function ProfileForm() {
             <form onSubmit={handleSave}>
                 <div className={`grid gap-3 md:grid-cols-3 ${styles.input_group}`}>
                     <div className={styles.input_group_item}>
-                        <label>Name<span className={styles.reqField}> * </span></label>
+                        <label>Name</label>
                         <input
                             name="name"
                             placeholder='Name'
@@ -194,7 +277,7 @@ function ProfileForm() {
                         />
                     </div>
                     <div className={styles.input_group_item}>
-                        <label>Surname<span className={styles.reqField}> * </span></label>
+                        <label>Surname</label>
                         <input
                             name="surname"
                             placeholder='Surname'
@@ -205,9 +288,10 @@ function ProfileForm() {
                         />
                     </div>
                     <div className={styles.input_group_item}>
-                        <label>Email<span className={styles.reqField}> * </span></label>
+                        <label>Email</label>
                         <input
                             name="email"
+                            disabled
                             placeholder='Email'
                             onChange={handleChange}
                             type="email"
@@ -219,10 +303,11 @@ function ProfileForm() {
                 <div className={`grid gap-3 md:grid-cols-4 ${styles.input_group}`}>
 
                     <div className={styles.input_group_item}>
-                        <label>Number<span className={styles.reqField}> * </span></label>
+                        <label>Phone Number</label>
                         <input
+                            ref={inputMaskRef}
                             name="phoneNumber"
-                            placeholder='Phone'
+                            placeholder='+994-##-###-##-##'
                             onChange={handleChange}
                             type="text"
                             value={user?.phoneNumber || ''}
@@ -232,7 +317,7 @@ function ProfileForm() {
 
                     <div className={styles.input_group_item}>
                         <label htmlFor="gender" className="">
-                            Gender<span className={styles.reqField}> * </span>
+                            Gender
                         </label>
                         <select
                             name="gender"
@@ -256,18 +341,27 @@ function ProfileForm() {
                         </select>
                     </div>
                     <div className={styles.input_group_item}>
-                        <label>Location<span className={styles.reqField}> * </span></label>
-                        <input
-                            name="country"
-                            placeholder='Country'
-                            onChange={handleChange}
-                            type="text"
-                            value={user?.country || ''}
-                            className={formErrors.country ? styles.error_border : ''}
-                        />
+                        <label>Country</label>
+                        <select name="countryId" value={user?.countryId || "0"} onChange={handleChange} className={formErrors.country ? styles.error_border : ''}>
+                            <option value="0" disabled>Select Country</option>
+                            {/* <option value={user?.countryId}>{user.countryName}</option> */}
+
+                            {/* {countries?.map((c) => {
+                                return c.id.toString() != user.countryId &&
+                                    <option key={c?.id} value={c?.id}>
+                                        {c?.name}
+                                    </option>
+                            }
+                            )} */}
+                            {countries?.map((c) => (
+                                <option key={c?.id} value={c?.id}>
+                                    {c.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className={styles.input_group_item}>
-                        <label>City<span className={styles.reqField}> * </span></label>
+                        <label>City</label>
                         <input
                             name="city"
                             placeholder='City'
@@ -279,8 +373,8 @@ function ProfileForm() {
                 </div>
 
                 <div className={`grid gap-3 md:grid-cols-3 ${styles.row}`}>
-                    <div className={styles.input_group_item}>
-                        <label>WhatsApp<span className={styles.reqField}> * </span></label>
+                    {/* <div className={styles.input_group_item}>
+                        <label>WhatsApp</label>
                         <input
                             name="whatsapp"
                             placeholder='Whatsapp'
@@ -290,9 +384,9 @@ function ProfileForm() {
                             className={formErrors.whatsapp ? styles.error_border : ''}
 
                         />
-                    </div>
-                    <div className={styles.input_group_item}>
-                        <label>Instagram<span className={styles.reqField}> * </span></label>
+                    </div> */}
+                    {/* <div className={styles.input_group_item}>
+                        <label>Instagram</label>
                         <input
                             name="instagram"
                             placeholder='Instagram'
@@ -302,16 +396,17 @@ function ProfileForm() {
                             className={formErrors.instagram ? styles.error_border : ''}
 
                         />
-                    </div>
+                    </div> */}
                     <div className={styles.input_group_item}>
-                        <label>Url<span className={styles.reqField}> * </span></label>
+                        <label>Change Photo</label>
                         <input
-                            name="url"
-                            placeholder='Url'
-                            onChange={handleChange}
-                            type="url"
-                            value={user?.url || ''}
-                            className={formErrors.url ? styles.error_border : ''}
+                            name="photo"
+                            accept="image/*"
+                            // placeholder='Photo'
+                            onChange={handleFileUpload}
+                            type="file"
+                            // value={user?.url || ''}
+                            className={formErrors.photo ? styles.error_border : ''}
                         />
                     </div>
 
