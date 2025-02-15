@@ -1,33 +1,47 @@
 import axios from "axios";
 
-export const fetchApi = async (url: string, locale: string) => {
+export const fetchApi = async (url: string, params?: object) => {
   try {
-    const response = await fetch(
+
+    const config = params ? { params } : {};
+
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/${url}`,
+      config
+    );
+
+    return res.data;
+  } catch (error) {
+    console.error("Error in fetchApi:", error);
+    throw error;
+  }
+};
+
+export const getApiWithToken = async (url: string, accessToken?: any) => {
+  try {
+    // const config = params ? { params } : {};
+
+    const res = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/${url}`,
       {
-        method: "GET",
         headers: {
-          "Content-type": "application-json",
-        //   "Accept-Language": locale,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
-        cache : "no-cache"
-      
       }
     );
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    return await response.json();
+    return res.data;
   } catch (error) {
-    console.log(error);
+    console.error("Error in getApi:", error);
+    throw error;
   }
 };
 
 
 
-export const postApi = async (url: string, bodyData?: any) => {
+
+export const postApi = async (url: string, bodyData?: any, accessToken?: any) => {
   try {
     const isFormData = bodyData instanceof FormData;
 
@@ -37,6 +51,7 @@ export const postApi = async (url: string, bodyData?: any) => {
       {
         headers: {
           "Content-Type": isFormData ? "multipart/form-data" : "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );
@@ -47,3 +62,67 @@ export const postApi = async (url: string, bodyData?: any) => {
     throw error;
   }
 };
+
+
+export const putApi = async (url: string, bodyData?: any, accessToken?: any) => {
+  try {
+    const isFormData = bodyData instanceof FormData;
+
+    const res = await axios.put(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/${url}`,
+      bodyData,
+      {
+        headers: {
+          "Content-Type": isFormData ? "multipart/form-data" : "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    return res.data;
+  } catch (error) {
+    console.error("Error in putApi:", error);
+    throw error;
+  }
+};
+
+export const deleteApi = async (url: string, accessToken?: any) => {
+  try {
+
+    const res = await axios.delete(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/${url}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    return res.data;
+  } catch (error) {
+    console.error("Error in deleteApi:", error);
+    throw error;
+  }
+};
+// export const patchApi = async (url: string, bodyData?: any, accessToken?: any) => {
+//   try {
+//     const isFormData = bodyData instanceof FormData;
+
+//     const res = await axios.patch(
+//       `${process.env.NEXT_PUBLIC_API_BASE_URL}/${url}`,
+//       bodyData,
+//       {
+//         headers: {
+//           "Content-Type": isFormData ? "multipart/form-data" : "application/json",
+//           Authorization: `Bearer ${accessToken}`,
+//         },
+//       }
+//     );
+
+//     return res.data;
+//   } catch (error) {
+//     console.error("Error in patchApi:", error);
+//     throw error;
+//   }
+// };

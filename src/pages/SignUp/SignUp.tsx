@@ -49,7 +49,7 @@ function SignUp() {
     password: boolean;
     confirmPassword: boolean;
     // terms: boolean;
-    country: boolean;
+    // country: boolean;
     city: boolean;
   }>({
     name: false,
@@ -61,7 +61,7 @@ function SignUp() {
     password: false,
     confirmPassword: false,
     // terms: false,
-    country: false,
+    // country: false,
     city: false,
   });
   
@@ -133,7 +133,7 @@ function SignUp() {
       password: formData.password.trim() === "",
       confirmPassword: formData.confirmPassword.trim() === "",
       // terms: !formData.terms,
-      country: formData.country.trim() === "",
+      // country: formData.country.trim() === "",
       city: formData.city.trim() === "",
     };
   
@@ -222,11 +222,11 @@ function SignUp() {
         <div className={styles.form_container}>
           <form onSubmit={handleSubmit} className="mt-4">
             <div
-              className={`grid gap-5 mb-5 md:grid-cols-2 ${styles.input_group}`}
+              className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}
             >
               <div className={styles.input_group_item}>
                 <label htmlFor="name" className="">
-                  Name*
+                  Name<span className={styles.reqField}> * </span>
                 </label>
                 <input
                   type="text"
@@ -240,7 +240,7 @@ function SignUp() {
               </div>
               <div className={styles.input_group_item}>
                 <label htmlFor="surname" className="">
-                  Surname*
+                  Surname<span className={styles.reqField}> * </span>
                 </label>
                 <input
                   type="text"
@@ -255,10 +255,10 @@ function SignUp() {
             </div>
 
             <div
-              className={`grid gap-5 mb-5 md:grid-cols-2 ${styles.input_group}`}
+              className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}
             >
               <div className={styles.input_group_item}>
-                <label htmlFor="birthday">Birthday*</label>
+                <label htmlFor="birthday">Birthday<span className={styles.reqField}> * </span></label>
                 <div className="relative">
                   <DatePicker
                     selected={formData.birthday}
@@ -274,7 +274,7 @@ function SignUp() {
               </div>
               <div className={styles.input_group_item}>
                 <label htmlFor="gender" className="">
-                  Gender*
+                  Gender<span className={styles.reqField}> * </span>
                 </label>
                 <select
                   name="gender"
@@ -295,11 +295,11 @@ function SignUp() {
             </div>
 
             <div
-              className={`grid gap-5 mb-5 md:grid-cols-2 ${styles.input_group}`}
+              className={`grid gap-3  md:grid-cols-2 ${styles.input_group}`}
             >
               <div className={styles.input_group_item}>
                 <label htmlFor="email" className="">
-                  Email*
+                  Email<span className={styles.reqField}> * </span>
                 </label>
                 <input
                   type="email"
@@ -313,7 +313,7 @@ function SignUp() {
               </div>
               <div className={styles.input_group_item}>
                 <label htmlFor="number" className="">
-                  Number*
+                  Phone Number<span className={styles.reqField}> * </span>
                 </label>
                 <input
                   type="text"
@@ -328,11 +328,11 @@ function SignUp() {
             </div>
 
             <div
-              className={`grid gap-5 mb-5 md:grid-cols-2 ${styles.input_group}`}
+              className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}
             >
               <div className={styles.input_group_item}>
                 <label htmlFor="text" className="">
-                  City*
+                  City<span className={styles.reqField}> * </span>
                 </label>
                 <input
                   type="text"
@@ -346,13 +346,13 @@ function SignUp() {
               </div>
               <div className={styles.input_group_item}>
                 <label htmlFor="text" className="">
-                  Country*
+                  Country
                 </label>
                 <input
                   type="text"
                   id="country"
                   name="country"
-                  className={formErrors.country ? styles.error_border : ""}
+              
                   placeholder="Enter"
                   value={formData.country}
                   onChange={handleChange}
@@ -361,11 +361,11 @@ function SignUp() {
             </div>
 
             <div
-              className={`grid gap-5 mb-5 md:grid-cols-2 ${styles.input_group}`}
+              className={`grid gap-3  md:grid-cols-2 ${styles.input_group}`}
             >
               <div className={styles.input_group_item}>
                 <label htmlFor="password" className="">
-                  Create password*
+                  Create password<span className={styles.reqField}> * </span>
                 </label>
                 <div className={styles.password_container}>
                   <input
@@ -390,7 +390,7 @@ function SignUp() {
               </div>
               <div className={styles.input_group_item}>
                 <label htmlFor="confirmPassword" className="">
-                  Confirm password*
+                  Confirm password<span className={styles.reqField}> * </span>
                 </label>
                 <div className={styles.password_container}>
                   <input
@@ -459,7 +459,7 @@ function SignUp() {
   </div>
   <label htmlFor="terms">
     I have read and agree to{" "}
-    <Link href="" className="text-[#45a8ff] font-medium text-lg">
+    <Link href="" className="text-[#45a8ff] font-medium md:text-lg">
       terms of services
     </Link>
   </label>

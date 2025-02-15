@@ -1,88 +1,430 @@
-'use client'
-import React, { useEffect, useState } from 'react';
-import styles from '@/assets/css/profile/profileForm.module.css';
+"use client";
+import React, { useEffect, useState } from "react";
+import styles from "@/assets/css/profile/profileForm.module.css";
+import { mapGenderType } from "@/utils/enumsToData";
+import { gender } from "@/json/constant";
+import toast from "react-hot-toast";
+import { getApiWithToken, putApi } from "@/services/api";
+import { useMask } from "@react-input/mask";
 
 interface User {
-    name: string;
-    surname: string;
-    email: string;
-    phoneNumber: string;
-    country: string;
-    city: string;
-    gender: string;
+  id: string;
+  name: string;
+  surname: string;
+  email: string;
+  phoneNumber: string;
+  countryId: string;
+  countryName: string;
+  city: string;
+  gender: number;
+  // whatsapp: string;
+  // instagram: string;
+  photo: string;
 }
 
-function ProfileForm() {
-    const [user, setUser] = useState<User | null>(null);
+interface Country {
+  id: number;
+  name: string;
+}
 
-    useEffect(() => {
-        const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
-        setUser(storedUser);
-    }, []);
+interface ProfileFormProps {
+  profilePhoto: string;
+  setProfilePhoto: React.Dispatch<React.SetStateAction<any>>;
+}
 
-    if (!user) {
-        return <div>Loading...</div>;
+const ProfileForm: React.FC<ProfileFormProps> = ({
+  profilePhoto,
+  setProfilePhoto,
+}) => {
+  const [user, setUser] = useState<User>({
+    id: "",
+    name: "",
+    surname: "",
+    email: "",
+    phoneNumber: "",
+    countryId: "",
+    countryName: "",
+    city: "",
+    gender: 0,
+    // whatsapp: '',
+    // instagram: '',
+    photo: "",
+  });
+
+  // const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+
+  const [formErrors, setFormErrors] = useState<{
+    name: boolean;
+    surname: boolean;
+    email: boolean;
+    phoneNumber: boolean;
+    country: boolean;
+    city: boolean;
+    // gender: boolean;
+    // whatsapp: boolean,
+    // instagram: boolean,
+    photo: boolean;
+  }>({
+    name: false,
+    surname: false,
+    email: false,
+    phoneNumber: false,
+    country: false,
+    city: false,
+    // gender: false,
+    // whatsapp: false,
+    // instagram: false,
+    photo: false,
+  });
+
+  const [countries, setCountries] = useState<Country[]>([]);
+
+  // const countryPhoneMasks = {
+  //     "AZ": "+994-##-###-##-##",  // Azerbaijan
+  //     // Add more country codes and formats here
+  // };
+
+  const inputMaskRef = useMask({
+    mask: "+994-##-###-##-##",
+    replacement: { "#": /\d/ },
+  });
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    // storedUser.gender = mapGenderType(storedUser.gender);
+    const accessToken = localStorage.getItem("accessToken");
+
+    const fetchCountries = async () => {
+      try {
+        const res = await getApiWithToken("Country/AllCountries", accessToken);
+        if (res?.success) {
+          setCountries(res.list || []);
+        } else {
+          toast.error("Failed to load countries");
+        }
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+        toast.error("Error fetching country data");
+      }
+    };
+    console.log("storedUser", storedUser);
+
+    fetchCountries();
+
+    setUser({
+      ...storedUser,
+      countryId: storedUser?.country?.id || "0",
+      countryName: storedUser?.country?.name || "",
+    });
+  }, []);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setUser((prev) => ({ ...prev, [name]: value }));
+
+    if (name === "gender") {
+      setUser((prevData) => ({
+        ...prevData,
+        [name]: Number(value),
+      }));
     }
 
-    return (
-        <div className={styles.mainContent}>
-            <form>
-                <div className={styles.row}>
-                    <div className={styles.formGroup}>
-                        <label>Name</label>
-                        <input type="text" defaultValue={user.name || ''} />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>Surname</label>
-                        <input type="text" defaultValue={user.surname || ''} />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>Email</label>
-                        <input type="email" defaultValue={user.email || ''} />
-                    </div>
-                </div>
-                <div className={styles.row}>
+    setFormErrors((prev) => ({ ...prev, [name]: !value.trim() }));
+  };
 
-                    <div className={styles.formGroup}>
-                        <label>Number</label>
-                        <input type="text" defaultValue={user.phoneNumber || ''} />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>Gender</label>
-                        <input type="text" defaultValue={user.gender || ''} />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>Location</label>
-                        <input type="text" defaultValue={user.country || ''} />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>City</label>
-                        <input type="text" defaultValue={user.city || ''} />
-                    </div>
-                </div>
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-                <div className={styles.row}>
-                    <div className={styles.formGroup}>
-                        <label>WhatsApp</label>
-                        <input type="text" defaultValue={user.gender || ''} />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>Instagram</label>
-                        <input type="text" defaultValue={user.gender || ''} />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>Url</label>
-                        <input type="url" defaultValue={user.gender || ''} />
-                    </div>
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setUser((prevUser) => ({
+        ...prevUser,
+        photo: (reader.result as string).split(",")[1], // Base64 URL
+      }));
+      setProfilePhoto(reader?.result);
+    };
+    reader.onerror = (error) => {
+      console.error("File reading error:", error);
+    };
+  };
 
-                </div>
-                <div className={styles.buttonGroup}>
-                    <button type="button" className={styles.cancelBtn}>Cancel</button>
-                    <button type="submit" className={styles.saveBtn}>Save</button>
-                </div>
-            </form>
+  const handleCancel = () => {
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    // storedUser.gender = mapGenderType(storedUser.gender);
+
+    setUser({
+      ...storedUser,
+    });
+
+    setFormErrors({
+      name: false,
+      surname: false,
+      email: false,
+      phoneNumber: false,
+      country: false,
+      city: false,
+      // gender: false,
+      // whatsapp: false,
+      // instagram: false,
+      photo: false,
+    });
+  };
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const errors = {
+      name: (user.name || "").trim() === "",
+      surname: (user.surname || "").trim() === "",
+      // gender: (user.gender || "").trim() === "",
+      email: (user.email || "").trim() === "",
+      phoneNumber: (user.phoneNumber || "").trim() === "",
+      country: (user.countryId || "").trim() === "",
+      city: (user.city || "").trim() === "",
+      // whatsapp: (user.whatsapp || "").trim() === "",
+      // instagram: (user.instagram || "").trim() === "",
+      photo: (user.photo || "").trim() === "",
+    };
+
+    setFormErrors(errors);
+
+    if (Object.values(errors).some((error) => error)) {
+      return; // Prevent API request
+    }
+
+    console.log("Saved Data:", user);
+
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+
+      if (!accessToken) {
+        throw new Error("Access token is missing. Please log in again.");
+      }
+
+      const userId = user.id;
+      const payload = {
+        id: userId,
+        name: user.name,
+        // email: user.email,
+        surname: user.surname,
+        gender: user.gender,
+        // birthDate: '05.12.2003',
+        phoneNumber: user.phoneNumber,
+        countryId: user.countryId,
+        city: user.city,
+        photo: user.photo,
+      };
+      const res = await putApi(`User/UserUpdate`, payload, accessToken);
+
+      if (res.errors && res?.errors.length > 0) {
+        res.errors.forEach((error: string) => {
+          toast.error(error);
+        });
+        return;
+      }
+
+      if (res?.success) {
+        setUser({
+          id: "",
+          name: "",
+          surname: "",
+          email: "",
+          phoneNumber: "",
+          countryId: "",
+          countryName: "",
+          city: "",
+          gender: 0,
+          // whatsapp: '',
+          // instagram: '',
+          photo: "",
+        });
+
+        let userObj = res?.list[0];
+        localStorage.setItem("user", JSON.stringify(userObj));
+        window.location.reload();
+        toast.success("User updated successfully");
+      }
+      console.log("User updated successfully:", res);
+    } catch (error) {
+      console.error("Error updating password:", error);
+      toast.error(error);
+    }
+  };
+
+  return (
+    <div className={styles.mainContent}>
+      <form onSubmit={handleSave}>
+        <div className={`grid gap-3 md:grid-cols-3 ${styles.input_group}`}>
+          <div className={styles.input_group_item}>
+            <label>Name</label>
+            <input
+              name="name"
+              placeholder="Name"
+              onChange={handleChange}
+              type="text"
+              value={user?.name || ""}
+              className={formErrors.name ? styles.error_border : ""}
+            />
+          </div>
+          <div className={styles.input_group_item}>
+            <label>Surname</label>
+            <input
+              name="surname"
+              placeholder="Surname"
+              onChange={handleChange}
+              type="text"
+              value={user?.surname || ""}
+              className={formErrors.surname ? styles.error_border : ""}
+            />
+          </div>
+          <div className={styles.input_group_item}>
+            <label>Email</label>
+            <input
+              name="email"
+              placeholder="Email"
+              onChange={handleChange}
+              type="email"
+              value={user?.email || ""}
+              className={formErrors.email ? styles.error_border : ""}
+            />
+          </div>
         </div>
-    );
-}
+        <div className={`grid gap-3 md:grid-cols-4 ${styles.input_group}`}>
+          <div className={styles.input_group_item}>
+            <label>Phone Number</label>
+            <input
+              ref={inputMaskRef}
+              name="phoneNumber"
+              placeholder="+994-##-###-##-##"
+              onChange={handleChange}
+              type="text"
+              value={user?.phoneNumber || ""}
+              className={formErrors.phoneNumber ? styles.error_border : ""}
+            />
+          </div>
+
+          <div className={styles.input_group_item}>
+            <label htmlFor="gender" className="">
+              Gender
+            </label>
+            <select
+              name="gender"
+              value={user?.gender}
+              onChange={handleChange}
+              className="form-select"
+            >
+              <option value="">Gender</option>
+
+              <option value={user?.gender}>
+                {mapGenderType(user?.gender)}
+              </option>
+
+              {Object.entries(gender).map(([key, value]) => {
+                return value != user?.gender ? (
+                  <option key={value} value={value}>
+                    {key}
+                  </option>
+                ) : null;
+              })}
+            </select>
+          </div>
+          <div className={styles.input_group_item}>
+            <label>Country</label>
+            <select
+              name="countryId"
+              value={user?.countryId || "0"}
+              onChange={handleChange}
+              className="form-select"
+            >
+              <option value="0">Select Country</option>
+              {/* <option value={user?.countryId}>{user.countryName}</option> */}
+
+              {/* {countries?.map((c) => {
+                                return c.id.toString() != user.countryId &&
+                                    <option key={c?.id} value={c?.id}>
+                                        {c?.name}
+                                    </option>
+                            }
+                            )} */}
+              {countries?.map((c) => (
+                <option key={c?.id} value={c?.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.input_group_item}>
+            <label>City</label>
+            <input
+              name="city"
+              placeholder="City"
+              onChange={handleChange}
+              type="text"
+              value={user?.city || ""}
+              className={formErrors.city ? styles.error_border : ""}
+            />
+          </div>
+        </div>
+
+        <div className={`grid gap-3 md:grid-cols-3 ${styles.row}`}>
+          {/* <div className={styles.input_group_item}>
+                        <label>WhatsApp</label>
+                        <input
+                            name="whatsapp"
+                            placeholder='Whatsapp'
+                            onChange={handleChange}
+                            type="text"
+                            value={user?.whatsapp || ''}
+                            className={formErrors.whatsapp ? styles.error_border : ''}
+
+                        />
+                    </div> */}
+          {/* <div className={styles.input_group_item}>
+                        <label>Instagram</label>
+                        <input
+                            name="instagram"
+                            placeholder='Instagram'
+                            onChange={handleChange}
+                            type="text"
+                            value={user?.instagram || ''}
+                            className={formErrors.instagram ? styles.error_border : ''}
+
+                        />
+                    </div> */}
+          <div className={styles.input_group_item}>
+    <label>Change Photo</label>
+    <label htmlFor="photo-upload" className={styles.customFileButton}>
+        Select Image
+    </label>
+    <input
+        id="photo-upload"
+        name="photo"
+        accept="image/*"
+        onChange={handleFileUpload}
+        type="file"
+        className={`${styles.fileInput} ${formErrors.photo ? styles.errorBorder : ''}`}
+    />
+</div>
+        </div>
+        <div className={styles.buttonGroup}>
+          <button
+            onClick={handleCancel}
+            type="button"
+            className={styles.cancelBtn}
+          >
+            Cancel
+          </button>
+          <button type="submit" className={styles.saveBtn}>
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
 
 export default ProfileForm;

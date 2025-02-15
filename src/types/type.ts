@@ -58,6 +58,7 @@ export interface FormData {
     price: string;
     applyDate: string;
     title: string;
+    id:string;
     sendPlaceDetails: {
       fromPlace: string;
       toPlace: string;
@@ -85,11 +86,13 @@ export interface FormData {
     price: string;
     applyDate: string;
     title: string;
+    id:string;
     tripPlaceDetails: {
       fromPlace: string;
       toPlace: string;
       createDate: string;
       toTripDate: string;
+      fromTripDate:string;
       travelType:number;
     }[];
     package: {
@@ -100,6 +103,7 @@ export interface FormData {
  export interface MainCarryListProps {
     trips: Trip[];
     loading:boolean;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 
   }
 

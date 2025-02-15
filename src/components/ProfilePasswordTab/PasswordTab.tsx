@@ -3,6 +3,9 @@ import styles from '@/assets/css/profile/profilePasswordTab.module.css'
 import Image from 'next/image';
 import eye_icon from "@/assets/img/eye_icon.svg";
 import eye from "@/assets/img/eye.svg";
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { putApi } from '@/services/api';
 
 
 function PasswordTab() {
@@ -27,14 +30,11 @@ function PasswordTab() {
         hasSpecialChar: false,
     });
 
-    // const [currentPasswordError, setCurrentPasswordError] = useState('');
-    // const [newPasswordError, setNewPasswordError] = useState('');
-    // const [confirmPasswordError, setConfirmPasswordError] = useState('');
-    const [errors, setErrors] = useState({
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: '',
-    });
+    // const [errors, setErrors] = useState({
+    //     currentPassword: '',
+    //     newPassword: '',
+    //     confirmPassword: '',
+    // });
 
 
     const togglePasswordVisibility = (field: string) => {
@@ -60,65 +60,142 @@ function PasswordTab() {
                 hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(value),
             });
         }
+        if (name == 'confirmPassword') {
+            setValidationChecks({
+                minLength: value.length >= 8,
+                hasNumber: /\d/.test(value),
+                hasUppercase: /[A-Z]/.test(value),
+                hasLowercase: /[a-z]/.test(value),
+                hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(value),
+            });
+        }
 
-        setErrors((prevState) => ({
-            ...prevState,
-            [name]: '',
-        }));
+        // setErrors((prevState) => ({
+        //     ...prevState,
+        //     [name]: '',
+        // }));
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleCancel = () => {
+        // Reset the passwords state to its initial values
+        setPasswords({
+            currentPassword: '',
+            newPassword: '',
+            confirmPassword: '',
+        });
+        setValidationChecks({
+            minLength: false,
+            hasNumber: false,
+            hasUppercase: false,
+            hasLowercase: false,
+            hasSpecialChar: false,
+        })
+    }
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const { currentPassword, newPassword, confirmPassword } = passwords;
         let isValid = true;
 
-        const newErrors = { currentPassword: '', newPassword: '', confirmPassword: '' };
+        // const newErrors = { currentPassword: '', newPassword: '', confirmPassword: '' };
 
 
         // Validate current password
-        if (!currentPassword) {
-            newErrors.currentPassword = 'Current password is required.';
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            toast.error('All the fields  are required!');
+            // newErrors.currentPassword = 'Current password is required.';
             isValid = false;
+            return;
         }
 
         const { minLength, hasNumber, hasUppercase, hasLowercase, hasSpecialChar } = validationChecks;
-        if (!newPassword) {
-            newErrors.newPassword = 'New password is required.';
+
+        if (!minLength) {
             isValid = false;
-        } else if (!minLength || !hasNumber || !hasUppercase || !hasLowercase || !hasSpecialChar) {
+            toast.error('Password must be at least 8 characters long.')
+        }
+        if (!hasNumber) {
             isValid = false;
+            toast.error('Password must contain at least one digit.')
+        }
+        if (!hasUppercase) {
+            isValid = false;
+            toast.error('Password must contain at least one uppercase letter.')
+        }
+        if (!hasLowercase) {
+            isValid = false;
+            toast.error('Password must contain at least one lowercase letter.')
+        }
+        if (!hasSpecialChar) {
+            isValid = false;
+            toast.error('Password must contain at least one special character.')
         }
 
         // Validate confirm password
         if (newPassword !== confirmPassword) {
-            newErrors.confirmPassword = 'Passwords do not match.';
+            toast.error('Passwords do not match!')
             isValid = false;
         }
 
-        setErrors(newErrors);
 
         if (isValid) {
-            // alert('valid')
+
             // Proceed with form submission logic (e.g., API call)
             setIsSubmitted(true);
 
-            // const response = await postApi("PasswordUpdate", userData);
+            try {
+                const accessToken = localStorage.getItem('accessToken');
+                const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-            console.log('Passwords updated successfully', passwords);
+                if (!accessToken) {
+                    throw new Error('Access token is missing. Please log in again.');
+                }
+
+                const userId = user.id;
+                const responseData = await putApi(`User/PasswordUpdate`, {
+                    userId: userId,
+                    oldPassword: currentPassword,
+                    password: newPassword
+                }, accessToken);
+
+
+
+                setIsSubmitted(true);
+
+                if (responseData?.errors && responseData?.errors.length > 0) {
+                    responseData?.errors.forEach((error: string) => {
+                        toast.error(error);
+                    });
+                    return;
+                }
+
+                if (responseData?.success) {
+                    setPasswords({
+                        currentPassword: '',
+                        newPassword: '',
+                        confirmPassword: '',
+                    });
+                    toast.success("Password updated successfully");
+                }
+            } catch (error) {
+                toast.error(error);
+                console.error('Error updating password:', error);
+            }
+
         }
-
     };
+
+
     return (
         <div className={styles.mainContent}>
             <form onSubmit={handleSubmit}>
-                <div className={styles.row}>
+                <div className={`grid gap-3 md:grid-cols-3 ${styles.input_group}`}>
                     {/* Current Password Field */}
-                    <div className={styles.formGroup}>
+                    <div className={styles.input_group_item}>
                         <label>Password</label>
                         <div className={styles.passwordWrapper}>
                             <input
                                 name="currentPassword"
-                                placeholder="Enter current password"
+                                placeholder="Enter"
                                 value={passwords.currentPassword}
                                 onChange={handleInputChange}
                                 type={showPassword.currentPassword ? 'text' : 'password'}
@@ -133,11 +210,10 @@ function PasswordTab() {
                                 />
                             </span>
                         </div>
-                        {errors.currentPassword && <p className={styles.errorText}>{errors.currentPassword}</p>}
                     </div>
 
                     {/* New Password Field */}
-                    <div className={styles.formGroup}>
+                    <div className={styles.input_group_item}>
                         <label>New Password</label>
                         <div className={styles.passwordWrapper}>
                             <input
@@ -157,30 +233,11 @@ function PasswordTab() {
                                 />
                             </span>
                         </div>
-                        {!isSubmitted && (
-                            <ul className={styles.validationList}>
-                                <li className={validationChecks.minLength ? styles.valid : styles.invalid}>
-                                    {validationChecks.minLength ? "✔" : "✖"} Must be at least 8 characters!
-                                </li>
-                                <li className={validationChecks.hasNumber ? styles.valid : styles.invalid}>
-                                    {validationChecks.hasNumber ? "✔" : "✖"} Must contain at least 1 number!
-                                </li>
-                                <li className={validationChecks.hasUppercase ? styles.valid : styles.invalid}>
-                                    {validationChecks.hasUppercase ? "✔" : "✖"} Must contain at least 1 uppercase letter!
-                                </li>
-                                <li className={validationChecks.hasLowercase ? styles.valid : styles.invalid}>
-                                    {validationChecks.hasLowercase ? "✔" : "✖"} Must contain at least 1 lowercase letter!
-                                </li>
-                                <li className={validationChecks.hasSpecialChar ? styles.valid : styles.invalid}>
-                                    {validationChecks.hasSpecialChar ? "✔" : "✖"} Must contain at least 1 special character!
-                                </li>
-                            </ul>
-                        )}
 
                     </div>
 
                     {/* Confirm Password Field */}
-                    <div className={styles.formGroup}>
+                    <div className={styles.input_group_item}>
                         <label>Confirm Password</label>
                         <div className={styles.passwordWrapper}>
                             <input
@@ -200,14 +257,11 @@ function PasswordTab() {
                                 />
                             </span>
                         </div>
-                        {errors.confirmPassword && (
-                            <p className={styles.errorText}>{errors.confirmPassword}</p>
-                        )}
                     </div>
                 </div>
 
                 <div className={styles.buttonGroup}>
-                    <button type="button" className={styles.cancelBtn}>
+                    <button onClick={handleCancel} type="button" className={styles.cancelBtn}>
                         Cancel
                     </button>
                     <button type="submit" className={styles.saveBtn}>

@@ -70,7 +70,8 @@
   width: 100%;
   padding: 0 14px;
   border-radius: 8px;
-  border: solid 1px #a0c1ff;
+  border: solid 1px #292D3240;
+
 }
 
 .input_group input:focus {
@@ -305,6 +306,14 @@
 
   .signup_link a {
     font-size: 16px;
+  }
+  .login_container{
+    padding: 16px;
+    display: flex;
+    width: 100%;
+  }
+  .welcome_text{
+    margin-top: 36px;
   }
 }
 

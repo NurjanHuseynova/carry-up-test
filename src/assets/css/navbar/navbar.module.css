@@ -1,19 +1,20 @@
 .header {
     width: 100%;
     display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 32px;
-  padding: 20px;
-
-
-    
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    padding: 20px;
 }
 
-.navbar{
+.navbar {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     background-color: #fff;
+}
+
+.hamburger {
+    display: none;
 }
 
 .logo {
@@ -26,7 +27,8 @@
 
 .nav {
     display: flex;
-    gap: 16px;    align-items: center;
+    gap: 16px;
+    align-items: center;
 }
 
 .navLink {
@@ -58,16 +60,18 @@
     height: 36px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #e2e8f0;
-    /* Light gray border */
+    border-style: solid;
+    box-shadow: 0 0 0 1px #DA99FF, 0 0 0 1px #9CD9FF;
 }
-.nav .radius{
+
+.nav .radius {
     width: 9px;
     height: 9px;
     flex-grow: 0;
     background-color: #9c9c9c;
     border-radius: 50%;
 }
+
 .userInfo {
     display: flex;
     align-items: center;
@@ -86,7 +90,7 @@
     letter-spacing: normal;
     text-align: left;
     color: rgba(41, 45, 50, 0.65);
-  
+
 }
 
 .popupMenu {
@@ -100,6 +104,7 @@
     z-index: 1000;
     min-width: 150px;
 }
+
 
 .menuItem {
     display: flex;
@@ -125,6 +130,7 @@
 
 }
 
+
 .popIcon {
     width: 32px;
     height: 32px;
@@ -133,46 +139,47 @@
 
 .postAdButton {
     height: 48px;
-  flex-grow: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 20px;
-  border-radius: 8px;
-  background-image: linear-gradient(to right, #da99ff 0%, #9cd9ff 100%);
-  font-size: 16px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #fff;
-  margin-left: 30px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background-image: linear-gradient(to right, #da99ff 0%, #9cd9ff 100%);
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #fff;
+    margin-left: 30px;
 }
 
 /* responsive */
-/* Mobile view */
-@media (max-width: 768px) {
+
+/* Large screen view */
+@media (min-width: 1025px) {
     .navLink {
-        font-size: 16px;
+        font-size: 22px;
     }
 
     .username {
-        font-size: 14px;
+        font-size: 18px;
     }
 
     .menuItem {
-        font-size: 12px;
-    }
-
-    .postAdButton {
         font-size: 14px;
     }
 
+    .postAdButton {
+        font-size: 16px;
+    }
+
     .popupMenu {
-        font-size: 12px;
+        font-size: 14px;
     }
 }
 
@@ -199,25 +206,109 @@
     }
 }
 
-/* Large screen view */
-@media (min-width: 1025px) {
+
+/* Mobile view */
+@media (max-width: 768px) {
     .navLink {
-        font-size: 22px;
-    }
-
-    .username {
-        font-size: 18px;
-    }
-
-    .menuItem {
-        font-size: 14px;
-    }
-
-    .postAdButton {
         font-size: 16px;
     }
 
-    .popupMenu {
+    .username {
         font-size: 14px;
+    }
+
+    .menuItem {
+        font-size: 12px;
+    }
+
+    .postAdButton {
+        font-size: 14px;
+    }
+
+    .popupMenu {
+        font-size: 12px;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    .mobileMenu {
+        width: 100%;
+        position: fixed;
+        top: 0;
+        height: 100vh;
+        right: 0;
+        background: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        z-index: 1000;;
+    }
+
+    .mobileMenu ul {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 30px;
+        padding: 0px;
+        color: rgba(41, 45, 50, 0.65);
+        margin: 12px 56px 27px 32px;
+    }
+
+    .mobileMenu ul li {
+        width: 100%;
+    }
+
+    .mobileMenu ul li button {
+        margin: 0px;
+        height: 37px;
+    }
+
+    .mobileMenu .username {
+        font-size: 18px !important;
+    }
+
+    .mobileMenu .menuItem {
+        padding: 0px;
+        font-size: 18px !important;
+
+    }
+
+    .mobileMenu .avatar {
+        width: 26px;
+        height: 26px;
+    }
+
+    .mobileMenu .icon {
+        width: 22px;
+        height: 22px;
+    }
+
+    .closeHeader {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f3f3f3;
+        /* margin: 14px; */
+        padding: 20px 32px;
+        border: none;
+    }
+
+
+}
+
+@media (min-width: 832px) {
+    .mobileMenu {
+        display: none;
     }
 }

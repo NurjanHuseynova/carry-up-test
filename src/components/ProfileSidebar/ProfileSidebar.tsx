@@ -3,58 +3,97 @@ import React, { useEffect, useState } from 'react';
 import styles from '@/assets/css/profile/profileSidebar.module.css';
 import Image from 'next/image';
 import profile_icon from "@/assets/img/profile-tick.svg";
-import carry_logo from "@/assets/img/Carry UP.svg";
 import location from "@/assets/img/location.svg";
 import star1 from "@/assets/img/star1.svg";
 import microphone from "@/assets/img/microphone.svg";
 import buliding from "@/assets/img/buliding.svg";
 import logout_icon from "@/assets/img/logout.svg";
-import message from "@/assets/img/message.svg";
 import keySquare from "@/assets/img/key-square.svg";
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
+import { fetchApi } from '@/services/api';
 
-
-// Define the type for props
 interface ProfileSidebarProps {
     onTabChange: (tab: string) => void;
     activeTab: string;
+    profilePhoto: string;
 }
 
-const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab }) => {
+const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab, profilePhoto }) => {
+
     const [user, setUser] = useState<any>(null);
+    const router = useRouter();
+
+
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
         setUser(storedUser);
     }, []);
 
     if (!user) {
-        return <div>Loading...</div>;
+        return <div></div>;
     }
 
     const getTabClass = (tabName: string) =>
         `${styles.flex} ${activeTab === tabName ? styles.activeTab : ""}`;
 
+    const handleLogout = async () => {
+    
+
+        try {
+            const refreshToken = localStorage.getItem("refreshToken");
+
+            const res = await fetchApi(`Manage/Logout`, {
+                refreshToken
+            });
+
+            if (res?.errors && res?.errors.length > 0) {
+                res?.errors.forEach((error: string) => {
+                    toast.error(error);
+                });
+                return;
+            }
+
+            localStorage.removeItem("user");
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+
+            setUser(null);
+            router.push("/");
+            toast.success('You have successfully logged out!')
+        } catch (error: any) {
+            toast.error(`Logout failed!`);
+
+        }
+    };
+
+
+    const base64Image = `data:image/png;base64,${user?.photo}`;
+
     return (
         <div className={styles.sidebar}>
             <div className={styles.userInfo}>
                 <Image
-                    src={carry_logo}
+                    src={profilePhoto || base64Image}
                     className={styles.avatar}
                     alt={'avatar'}
+                    width={85}
+                    height={85}
                 />
-                <div>
-                    <h2 className={styles.fullname}>{`${user.name || ''} ${user.surname || ''}`}</h2>
+                <div className='flex flex-col gap-1'>
+                    <h2 className={styles.fullname}>{`${user.name || ''} ${user.surname || ''} `}</h2>
                     <p className={styles.location}>
                         <Image
                             src={location}
                             alt={'location'}
                         />
-                        {`${user.country}, ${user.city}`}</p>
+                        {`${user?.country?.name || 'no country'}, ${user?.city || 'no city'} `}</p>
                     <span className={styles.rating}>
                         <Image
                             src={star1}
                             alt={'star'}
                         />
-                        4.8</span>
+                        {user?.point}</span>
                 </div>
             </div>
             <hr />
@@ -62,6 +101,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab 
                 <li>
                     <button className={getTabClass("profile")} onClick={() => onTabChange("profile")}>
                         <Image
+                            color='red'
                             src={profile_icon}
                             alt={'profile'}
                             className={styles.icon}
@@ -82,7 +122,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab 
                         <Image
                             src={microphone}
                             alt={'microphone'}
-                            className="icon"
+                            className={styles.icon}
                         />
                         My Ads Trip</button>
                 </li>
@@ -91,21 +131,21 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab 
                         <Image
                             src={buliding}
                             alt={'building'}
-                            className="icon"
+                            className={styles.icon}
                         />
                         My Ads Send</button>
                 </li>
-                <li>
+                {/* <li>
                     <button className={getTabClass("myPoints")} onClick={() => onTabChange("myPoints")}>
                         <Image
                             src={message}
                             alt={'message'}
-                            className="icon"
+                            className={styles.icon}
                         />
                         My Points</button>
-                </li>
+                </li> */}
                 <li>
-                    <button className={styles.flex}>
+                    <button className={styles.flex} onClick={handleLogout}>
                         <Image
                             src={logout_icon}
                             alt={'logout'}

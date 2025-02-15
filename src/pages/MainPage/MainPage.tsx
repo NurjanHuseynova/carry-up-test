@@ -204,9 +204,9 @@ const MainPage: React.FC = () => {
   };
 
   return (
-    <section className={`custom_container flex ${styles.main_container}`}>
+    <section className={`custom_container flex md:flex-row flex-col ${styles.main_container}`}>
       <article
-        className={`col-span-1 distanceScroll ${styles.left_section} w-[17rem]`}
+        className={`col-span-1 distanceScroll ${styles.left_section} w-full md:w-[17rem]`}
       >
         <div className={styles.top_button}>
           <button
@@ -252,8 +252,8 @@ const MainPage: React.FC = () => {
         )}
       </article>
 
-      <article className={`col-span-2 ${styles.right_section}`}>
-        {activeTab === "carry" && <MainCarryList trips={trips} loading={tripLoading} />}
+      <article className={`col-span-2 ${styles.right_section} `}>
+        {activeTab === "carry" && <MainCarryList trips={trips} loading={tripLoading} setLoading={setTripLoading} />}
         {activeTab === "send" && <MainSendList sends={sends} loading={sendLoading}/>}
 
         {activeTab === "carry" && trips?.length > 0 && (
