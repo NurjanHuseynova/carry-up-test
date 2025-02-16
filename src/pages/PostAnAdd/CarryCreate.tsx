@@ -357,7 +357,7 @@ function CarryCreate() {
               <label>
                 Currency<span className={styles.reqField}> * </span>
               </label>
-              <div className="flex gap-3 md:gap-4">
+              <div className="flex gap-3 md:gap-4 items-center">
                 <label className="flex items-center gap-2">
                   <input
                     type="radio"

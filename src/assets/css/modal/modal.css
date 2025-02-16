@@ -58,7 +58,7 @@
     color: #505050;
 }
 .carry-header span{
-    font-size: 24px;
+    font-size: 21px;
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
@@ -90,7 +90,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
-    gap: 10px;
+    gap: 18px;
     padding: 22px 14px;
     border-radius: 8px;
     border-style: solid;
@@ -255,7 +255,14 @@ height: 53px;
   .mobile_add_comment{
     display: flex;
 }
-.contact-info p{
-    font-size: 14px;
+.contact-info p , .details-grid p{
+    font-size: 16px;
+}
+.carry_icon{
+    height: auto;
+}
+.details-grid{
+    flex-direction: column;
+    gap: 20px;
 }
   }

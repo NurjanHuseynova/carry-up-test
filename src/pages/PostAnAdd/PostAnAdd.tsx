@@ -16,7 +16,7 @@ function PostAnAdd() {
         <h3>
           Reason for publication<span>*</span>
         </h3>
-        <div className="flex gap-3 md:gap-4 mt-4">
+        <div className="flex gap-3 md:gap-4 items-center mt-4">
           <button
             className={`${styles.createTab} ${
               activeTab === "send" ? styles.activeTab : ""

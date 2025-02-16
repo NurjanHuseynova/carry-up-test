@@ -12,7 +12,7 @@ width: 100%;
 .userInfo {
     display: flex;
     align-items: center;
-    column-gap: 21px;
+    column-gap: 5px;
     margin-bottom: 17px;
 }
 

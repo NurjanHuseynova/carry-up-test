@@ -138,7 +138,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                 <div className="details-section">
                   <h3>Details</h3>
                   <div className="details-grid">
-                    <div className="flex gap-7 md:gap-11 flex-col justify-between">
+                    <div className="flex gap-[20px] md:gap-11 flex-col justify-between">
                       <div className="flex gap-3 items-center md:gap-4">
                         <span className="carry_icon">
                           <Image
@@ -177,7 +177,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                         </div>
                       </div>
                     </div>
-                    <div className="flex gap-7 md:gap-11 flex-col justify-between">
+                    <div className="flex gap-[20px] md:gap-11 flex-col justify-between">
                       <div className="flex gap-3 md:gap-4 items-center">
                         <span className="carry_icon">
                           <Image
@@ -216,7 +216,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
               </div>
               <div className="contact-info">
                 <div className="flex flex-col gap-4">
-                  <div className="flex gap-3 md:gap-5">
+                  <div className="flex gap-3 md:gap-5 items-center">
                     <span className="carry_icon">
                       <Image src={carry_name} alt="" width={32} height={26} />
                     </span>
@@ -233,7 +233,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                       <span className="label">Name,surname,point</span>
                     </div>
                   </div>
-                  <div className="flex gap-3 md:gap-5">
+                  <div className="flex gap-3 md:gap-5 items-center">
                     <span className="carry_icon">
                       <Image src={carry_email} alt="" width={32} height={26} />
                     </span>
@@ -243,7 +243,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                       <span className="label">Email address</span>
                     </div>
                   </div>
-                  <div className="flex gap-3 md:gap-5">
+                  <div className="flex gap-3 md:gap-5 items-center">
                     <span className="carry_icon">
                       <Image src={carry_date} alt="" width={32} height={26} />
                     </span>
@@ -265,7 +265,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                       <span className="label">Publication Date</span>
                     </div>
                   </div>
-                  <div className="flex gap-3 md:gap-5">
+                  <div className="flex gap-3 md:gap-5 items-center">
                     <span className="carry_icon">
                       <Image
                         src={carry_pub_date}
@@ -291,7 +291,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                       <span className="label">Last Date to Apply</span>
                     </div>
                   </div>
-                  <div className="flex gap-3 md:gap-5">
+                  <div className="flex gap-3 md:gap-5 items-center">
                     <span className="carry_icon">
                       <Image src={carry_date} alt="" width={32} height={26} />
                     </span>
@@ -301,7 +301,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                       <span className="label">Number of applications</span>
                     </div>
                   </div>
-                  <div className="flex gap-3 md:gap-5">
+                  <div className="flex gap-3 md:gap-5 items-center">
                     <span className="carry_icon">
                       <Image
                         src={carry_contact}

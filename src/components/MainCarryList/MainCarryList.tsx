@@ -25,6 +25,7 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading
   const [detailList, setDetailList] = useState({});
   const [selectedId, setSelectedId] = useState("");
 
+
   const toggle = () => {
     if (selectedId) {
       setModal(!modal);
@@ -126,7 +127,7 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading
                               <div className="flex justify-between">
                                 <div className="text-[#6B6890] font-semibold">
                                   {v.fromPlace} <br />
-                                  <span className="text-[#A8A7FF] italic text-[14px]">
+                                  <span className="text-[#292D32A6] italic text-[14px] font-normal">
                                     {moment(v.toTripDate).format("DD.MM.YYYY")}
                                   </span>
                                 </div>
@@ -238,7 +239,7 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading
                                 </div>
                                 <div className="text-[#6B6890] font-semibold">
                                   {v.toPlace} <br />
-                                  <span className="text-[#A8A7FF] italic !text-[14px]">
+                                  <span className="text-[#292D32A6] italic text-[14px] font-normal">
                                     {moment(v.fromTripDate).format(
                                       "DD.MM.YYYY"
                                     )}

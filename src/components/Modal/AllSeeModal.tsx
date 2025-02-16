@@ -51,9 +51,9 @@ console.log(userPoint,);
         <ModalBody>
           <div className="grid md:grid-cols-3 gap-3 h-80 overflow-auto">
             {userPoint?.map((item, i) => (
-              <div className="flex flex-col gap-2 md:gap-3  p-3 border border-[#e7eaec] rounded-xl" key={i}>
+              <div className="flex flex-col gap-2 md:gap-3  p-3 border border-[#e7eaec] rounded-xl h-fit" key={i}>
                 <div className="flex justify-between items-center">
-                  <Image src={`data:image/png;base64,${item?.fromUser?.photo}`} alt="" width={75} height={75} />
+                <div>   <Image src={`data:image/png;base64,${item?.fromUser?.photo}`} alt="" width={75} height={75} className="h-[75px] w-[75px] rounded-lg object-cover"/> </div>
                   <div
                     className={`rating ${item.value ? "disabled-rating" : ""}`}
                   >

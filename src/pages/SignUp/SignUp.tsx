@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/assets/css/signUp/signUp.module.css";
 import carry_logo from "@/assets/img/Carry UP.svg";
 import google_icon from "@/assets/img/google.svg";
@@ -7,7 +7,7 @@ import eye_icon from "@/assets/img/eye_icon.svg";
 import date_icon from "@/assets/img/calendar.svg";
 import Image from "next/image";
 import Link from "next/link";
-import { postApi } from "@/services/api";
+import { fetchApi, getApiWithToken, postApi } from "@/services/api";
 import DatePicker from "react-datepicker";
 import { gender } from "@/json/constant";
 import eye from "@/assets/img/eye.svg";
@@ -20,6 +20,11 @@ interface GoogleProviderData {
   data: {
     code: string;
   };
+}
+
+interface Country {
+  id: number;
+  name: string;
 }
 
 
@@ -39,6 +44,7 @@ function SignUp() {
   });
   const [toggle,setToggle] =  useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [countries, setCountries] = useState<Country[]>([]);
   const [formErrors, setFormErrors] = useState<{
     name: boolean;
     surname: boolean;
@@ -162,8 +168,8 @@ function SignUp() {
         confirmPassword: formData.confirmPassword,
         birthDate: formData.birthday ? formData.birthday.toISOString() : null,
         gender: formData.gender,
-        city: formData.country,
-        country: formData.city,
+        city: formData.city,
+        country: formData.country,
         term: formData.terms,
       };
   
@@ -201,6 +207,32 @@ function SignUp() {
         console.log("loginByGoogle", error);
       }
     };
+
+    useEffect(() => {
+
+  
+  
+      fetchCountries();
+  
+
+    }, []);
+
+    const fetchCountries = async () => {
+      try {
+        const res = await fetchApi("Country/AllCountries");
+    
+        
+        if (res?.success) {
+          setCountries(res.list || []);
+        } else {
+          toast.error("Failed to load countries");
+        }
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+        toast.error("Error fetching country data");
+      }
+    };
+
   
   return (
     <>
@@ -278,7 +310,7 @@ function SignUp() {
                 </label>
                 <select
                   name="gender"
-                  className={formErrors.gender ? styles.error_border : ""}
+                  className={`${formErrors.gender ? styles.error_border : ""} form-select`}
                   value={formData.gender}
                   onChange={handleChange}
                 >
@@ -348,7 +380,16 @@ function SignUp() {
                 <label htmlFor="text" className="">
                   Country
                 </label>
-                <input
+                <select className={`${formErrors.gender ? styles.error_border : ""} form-select`} onChange={handleChange} id="country" name="country"  value={formData.country}>
+
+                  <option value="0">Select country</option>
+                  {
+                    countries.map((item,i) => (
+                      <option value={item?.id} key={item?.id}>{item?.name}</option>
+                    ))
+                  }
+                </select>
+                {/* <input
                   type="text"
                   id="country"
                   name="country"
@@ -356,7 +397,7 @@ function SignUp() {
                   placeholder="Enter"
                   value={formData.country}
                   onChange={handleChange}
-                />
+                /> */}
               </div>
             </div>
 
