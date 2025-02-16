@@ -8,11 +8,13 @@ import { MainSendListProps } from "@/types/type";
 import document from "@/assets/img/document.svg";
 import SendModal from "../Modal/SendModal";
 import { fetchApi } from "@/services/api";
+import dollar from "@/assets/img/dollar.svg";
+import manat from "@/assets/img/dollar.svg";
 
 const MainSendList: React.FC<MainSendListProps> = ({ sends, loading }) => {
- const [modal, setModal] = useState(false);
-   const [detailList, setDetailList] = useState({});
- 
+  const [modal, setModal] = useState(false);
+  const [detailList, setDetailList] = useState({});
+
   const [selectedId, setSelectedId] = useState("");
 
   const toggle = () => {
@@ -22,23 +24,24 @@ const MainSendList: React.FC<MainSendListProps> = ({ sends, loading }) => {
     }
   };
 
-  const getById = async (id:string) => {
+  const getById = async (id: string) => {
     try {
       const res = await fetchApi(`Send/GetById/${id}`);
       if (res?.value) {
-      setDetailList(res.value)
-        
+        setDetailList(res.value);
       }
-
     } catch (error) {
       console.log("error", error);
     }
   };
 
   return (
-    <section  className={`grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5`}>
-      {loading && (
-        <div role="status " className="absolute left-[57%] top-[50%]">
+    <section className={`grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5`}>
+      {loading ? 
+        <div
+          role="status"
+          className="absolute left-[46%] md:left-[59%] top-[50%]"
+        >
           <svg
             aria-hidden="true"
             className="inline w-8 h-8 text-gray-200 animate-spin  fill-purple-600"
@@ -56,8 +59,8 @@ const MainSendList: React.FC<MainSendListProps> = ({ sends, loading }) => {
             />
           </svg>
         </div>
-      )}
-      {sends.map((card, index) => (
+       : <>
+             {sends.map((card, index) => (
         <article
           key={index}
           className={styles.list_card}
@@ -99,7 +102,10 @@ const MainSendList: React.FC<MainSendListProps> = ({ sends, loading }) => {
             </div>
 
             <div className={styles.price}>
-              <span>{card?.package?.price}</span>
+            <span className="flex items-start">
+                   {
+                    card?.package?.currency == 1 ?  <Image src={dollar} alt="" /> :   card?.package?.currency == 0 ?  <Image src={dollar} alt="" /> : null 
+                   } {card?.package?.price}</span>
             </div>
           </div>
 
@@ -114,10 +120,17 @@ const MainSendList: React.FC<MainSendListProps> = ({ sends, loading }) => {
           </div>
         </article>
       ))}
+       </>}
 
-{modal && <SendModal toggle={toggle} isOpen={modal} setModal={setModal} detailList={detailList}/>}
 
-
+      {modal && (
+        <SendModal
+          toggle={toggle}
+          isOpen={modal}
+          setModal={setModal}
+          detailList={detailList}
+        />
+      )}
     </section>
   );
 };

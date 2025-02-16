@@ -56,6 +56,7 @@ export interface FormData {
     departure: string;
     arrival: string;
     price: string;
+
     applyDate: string;
     title: string;
     id:string;
@@ -71,6 +72,7 @@ export interface FormData {
     package: {
       price: string;
       count:number;
+      currency:number;
     };
   }
   
@@ -97,6 +99,7 @@ export interface FormData {
     }[];
     package: {
       price: string;
+      currency:number;
     };
   }
   

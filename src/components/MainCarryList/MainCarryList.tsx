@@ -14,8 +14,11 @@ import { fetchApi } from "@/services/api";
 import distance from "@/assets/img/distance.png";
 import line from "@/assets/img/lines.png";
 import arrow from "@/assets/img/downarrow.png";
+import dollar from "@/assets/img/dollar.svg";
+import manat from "@/assets/img/dollar.svg";
 
-import { travelType } from "@/json/constant";
+
+import { currency, travelType } from "@/json/constant";
 
 const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading }) => {
   const [modal, setModal] = useState(false);
@@ -48,7 +51,7 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading
     <>
       <section className={`grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5`}>
         {loading && (
-          <div role="status " className="absolute left-[59%] top-[50%]">
+          <div role="status " className="absolute left-[46%] md:left-[59%] top-[50%]">
             <svg
               aria-hidden="true"
               className="inline w-8 h-8 text-gray-200 animate-spin  fill-purple-600"
@@ -273,7 +276,10 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading
                 </div>
 
                 <div className={styles.price}>
-                  <span>{card?.package?.price}</span>
+                  <span className="flex items-start">
+                   {
+                    card?.package?.currency == 1 ? <Image src={dollar} alt="" /> :   card?.package?.currency == 0 ?  <Image src={dollar} alt="" /> : null 
+                   } {card?.package?.price}</span>
                 </div>
               </div>
             </div>

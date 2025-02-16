@@ -255,4 +255,7 @@ height: 53px;
   .mobile_add_comment{
     display: flex;
 }
+.contact-info p{
+    font-size: 14px;
+}
   }

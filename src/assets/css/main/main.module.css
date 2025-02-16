@@ -96,6 +96,12 @@
   .main_container{
 padding: 16px;
    }
-  
+   .left_section{
+    padding: 20px;
+   }
+   .top_button {
+    margin-top: 25px;
+   }
+
   }
 

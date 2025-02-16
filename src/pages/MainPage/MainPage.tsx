@@ -9,6 +9,8 @@ import styles from "@/assets/css/main/main.module.css";
 import { postApi } from "@/services/api";
 import Pagination from "@/components/Pagination/Pagination";
 import { FormData, SendFormData } from "@/types/type";
+import Image from "next/image";
+import arrow_search from "@/assets/img/arrow_search.svg";
 
 const MainPage: React.FC = () => {
   let tripPerPage = 6;
@@ -21,8 +23,9 @@ const MainPage: React.FC = () => {
   const [tripCurrentPage, setTripCurrentPage] = useState(1);
   const [totalTrips, setTotalTrips] = useState(0);
   const [sendCurrentPage, setSendCurrentPage] = useState(1);
-  const [tripLoading,setTripLoading] = useState(false);
-  const [sendLoading,setSendLoading] = useState(false);
+  const [tripLoading, setTripLoading] = useState(false);
+  const [sendLoading, setSendLoading] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const [totalSends, setTotalSends] = useState(0);
   const [formData, setFormData] = useState<FormData>({
@@ -48,7 +51,7 @@ const MainPage: React.FC = () => {
     fromPlace: "",
     toPlace: "",
     currency: "",
-    catchDate:"",
+    catchDate: "",
   });
 
   useEffect(() => {
@@ -77,17 +80,16 @@ const MainPage: React.FC = () => {
       },
     };
     try {
-      setTripLoading(true)
+      setTripLoading(true);
       const response = await postApi("Trip/GetTrips", filter);
 
       if (response?.list) {
         setTrips(response.list);
         setTotalTrips(response.totalCount);
       }
-      setTripLoading(false)
-
+      setTripLoading(false);
     } catch (error) {
-      setTripLoading(false)
+      setTripLoading(false);
 
       console.error("Error fetching trips:", error);
     }
@@ -151,17 +153,16 @@ const MainPage: React.FC = () => {
       },
     };
     try {
-      setSendLoading(true)
+      setSendLoading(true);
       const response = await postApi("Send/GetSends", filter);
 
       if (response?.list) {
         setSends(response.list);
         setTotalSends(response.totalCount);
       }
-      setSendLoading(false)
-
+      setSendLoading(false);
     } catch (error) {
-      setSendLoading(false)
+      setSendLoading(false);
 
       console.error("Error fetching trips:", error);
     }
@@ -199,62 +200,104 @@ const MainPage: React.FC = () => {
       fromPlace: "",
       toPlace: "",
       currency: "",
-      catchDate:"",
+      catchDate: "",
     });
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsSearchOpen(true);
+      } else {
+        setIsSearchOpen(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <section className={`custom_container flex md:flex-row flex-col ${styles.main_container}`}>
+    <section
+      className={`custom_container flex md:flex-row flex-col ${styles.main_container}`}
+    >
       <article
-        className={`col-span-1 distanceScroll ${styles.left_section} w-full md:w-[17rem]`}
+        className={`col-span-1 distanceScroll ${
+          styles.left_section
+        } w-full md:w-[17rem] ${!isSearchOpen ? "h-auto" : "h-full"}`}
       >
-        <div className={styles.top_button}>
-          <button
-            className={`${styles.tab_button} ${
-              activeTab === "carry" ? styles.active_tab_button : ""
+        <div
+          className="flex justify-between items-center  md:hidden"
+          onClick={() => setIsSearchOpen(!isSearchOpen)}
+        >
+          <h2 className="text-[#292D32] text-xl">Search</h2>
+          <Image
+            src={arrow_search}
+            alt="search icon"
+            className={`h-6 w-6 transition-transform duration-300 ${
+              isSearchOpen ? "rotate-180" : "rotate-0"
             }`}
-            onClick={() => setActiveTab("carry")}
-          >
-            For Carry
-          </button>
-          <button
-            className={`${styles.tab_button} ${
-              activeTab === "send" ? styles.carry_tab_button : ""
-            }`}
-            onClick={() => setActiveTab("send")}
-          >
-            For Send
-          </button>
+          />
         </div>
 
-        {activeTab === "carry" && (
-          <CarrySidebar
-            handleSubmit={handleSubmit}
-            handleInputChange={handleInputChange}
-            formData={formData}
-            fetchTrips={fetchTrips}
-            setFormData={setFormData}
-            clearForm={clearForm}
-            tripCurrentPage={tripCurrentPage}
-            
-          />
-        )}
-        {activeTab === "send" && (
-          <SendSidebar
-            handleSubmit={sendHandleSubmit}
-            handleInputChange={sendHandleInputChange}
-            sendFormData={sendFormData}
-            fetchSends={fetchSends}
-            setSendFormData={setSendFormData}
-            sendClearForm={sendClearForm}
-            sendCurrentPage={sendCurrentPage}
-          />
+        {isSearchOpen && (
+          <>
+            <div className={`${styles.top_button}`}>
+              <button
+                className={`${styles.tab_button} ${
+                  activeTab === "carry" ? styles.active_tab_button : ""
+                }`}
+                onClick={() => setActiveTab("carry")}
+              >
+                For Carry
+              </button>
+              <button
+                className={`${styles.tab_button} ${
+                  activeTab === "send" ? styles.carry_tab_button : ""
+                }`}
+                onClick={() => setActiveTab("send")}
+              >
+                For Send
+              </button>
+            </div>
+
+            {activeTab === "carry" && (
+              <CarrySidebar
+                handleSubmit={handleSubmit}
+                handleInputChange={handleInputChange}
+                formData={formData}
+                fetchTrips={fetchTrips}
+                setFormData={setFormData}
+                clearForm={clearForm}
+                tripCurrentPage={tripCurrentPage}
+              />
+            )}
+            {activeTab === "send" && (
+              <SendSidebar
+                handleSubmit={sendHandleSubmit}
+                handleInputChange={sendHandleInputChange}
+                sendFormData={sendFormData}
+                fetchSends={fetchSends}
+                setSendFormData={setSendFormData}
+                sendClearForm={sendClearForm}
+                sendCurrentPage={sendCurrentPage}
+              />
+            )}
+          </>
         )}
       </article>
 
       <article className={`col-span-2 ${styles.right_section} `}>
-        {activeTab === "carry" && <MainCarryList trips={trips} loading={tripLoading} setLoading={setTripLoading} />}
-        {activeTab === "send" && <MainSendList sends={sends} loading={sendLoading}/>}
+        {activeTab === "carry" && (
+          <MainCarryList
+            trips={trips}
+            loading={tripLoading}
+            setLoading={setTripLoading}
+          />
+        )}
+        {activeTab === "send" && (
+          <MainSendList sends={sends} loading={sendLoading} />
+        )}
 
         {activeTab === "carry" && trips?.length > 0 && (
           <Pagination
@@ -262,7 +305,6 @@ const MainPage: React.FC = () => {
             totalPages={totalPages}
             onPageChange={handlePageChange}
             activetab={activeTab}
-
           />
         )}
 

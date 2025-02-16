@@ -37,6 +37,7 @@ interface CarryModalProps {
       id: string;
       user?: {
         id: string;
+        email:string;
         pointsForFromUser: {
           value: number;
           description: string;
@@ -237,7 +238,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                       <Image src={carry_email} alt="" width={32} height={26} />
                     </span>
                     <div>
-                      <p>{user?.email} </p>
+                      <p>{detailList?.case?.user?.email} </p>
 
                       <span className="label">Email address</span>
                     </div>

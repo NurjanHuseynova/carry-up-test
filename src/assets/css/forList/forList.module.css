@@ -122,15 +122,15 @@
   
   .price {
     position: absolute;
-    top: 114px;
+    top: 99px;
     right: 0;
     color: white;
-    padding: 2px 14px;
+    padding: 4px 14px;
     font-size: 16px;
     font-weight: bold;
     background-image: url('../../img/price_bg.svg');
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: cover;
    
   }
   
