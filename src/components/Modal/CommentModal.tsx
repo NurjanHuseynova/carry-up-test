@@ -16,6 +16,8 @@ interface CommentModalProps {
 const CommentModal: React.FC<CommentModalProps> = ({ toggle, modal ,caseId,fromUserId,toUserId}) => {
   const [rating, setRating] = useState<number | null>(null);
   const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+
 
 
   const handleRatingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +41,9 @@ const CommentModal: React.FC<CommentModalProps> = ({ toggle, modal ,caseId,fromU
       toast.error("Please fill in all required fields.");
       return;
     }
+    
+    setLoading(true); 
+  
     try {
       const obj = {
         value: rating,
@@ -47,16 +52,22 @@ const CommentModal: React.FC<CommentModalProps> = ({ toggle, modal ,caseId,fromU
         fromUserId: fromUserId,
         toUserId: toUserId,
       };
-
+  
       const response = await postApi("Point/Create", obj);
       if (response?.success) {
-        toast.success("Comment successfully")
+        toast.success("Comment successfully");
         toggle();
+        clearForm();
+      } else {
+        toast.error("Already commented");
       }
-      
-      
-    } catch (error) {}
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      setLoading(false); 
+    }
   };
+  
 
   return (
     <Modal isOpen={modal} toggle={toggle} centered>
@@ -110,9 +121,9 @@ const CommentModal: React.FC<CommentModalProps> = ({ toggle, modal ,caseId,fromU
             <button type="button" className="clear_btn" onClick={clearForm}>
               Clear all
             </button>
-            <button type="submit" className="save_btn">
-              Save
-            </button>
+            <button type="submit" className="save_btn" disabled={loading}>
+  {loading ? "Saving..." : "Save"}
+</button>
           </div>
         </form>
       </ModalBody>

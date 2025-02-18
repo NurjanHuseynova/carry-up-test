@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import "@/assets/css/modal/modal.css";
 import Image from "next/image";
@@ -31,24 +31,30 @@ interface CarryModalProps {
     package?: {
       price?: number;
       count?: number;
-      deadline:string;
+      deadline: string;
     };
     case?: {
       id: string;
       user?: {
         id: string;
-        pointsForFromUser: { value: number; description: string,createdDate:string; point:number }[]; 
+        email:string;
+        pointsForFromUser: {
+          value: number;
+          description: string;
+          createdDate: string;
+          point: number;
+        }[];
         name: string;
         surname: string;
-        point:number;
-        phoneNumber:string;
+        point: number;
+        phoneNumber: string;
       };
     };
     tripPlaceDetails?: {
       fromPlace?: string;
       toPlace?: string;
-      toTripDate:string;
-      fromTripDate:string;
+      toTripDate: string;
+      fromTripDate: string;
     }[];
     pointsForFromUser?: {
       value: number;
@@ -60,7 +66,6 @@ interface CarryModalProps {
   };
 }
 
-
 function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
   const user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user") as string)
@@ -68,6 +73,13 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
 
   const [commentModal, setCommentModal] = useState(false);
   const [allSeeModal, setAllSeeModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (detailList) {
+      setIsLoading(false);
+    }
+  }, [detailList]);
 
   const commentModalToggle = () => {
     setCommentModal(!commentModal);
@@ -76,6 +88,8 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
   const allSeeModalToggle = () => {
     setAllSeeModal(!allSeeModal);
   };
+
+
 
   return (
     <>
@@ -88,18 +102,17 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
         className="modal-container"
       >
         <ModalHeader toggle={() => setModal(!isOpen)}>
-        <div className="flex w-full justify-between">
+          <div className="flex w-full justify-between items-center">
             <h3>For Carry details</h3>
             <div className="flex gap-3">
               <button className="add_comment mr-3">Chat us</button>
-             
             </div>
           </div>
         </ModalHeader>
         <ModalBody>
           <div className="carry-modal-container">
             <div className="carry-left">
-              <div className="flex flex-col gap-7">
+              <div className="flex flex-col gap-3 md:gap-7">
                 <div className="carry-header">
                   <div className="flex items-center gap-3">
                     <span className="carry_icon">
@@ -125,8 +138,8 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                 <div className="details-section">
                   <h3>Details</h3>
                   <div className="details-grid">
-                    <div className="flex gap-11 flex-col">
-                      <div className="flex gap-4">
+                    <div className="flex gap-[20px] md:gap-11 flex-col justify-between">
+                      <div className="flex gap-3 items-center md:gap-4">
                         <span className="carry_icon">
                           <Image
                             src={carry_from}
@@ -136,26 +149,36 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                           />
                         </span>
                         <div>
-                          <span className="label">From</span>
+                        <p>{detailList?.tripPlaceDetails?.[0]?.fromPlace} </p>
+                          <span className="label">From</span><br/>
 
-                          <p>{detailList?.tripPlaceDetails?.[0]?.fromPlace} </p>
-                          <span className="text-[14px] text-[#505050]">{moment(detailList?.tripPlaceDetails?.[0]?.fromTripDate).format("DD.MM.YYYY")}</span>
+                          
+                          <span className="text-[14px] text-[#505050]">
+                            {moment(
+                              detailList?.tripPlaceDetails?.[0]?.fromTripDate
+                            ).format("DD.MM.YYYY")}
+                          </span>
                         </div>
                       </div>
-                      <div className="flex gap-4">
+                      <div className="flex gap-3 items-center md:gap-4">
                         <span className="carry_icon">
                           <Image src={carry_to} alt="" width={32} height={26} />
                         </span>
                         <div>
-                          <span className="label">To</span>
+                        <p>{detailList?.tripPlaceDetails?.[0]?.toPlace} </p>
+                          <span className="label">To</span> <br/>
 
-                          <p>{detailList?.tripPlaceDetails?.[0]?.toPlace} </p>
-                          <span className="text-[14px] text-[#505050]">{moment(detailList?.tripPlaceDetails?.[0]?.toTripDate).format("DD.MM.YYYY")}</span>
+                          
+                          <span className="text-[14px] text-[#505050]">
+                            {moment(
+                              detailList?.tripPlaceDetails?.[0]?.toTripDate
+                            ).format("DD.MM.YYYY")}
+                          </span>
                         </div>
                       </div>
                     </div>
-                    <div className="flex gap-11 flex-col">
-                      <div className="flex gap-4">
+                    <div className="flex gap-[20px] md:gap-11 flex-col justify-between">
+                      <div className="flex gap-3 md:gap-4 items-center">
                         <span className="carry_icon">
                           <Image
                             src={carry_document}
@@ -165,12 +188,13 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                           />
                         </span>
                         <div>
+                        <p>{detailList?.package?.count}</p>
                           <span className="label">Count of documents</span>
 
-                          <p>{detailList?.package?.count}</p>
+                       
                         </div>
                       </div>
-                      <div className="flex gap-4">
+                      <div className="flex gap-3 items-center md:gap-4">
                         <span className="carry_icon">
                           <Image
                             src={carry_price}
@@ -180,9 +204,10 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                           />
                         </span>
                         <div>
+                        <p> {detailList?.package?.price} USD</p>
                           <span className="label">Price</span>
 
-                          <p> {detailList?.package?.price} USD</p>
+                         
                         </div>
                       </div>
                     </div>
@@ -191,7 +216,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
               </div>
               <div className="contact-info">
                 <div className="flex flex-col gap-4">
-                  <div className="flex gap-5">
+                  <div className="flex gap-3 md:gap-5 items-center">
                     <span className="carry_icon">
                       <Image src={carry_name} alt="" width={32} height={26} />
                     </span>
@@ -208,17 +233,17 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                       <span className="label">Name,surname,point</span>
                     </div>
                   </div>
-                  <div className="flex gap-5">
+                  <div className="flex gap-3 md:gap-5 items-center">
                     <span className="carry_icon">
                       <Image src={carry_email} alt="" width={32} height={26} />
                     </span>
                     <div>
-                      <p>{user?.email} </p>
+                      <p>{detailList?.case?.user?.email} </p>
 
                       <span className="label">Email address</span>
                     </div>
                   </div>
-                  <div className="flex gap-5">
+                  <div className="flex gap-3 md:gap-5 items-center">
                     <span className="carry_icon">
                       <Image src={carry_date} alt="" width={32} height={26} />
                     </span>
@@ -240,7 +265,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                       <span className="label">Publication Date</span>
                     </div>
                   </div>
-                  <div className="flex gap-5">
+                  <div className="flex gap-3 md:gap-5 items-center">
                     <span className="carry_icon">
                       <Image
                         src={carry_pub_date}
@@ -253,21 +278,20 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                       <p>
                         {" "}
                         {detailList?.package?.deadline
-                          ? new Date(detailList.package?.deadline).toLocaleDateString(
-                              "en-US",
-                              {
-                                month: "long",
-                                day: "numeric",
-                                year: "numeric",
-                              }
-                            )
+                          ? new Date(
+                              detailList.package?.deadline
+                            ).toLocaleDateString("en-US", {
+                              month: "long",
+                              day: "numeric",
+                              year: "numeric",
+                            })
                           : ""}
                       </p>
 
                       <span className="label">Last Date to Apply</span>
                     </div>
                   </div>
-                  <div className="flex gap-5">
+                  <div className="flex gap-3 md:gap-5 items-center">
                     <span className="carry_icon">
                       <Image src={carry_date} alt="" width={32} height={26} />
                     </span>
@@ -277,7 +301,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                       <span className="label">Number of applications</span>
                     </div>
                   </div>
-                  <div className="flex gap-5">
+                  <div className="flex gap-3 md:gap-5 items-center">
                     <span className="carry_icon">
                       <Image
                         src={carry_contact}
@@ -287,7 +311,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                       />
                     </span>
                     <div>
-                  <p>{detailList?.case?.user?.phoneNumber}</p>
+                      <p>{detailList?.case?.user?.phoneNumber}</p>
 
                       <span className="label">Phone number</span>
                     </div>
@@ -338,7 +362,12 @@ function CarryModal({ toggle, isOpen, detailList, setModal }: CarryModalProps) {
                         </React.Fragment>
                       ))}
                     </div>
-                    <span className="carry_date">{moment(detailList?.case?.user?.pointsForFromUser[0]?.createdDate).format("DD-MM-YYYY")}</span>
+                    <span className="carry_date">
+                      {moment(
+                        detailList?.case?.user?.pointsForFromUser[0]
+                          ?.createdDate
+                      ).format("DD-MM-YYYY")}
+                    </span>
                   </div>
                   <p className="carry_desc">
                     {detailList?.case?.user?.pointsForFromUser[0]?.description}

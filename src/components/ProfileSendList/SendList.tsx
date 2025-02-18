@@ -10,6 +10,7 @@ import ProfileSendModal from '../ProfileModal/ProfileSendModal';
 import { mapCurrencyType } from '@/utils/enumsToData';
 import { deleteApi, postApi } from '@/services/api';
 import { useRouter } from 'next/navigation';
+import SendModal from '../Modal/SendModal';
 
 interface MySends {
   id: number;
@@ -247,8 +248,7 @@ function SendList() {
         </>
       )
       }
-      <ProfileSendModal toggle={toggleModal} isOpen={isModalOpen} send={selectedSend} />
-
+      {/* {isModalOpen && <SendModal toggle={toggleModal} isOpen={isModalOpen} setModal={setIsModalOpen} detailList={selectedSend}/>} */}
     </div >
   )
 }

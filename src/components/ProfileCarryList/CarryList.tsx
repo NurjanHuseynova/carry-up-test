@@ -12,6 +12,7 @@ import Pagination from "@/components/Pagination/Pagination";
 import ProfileCarryModal from '@/components/ProfileModal/ProfileCarryModal';
 import { deleteApi, postApi } from '@/services/api';
 import { useRouter } from 'next/navigation';
+import CarryModal from '../Modal/CarryModal';
 
 
 interface Trip {
@@ -230,7 +231,14 @@ function CarryList() {
           }
         </>
       )}
-      <ProfileCarryModal toggle={toggleModal} isOpen={isModalOpen} trip={selectedTrip} />
+      {/* {isModalOpen && (
+          <CarryModal
+            toggle={toggleModal}
+            isOpen={isModalOpen}
+            setModal={setIsModalOpen}
+            detailList={selectedTrip}
+          />
+        )} */}
     </div>
   )
 }

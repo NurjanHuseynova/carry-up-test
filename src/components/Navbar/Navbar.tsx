@@ -7,7 +7,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { fetchApi } from "@/services/api";
 
-import carry_logo from "@/assets/img/Carry UP.svg";
+import carry_logo from "@/assets/img/Carry Us.svg";
 import logout_icon from "@/assets/img/logout.svg";
 import profile_icon from "@/assets/img/profile-tick.svg";
 import hambuger_menu from "@/assets/img/hamburger_menu.svg";
@@ -93,8 +93,8 @@ function Navbar() {
     <section className={styles.navbar}>
       <header className={`custom_container ${styles.header}`}>
         <div className={styles.logo}>
-          <Link href="/">
-            <Image src={carry_logo} alt="Carry Logo" />
+          <Link href="/" className="flex items-center">
+            <Image src={carry_logo} alt="Carry Logo"  width={153} height={43}/>
           </Link>
         </div>
 
@@ -105,6 +105,7 @@ function Navbar() {
         {isMobileMenuOpen && (
           <div className={styles.mobileMenu} ref={mobileMenuRef}>
             <div className={styles.closeHeader}>
+              <Image src={carry_logo} alt=""/>
               <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                 <Image src={close} alt="close icon" />
               </button>

@@ -11,17 +11,20 @@ import plane from "@/assets/img/plane.svg";
 import car from "@/assets/img/car.svg";
 import CarryModal from "../Modal/CarryModal";
 import { fetchApi } from "@/services/api";
-import distance from "@/assets/img/distance.png"
-import line from "@/assets/img/lines.png"
-import arrow from "@/assets/img/downarrow.png"
+import distance from "@/assets/img/distance.png";
+import line from "@/assets/img/lines.png";
+import arrow from "@/assets/img/downarrow.png";
+import dollar from "@/assets/img/dollar.svg";
+import manat from "@/assets/img/dollar.svg";
 
 
-import { travelType } from "@/json/constant";
+import { currency, travelType } from "@/json/constant";
 
-const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading }) => {
+const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading }) => {
   const [modal, setModal] = useState(false);
   const [detailList, setDetailList] = useState({});
   const [selectedId, setSelectedId] = useState("");
+
 
   const toggle = () => {
     if (selectedId) {
@@ -32,20 +35,24 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading }) => {
 
   const getById = async (id: string) => {
     try {
+      setLoading(true)
       const res = await fetchApi(`Trip/GetById/${id}`);
       if (res?.value) {
         setDetailList(res.value);
       }
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
+
       console.log("error", error);
     }
   };
 
   return (
     <>
-      <section className={styles.gridContainer}>
+      <section className={`grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5`}>
         {loading && (
-          <div role="status " className="absolute left-[59%] top-[50%]">
+          <div role="status " className="absolute left-[46%] md:left-[59%] top-[50%]">
             <svg
               aria-hidden="true"
               className="inline w-8 h-8 text-gray-200 animate-spin  fill-purple-600"
@@ -98,164 +105,153 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading }) => {
                   {card?.tripPlaceDetails?.[0]?.toPlace?.slice(0, 5) || ""}
                 </h3>
                 <div className="distanceBox ">
-                          <div>
-                            {card?.tripPlaceDetails.length > 1 && (
-                              <Image
-                                src={distance}
-                                className="bg-[#3C87E0] p-1 rounded ml-3 "
-                                width={30}
-                                height={10}
-                                alt="distance"
-                                priority={true}
-                              />
-                            )}
-                          </div>
+                  <div>
+                    {card?.tripPlaceDetails.length > 1 && (
+                      <Image
+                        src={distance}
+                        className="bg-[#3C87E0] p-1 rounded ml-3 "
+                        width={30}
+                        height={10}
+                        alt="distance"
+                        priority={true}
+                      />
+                    )}
+                  </div>
 
-                          <div >
-                            {card?.tripPlaceDetails.length > 1 && (
-                              <div className="max-h-28 h-28 distanceScroll py-2 px-3 max-w-[325px] border border-solid border-[#b532ff75] absolute left-[33%] w-[315px] top-[31px] z-10 rounded-xl bg-white distance">
-                                {card.tripPlaceDetails.length > 1 &&
-                                  card.tripPlaceDetails.slice(1).map((v) => (
-                                    <>
-                                      <div className="flex justify-between">
-                                        <div className="text-[#6B6890] font-semibold">
-                                          {v.fromPlace} <br />
-                                          <span className="text-[#A8A7FF] italic text-[14px]">
-                                            {moment(v.toTripDate).format(
-                                              "DD.MM.YYYY"
-                                            )}
-                                          </span>
-                                        </div>
-                                        <div className="flex justify-between m-1">
-                                          <div className="flex ">
-                                            <Image
-                                             src={line}
+                  <div>
+                    {card?.tripPlaceDetails.length > 1 && (
+                      <div className="max-h-28 h-28 distanceScroll py-2 px-3 max-w-[325px] border border-solid border-[#b532ff75] absolute left-[33%] w-[315px] top-[31px] z-10 rounded-xl bg-white distance">
+                        {card.tripPlaceDetails.length > 1 &&
+                          card.tripPlaceDetails.slice(1).map((v) => (
+                            <>
+                              <div className="flex justify-between">
+                                <div className="text-[#6B6890] font-semibold">
+                                  {v.fromPlace} <br />
+                                  <span className="text-[#292D32A6] italic text-[14px] font-normal">
+                                    {moment(v.toTripDate).format("DD.MM.YYYY")}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between m-1">
+                                  <div className="flex ">
+                                    <Image
+                                      src={line}
+                                      width={5}
+                                      height={5}
+                                      alt=""
+                                      priority={true}
+                                      style={{ height: "23px" }}
+                                    />
+                                    <Image
+                                      src={line}
+                                      width={5}
+                                      height={5}
+                                      alt=""
+                                      priority={true}
+                                      style={{ height: "23px" }}
+                                    />
+                                    <Image
+                                      src={line}
+                                      width={5}
+                                      height={5}
+                                      alt=""
+                                      priority={true}
+                                      style={{ height: "23px" }}
+                                    />
+                                  </div>
+                                  <div className="mx-2">
+                                    {v?.travelType == travelType.Plane ? (
+                                      <>
+                                        <Image
+                                          src={plane}
+                                          className="  "
+                                          width={30}
+                                          height={20}
+                                          alt="Carry UP"
+                                          priority={true}
+                                        />{" "}
+                                      </>
+                                    ) : v?.travelType == travelType.Bus ? (
+                                      <>
+                                        <Image
+                                          src={bus}
+                                          className=" "
+                                          width={30}
+                                          height={20}
+                                          alt="Carry UP"
+                                          priority={true}
+                                        />{" "}
+                                      </>
+                                    ) : v?.travelType == travelType.Car ? (
+                                      <>
+                                        <Image
+                                          src={car}
+                                          className="  "
+                                          width={30}
+                                          height={20}
+                                          alt="Carry UP"
+                                          priority={true}
+                                        />{" "}
+                                      </>
+                                    ) : v?.travelType == travelType.Ship ? (
+                                      <>
+                                        <Image
+                                          src={ship}
+                                          width={30}
+                                          height={20}
+                                          alt="Carry UP"
+                                          priority={true}
+                                        />{" "}
+                                      </>
+                                    ) : v?.travelType == travelType.Train ? (
+                                      <>
+                                        <Image
+                                          src={train}
+                                          width={25}
+                                          height={20}
+                                          alt="Carry UP"
+                                          priority={true}
+                                        />
+                                      </>
+                                    ) : null}
+                                  </div>
+                                  <div className="flex">
+                                    <Image
+                                      src={line}
+                                      width={5}
+                                      height={5}
+                                      alt="Carry UP"
+                                      priority={true}
+                                      style={{ height: "23px" }}
+                                    />
 
-                                              width={5}
-                                              height={5}
-                                              alt=""
-                                              priority={true}
-                                              style={{ height: "23px" }}
-                                            />
-                                            <Image
-                                              src={line}
-                                              width={5}
-                                              height={5}
-                                              alt=""
-                                              priority={true}
-                                              style={{ height: "23px" }}
-                                            />
-                                            <Image
-                                            src={line}
-
-                                              width={5}
-                                              height={5}
-                                              alt=""
-                                              priority={true}
-                                              style={{ height: "23px" }}
-                                            />
-                                          </div>
-                                          <div className="mx-2">
-                                            {v?.travelType ==
-                                              travelType.Plane ? (
-                                              <>
-                                                <Image
-                                                  src={plane}
-                                                  className="  "
-                                                  width={30}
-                                                  height={20}
-                                                  alt="Carry UP"
-                                                  priority={true}
-                                                />{" "}
-                                              </>
-                                            ) : v?.travelType ==
-                                              travelType.Bus ? (
-                                              <>
-                                                <Image
-                                                  src={bus}
-                                                  className=" "
-                                                  width={30}
-                                                  height={20}
-                                                  alt="Carry UP"
-                                                  priority={true}
-                                                />{" "}
-                                              </>
-                                            ) : v?.travelType ==
-                                              travelType.Car ? (
-                                              <>
-                                                <Image
-                                                  src={car}
-                                                  className="  "
-                                                  width={30}
-                                                  height={20}
-                                                  alt="Carry UP"
-                                                  priority={true}
-                                                />{" "}
-                                              </>
-                                            ) : v?.travelType ==
-                                              travelType.Ship ? (
-                                              <>
-                                                <Image
-                                                  src={ship}
-                                                  width={30}
-                                                  height={20}
-                                                  alt="Carry UP"
-                                                  priority={true}
-                                                />{" "}
-                                              </>
-                                            ) : v?.travelType ==
-                                              travelType.Train ? (
-                                              <>
-                                                <Image
-                                                  src={train}
-                                                  width={25}
-                                                  height={20}
-                                                  alt="Carry UP"
-                                                  priority={true}
-                                                />
-                                              </>
-                                            ) : null}
-                                          </div>
-                                          <div className="flex">
-                                            <Image
-                                              src={line}
-                                              width={5}
-                                              height={5}
-                                              alt="Carry UP"
-                                              priority={true}
-                                              style={{ height: "23px" }}
-                                            />
-
-                                            <Image
-                                              src={arrow}
-                                              width={20}
-                                              height={5}
-                                              alt="Carry UP"
-                                              priority={true}
-                                              style={{
-                                                width: "30px",
-                                                height: "23px",
-                                              }}
-                                            />
-                                          </div>
-                                        </div>
-                                        <div className="text-[#6B6890] font-semibold">
-                          
-                                          {v.toPlace} <br />
-                                          <span className="text-[#A8A7FF] italic !text-[14px]">
-                                          
-                                            {moment(v.fromTripDate).format(
-                                              "DD.MM.YYYY"
-                                            )}
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </>
-                                  ))}
+                                    <Image
+                                      src={arrow}
+                                      width={20}
+                                      height={5}
+                                      alt="Carry UP"
+                                      priority={true}
+                                      style={{
+                                        width: "30px",
+                                        height: "23px",
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="text-[#6B6890] font-semibold">
+                                  {v.toPlace} <br />
+                                  <span className="text-[#292D32A6] italic text-[14px] font-normal">
+                                    {moment(v.fromTripDate).format(
+                                      "DD.MM.YYYY"
+                                    )}
+                                  </span>
+                                </div>
                               </div>
-                            )}
-                          </div>
-                        </div>
+                            </>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
 
               <p className={styles.description.slice(0, 40)}>{card?.title}</p>
@@ -281,7 +277,10 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading }) => {
                 </div>
 
                 <div className={styles.price}>
-                  <span>{card?.package?.price}</span>
+                  <span className="flex items-start">
+                   {
+                    card?.package?.currency == 1 ? <Image src={dollar} alt="" /> :   card?.package?.currency == 0 ?  <Image src={dollar} alt="" /> : null 
+                   } {card?.package?.price}</span>
                 </div>
               </div>
             </div>
@@ -305,7 +304,6 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading }) => {
             isOpen={modal}
             setModal={setModal}
             detailList={detailList}
-  
           />
         )}
       </section>

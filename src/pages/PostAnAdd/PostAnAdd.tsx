@@ -11,11 +11,12 @@ function PostAnAdd() {
   return (
     <section>
       <Navbar />
-      <section className={`custom_container ${styles.create_container}`}>
+      <div className="custom_container">
+      <section className={` ${styles.create_container}`}>
         <h3>
           Reason for publication<span>*</span>
         </h3>
-        <div className="flex gap-4 mt-4">
+        <div className="flex gap-3 md:gap-4 items-center mt-4">
           <button
             className={`${styles.createTab} ${
               activeTab === "send" ? styles.activeTab : ""
@@ -36,6 +37,8 @@ function PostAnAdd() {
         {activeTab === "send" && <SendCreate />}
         {activeTab === "carry" && <CarryCreate />}
       </section>
+      </div>
+    
     </section>
   );
 }

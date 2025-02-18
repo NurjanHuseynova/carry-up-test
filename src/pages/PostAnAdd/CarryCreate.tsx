@@ -100,7 +100,7 @@ function CarryCreate() {
       !formData.toDate ||
       formData.travelType === null
     ) {
-      return toast.error("Lütfen tüm gerekli alanları doldurun.");
+      return  toast.error("Fill in all fields.");
     }
   
     setTripPlaceDetails((prev) => [
@@ -190,9 +190,9 @@ function CarryCreate() {
 
   return (
     <div>
-      <div className="grid gap-3 grid-cols-2 mt-8">
+      <div className="grid md:gap-3 grid-cols-1 md:grid-cols-2 mt-8">
         <div>
-          <div className={`grid gap-3 grid-cols-2 ${styles.input_group}`}>
+          <div className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}>
             <div className={styles.input_group_item}>
               <label htmlFor="title" className="">
                 Title<span className={styles.reqField}> * </span>
@@ -220,7 +220,7 @@ function CarryCreate() {
               />
             </div>
           </div>
-          <div className={`grid gap-3 grid-cols-2 ${styles.input_group}`}>
+          <div className={`grid gap-3 grid-cols-1 md:grid-cols-2 ${styles.input_group}`}>
             <div className={styles.input_group_item}>
               <label htmlFor="from" className="">
                 From<span className={styles.reqField}> * </span>
@@ -252,7 +252,7 @@ function CarryCreate() {
               </div>
             </div>
           </div>
-          <div className={`grid gap-3 grid-cols-2 ${styles.input_group}`}>
+          <div className={`grid gap-3 grid-cols-1 md:grid-cols-2 ${styles.input_group}`}>
             <div className={styles.input_group_item}>
               <label htmlFor="to" className="">
                 To<span className={styles.reqField}> * </span>
@@ -284,7 +284,7 @@ function CarryCreate() {
               </div>
             </div>
           </div>
-          <div className={`grid gap-3 grid-cols-2 ${styles.input_group}`}>
+          <div className={`grid gap-3 grid-cols-1 md:grid-cols-2 ${styles.input_group}`}>
             <div className={styles.input_group_item}>
               <label htmlFor="travelType">
                 Transport<span className={styles.reqField}> * </span>
@@ -293,6 +293,7 @@ function CarryCreate() {
                 name="travelType"
                 value={formData.travelType !== null ? formData.travelType : ""}
                 onChange={handleInputChange}
+                className="form-select"
               >
                 <option value="">Select travel type</option>
                 {Object.entries(travelType).map(([key, value]) => (
@@ -322,7 +323,7 @@ function CarryCreate() {
           </div>
         </div>
         <div>
-          <div className={`grid gap-3  md:grid-cols-3 ${styles.input_group}`}>
+          <div className={`grid gap-3 grid-cols-2  md:grid-cols-3 mb-2 ${styles.input_group}`}>
             <div className={`${styles.input_group_item}`}>
               <label htmlFor="count">
                 Count<span className={styles.reqField}> * </span>
@@ -352,11 +353,11 @@ function CarryCreate() {
                 max="999"
               />
             </div>
-            <div className={`${styles.currencySection}`}>
+            <div className={`$}`}>
               <label>
                 Currency<span className={styles.reqField}> * </span>
               </label>
-              <div className="flex gap-4">
+              <div className="flex gap-3 md:gap-4 items-center">
                 <label className="flex items-center gap-2">
                   <input
                     type="radio"
@@ -382,7 +383,7 @@ function CarryCreate() {
           </div>
 
           <div
-            className={`grid gap-3 md:grid-cols-1 h-3/6 ${styles.input_group}`}
+            className={`grid gap-2 md:gap-3 md:grid-cols-1 h-3/6 ${styles.input_group}`}
           >
             <div className={styles.input_group_item}>
               <label htmlFor="description">
@@ -394,7 +395,7 @@ function CarryCreate() {
                 placeholder="Type here"
                 value={formData.description}
                 onChange={handleDescriptionChange}
-                className="!pt-[10px] !h-full"
+                className="!pt-[10px] "
                 maxLength={200}
               />
               <span className="flex justify-end !text-[#292d32a6]">
@@ -416,69 +417,70 @@ function CarryCreate() {
       </div>
 
       {tripPlaceDetails.length > 0 && (
-        <table className="w-full mt-10">
-          <thead className={styles.thead}>
-            <tr>
-              <th>From(City)</th>
-              <th>From(Date)</th>
-              <th>To(City)</th>
-              <th>To(Date)</th>
-              <th>Transport</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody className={styles.tbody}>
-            {tripPlaceDetails.map((item, index) => (
-              <tr key={index}>
-                <td>{item.fromPlace}</td>
-                <td>{item.fromTripDate?.toLocaleDateString()}</td>
-                <td>{item.toPlace}</td>
+  <div className="relative overflow-x-auto ">
+    <table className="w-full mt-10 min-w-max">
+      <thead className={styles.thead}>
+        <tr>
+          <th className="px-6 py-3">From(City)</th>
+          <th className="px-6 py-3">From(Date)</th>
+          <th className="px-6 py-3">To(City)</th>
+          <th className="px-6 py-3">To(Date)</th>
+          <th className="px-6 py-3">Transport</th>
+          <th className="px-6 py-3"></th>
+        </tr>
+      </thead>
+      <tbody className={styles.tbody}>
+        {tripPlaceDetails.map((item, index) => (
+          <tr key={index}>
+            <td className="px-6 py-3">{item.fromPlace}</td>
+            <td className="px-6 py-3">{item.fromTripDate?.toLocaleDateString()}</td>
+            <td className="px-6 py-3">{item.toPlace}</td>
+            <td className="px-6 py-3">{item.toTripDate?.toLocaleDateString()}</td>
+            <td className="px-6 py-3">
+              {item.travelType == 0
+                ? "Bus"
+                : item.travelType == 1
+                ? "Plane"
+                : item.travelType == 2
+                ? "Car"
+                : item.travelType == 3
+                ? "Ship"
+                : item.travelType == 4
+                ? "Train"
+                : null}
+            </td>
+            <td
+              onClick={() => handleDelete(index)}
+              className="cursor-pointer px-6 py-3"
+            >
+              <Image src={trash} alt="delete" />
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
 
-                <td>{item.toTripDate?.toLocaleDateString()}</td>
+{tripPlaceDetails.length > 0 && (
+  <div className="flex gap-3 justify-end items-end mt-3">
+    <button
+      type="button"
+      className={styles.cancel_btn}
+      onClick={clearInput}
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      className={styles.save_btn}
+      onClick={handleSubmit}
+    >
+      Save
+    </button>
+  </div>
+)}
 
-                <td>
-                  {item.travelType == 0
-                    ? "Bus"
-                    : item.travelType == 1
-                    ? "Plane"
-                    : item.travelType == 2
-                    ? "Car"
-                    : item.travelType == 3
-                    ? "Ship"
-                    : item.travelType == 4
-                    ? "Train"
-                    : null}
-                </td>
-                <th
-                  onClick={() => handleDelete(index)}
-                  className="cursor-pointer"
-                >
-                  <Image src={trash} className={""} alt={"delete"} />
-                </th>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-
-      {tripPlaceDetails.length > 0 && (
-        <div className="flex gap-3 justify-end items-end mt-3">
-          <button
-            type="button"
-            className={styles.cancel_btn}
-            onClick={clearInput}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className={styles.save_btn}
-            onClick={handleSubmit}
-          >
-            Save
-          </button>
-        </div>
-      )}
     </div>
   );
 }

@@ -115,73 +115,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
           </select>
         </div>
 
-        {/* <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-                    <label >Price</label>
-                    <div className="!grid !grid-cols-2 gap-2">
-                      <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-                        <label >
-                          Min Price
-                        </label>
-                        <div className="flex  border ">
-                          <input
-                            type="text"
-                            style={{ width: "50px", border: "none" }}
-                            className="focus:outline-none "
-                            name="minPrice"
-                            value={formData.minPrice}
-                            onChange={handleInputChange}
-                          />
-                          <select
-                            style={{ border: "none" }}
-                            className="focus:outline-none"
-                            name="currency"
-                            value={formData.currency}
-                            onChange={handleInputChange}
-                          >
-                            {Object.entries(currency).map((v) => (
-                              <>
-                                <option value={v[1]} >
-                                  {v[0]}
-                                </option>
-                              </>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-                      <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-                        <label >
-                          Max Price
-                        </label>
-
-                        <div className="flex  border ">
-                          <input
-                            type="text"
-                            style={{ width: "50px", border: "none" }}
-                            className="focus:outline-none "
-                            name="maxPrice"
-                            value={formData.maxPrice}
-                            onChange={handleInputChange}
-                          />
-                          <select
-                            style={{ border: "none" }}
-                            className="focus:outline-none"
-                            name="currency"
-                            value={formData.currency}
-                            onChange={handleInputChange}
-                          >
-                            {Object.entries(currency).map((v) => (
-                              <>
-                                <option value={v[1]}>
-                                  {v[0]}
-                                </option>
-                              </>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
-
+ 
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>Category</label>
 

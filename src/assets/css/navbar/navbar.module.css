@@ -231,7 +231,7 @@
 
 }
 
-@media (max-width: 831px) {
+@media (max-width: 768px) {
 
     .hamburger {
         display: block;
@@ -242,16 +242,15 @@
     }
 
     .mobileMenu {
-        width: 265px;
-        position: absolute;
-        top: 20px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        height: 100vh;
         right: 0;
         background: #fff;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
-        /* padding: 10px; */
-        z-index: 1000;
-        min-width: 150px;
+        z-index: 1000;;
     }
 
     .mobileMenu ul {
@@ -272,7 +271,6 @@
     .mobileMenu ul li button {
         margin: 0px;
         height: 37px;
-        width: 100%;
     }
 
     .mobileMenu .username {
@@ -296,14 +294,13 @@
     }
 
     .closeHeader {
-        height: 52px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         background-color: #f3f3f3;
         /* margin: 14px; */
-        padding: 10px 32px;
+        padding: 20px 32px;
         border: none;
     }
 

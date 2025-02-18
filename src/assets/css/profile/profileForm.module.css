@@ -1,12 +1,30 @@
 .mainContent {
-    padding: 24px;
+    padding: 30px 26px 37px 25px;
     background-color: #fff;
+    border-radius: 16px;
 }
 
 .input_group_item input,
 .input_group_item select {
     width: 100%;
     /* max-width: 334px; */
+    height: 48px;
+    padding: 10px;
+    border: solid 1px rgba(41, 45, 50, 0.25);
+    border-radius: 8px;
+}
+
+.fileInput {
+    appearance: none;  /* Remove default appearance */
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none; /* For Firefox */
+    width: 0;
+    height: 0;
+    opacity: 0;  /* Make it invisible */
+}
+
+.customFileButton {
+    width: 100%;
     height: 48px;
     padding: 10px;
     border: solid 1px rgba(41, 45, 50, 0.25);
@@ -75,20 +93,13 @@
 
 @media (max-width: 831px) {
 
-    .mainContent {
-        background-color: transparent;
-        padding: 0px;
-    }
 
     .input_group {
         grid-template-columns: 1fr;
         row-gap: 20px;
     }
 
-    .mainContent {
-        display: flex;
-        justify-content: center;
-    }
+
 
     .cancelBtn,
     .saveBtn {
@@ -96,15 +107,7 @@
     }
 }
 
-@media (max-width: 536px) {
 
-    .mainContent {
-        display: flex;
-        justify-content: center;
-    }
-
-
-}
 
 @media (max-width: 460px) {
 

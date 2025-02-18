@@ -25,6 +25,7 @@
     align-items: center;
     padding: 0 14px;
     border-radius: 8px;
+    width: 100%;
     border: solid 1px rgba(145, 158, 171, 0.2);
 }
 

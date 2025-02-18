@@ -3,20 +3,16 @@ import React, { useEffect, useState } from 'react';
 import styles from '@/assets/css/profile/profileSidebar.module.css';
 import Image from 'next/image';
 import profile_icon from "@/assets/img/profile-tick.svg";
-import carry_logo from "@/assets/img/Carry UP.svg";
 import location from "@/assets/img/location.svg";
 import star1 from "@/assets/img/star1.svg";
 import microphone from "@/assets/img/microphone.svg";
 import buliding from "@/assets/img/buliding.svg";
 import logout_icon from "@/assets/img/logout.svg";
-import message from "@/assets/img/message.svg";
 import keySquare from "@/assets/img/key-square.svg";
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { fetchApi } from '@/services/api';
 
-
-// Define the type for props
 interface ProfileSidebarProps {
     onTabChange: (tab: string) => void;
     activeTab: string;
@@ -35,15 +31,14 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab,
     }, []);
 
     if (!user) {
-        return <div>Loading...</div>;
+        return <div></div>;
     }
 
     const getTabClass = (tabName: string) =>
         `${styles.flex} ${activeTab === tabName ? styles.activeTab : ""}`;
 
     const handleLogout = async () => {
-        // const confirmDelete = window.confirm("Are you sure you want to log out?");
-        // if (!confirmDelete) return;
+    
 
         try {
             const refreshToken = localStorage.getItem("refreshToken");
@@ -52,8 +47,6 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab,
                 refreshToken
             });
 
-            // console.log("Logout response:", res);
-
             if (res?.errors && res?.errors.length > 0) {
                 res?.errors.forEach((error: string) => {
                     toast.error(error);
@@ -61,7 +54,6 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab,
                 return;
             }
 
-            // Clear local storage after logout request
             localStorage.removeItem("user");
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
@@ -88,7 +80,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ onTabChange, activeTab,
                     width={85}
                     height={85}
                 />
-                <div>
+                <div className='flex flex-col gap-1'>
                     <h2 className={styles.fullname}>{`${user.name || ''} ${user.surname || ''} `}</h2>
                     <p className={styles.location}>
                         <Image

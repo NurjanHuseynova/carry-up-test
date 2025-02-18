@@ -1,10 +1,10 @@
 import React from 'react'
-// import EditTrip from "@/pages/Profile/EditTrip";
+import EditTrip from "@/pages/Profile/EditTrip";
 
 function Page() {
     return (
         <div className='custom_container'>
-            {/* <EditTrip /> */}
+            <EditTrip />
         </div>
     )
 }

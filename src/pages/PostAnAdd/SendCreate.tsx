@@ -137,7 +137,7 @@ function SendCreate() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-2 gap-3 mt-8">
+        <div className="grid md:grid-cols-2 gap-3 mt-8">
           <div className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}>
             <div className={styles.input_group_item}>
               <label htmlFor="title">
@@ -166,7 +166,7 @@ function SendCreate() {
               />
             </div>
           </div>
-          <div className={`grid gap-3 md:grid-cols-3 ${styles.input_group}`}>
+          <div className={`grid gap-3 grid-cols-2 md:grid-cols-3 mb-2 ${styles.input_group}`}>
             <div className={`${styles.input_group_item}`}>
               <label htmlFor="count">
                 Count<span className={styles.reqField}> * </span>
@@ -226,7 +226,7 @@ function SendCreate() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 mt-3">
+        <div className="grid md:grid-cols-2 md:gap-3 md:mt-3">
           <div className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}>
             <div className={styles.input_group_item}>
               <label htmlFor="from">
