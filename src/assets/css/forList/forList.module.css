@@ -27,7 +27,7 @@
   
   @keyframes planMove {
     100% {
-      transform: translateX(calc(30vh - 20px));
+      transform: translateX(calc(18vh - 20px));
     }
   }
 
@@ -87,7 +87,24 @@
     text-align: left;
     color: #5c5c5c;
     margin-top: 11px;
+    position: relative;
+    display: inline-block;
   }
+  
+  .fullTitle {
+    visibility: hidden;
+    position: absolute;
+    background-color: white;
+    padding: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+  
+  .description:hover .fullTitle {
+    visibility: visible;
+  }
+  
   
   .dates {
     margin-top: 20px;

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+// import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 
@@ -35,7 +35,11 @@ export default function RootLayout({
         <main>{children}</main>
         </RootLayout> */}
         <Toaster position="top-right" />
-        <main>{children}</main>
+        <main>
+        {children}
+        </main>
+
+        
       </body>
     </html>
   );

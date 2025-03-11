@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import styles from "@/assets/css/forList/forList.module.css";
 import Image from "next/image";
 import circle from "@/assets/img/info-circle.svg";
@@ -12,37 +12,40 @@ import car from "@/assets/img/car.svg";
 import CarryModal from "../Modal/CarryModal";
 import { fetchApi } from "@/services/api";
 import distance from "@/assets/img/distance.png";
-import line from "@/assets/img/lines.png";
-import arrow from "@/assets/img/downarrow.png";
 import dollar from "@/assets/img/dollar.svg";
-import manat from "@/assets/img/dollar.svg";
 
+import { travelType } from "@/json/constant";
 
-import { currency, travelType } from "@/json/constant";
-
-const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading }) => {
+const MainCarryList: React.FC<MainCarryListProps> = ({
+  trips,
+  loading,
+  setLoading,
+}) => {
   const [modal, setModal] = useState(false);
   const [detailList, setDetailList] = useState({});
   const [selectedId, setSelectedId] = useState("");
 
-
   const toggle = () => {
     if (selectedId) {
       setModal(!modal);
+
+      setDetailList({});
+      setLoading(true);
       getById(selectedId);
     }
   };
 
   const getById = async (id: string) => {
     try {
-      setLoading(true)
+      setLoading(true);
       const res = await fetchApi(`Trip/GetById/${id}`);
+
       if (res?.value) {
         setDetailList(res.value);
       }
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
 
       console.log("error", error);
     }
@@ -52,7 +55,10 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading
     <>
       <section className={`grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5`}>
         {loading && (
-          <div role="status " className="absolute left-[46%] md:left-[59%] top-[50%]">
+          <div
+            role="status "
+            className="absolute left-[46%] md:left-[59%] top-[50%]"
+          >
             <svg
               aria-hidden="true"
               className="inline w-8 h-8 text-gray-200 animate-spin  fill-purple-600"
@@ -122,9 +128,9 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading
                     {card?.tripPlaceDetails.length > 1 && (
                       <div className="max-h-28 h-28 distanceScroll py-2 px-3 max-w-[325px] border border-solid border-[#b532ff75] absolute left-[33%] w-[315px] top-[31px] z-10 rounded-xl bg-white distance">
                         {card.tripPlaceDetails.length > 1 &&
-                          card.tripPlaceDetails.slice(1).map((v) => (
+                          card.tripPlaceDetails.slice(1).map((v, i) => (
                             <>
-                              <div className="flex justify-between">
+                              <div className="flex justify-between" key={i}>
                                 <div className="text-[#6B6890] font-semibold">
                                   {v.fromPlace} <br />
                                   <span className="text-[#292D32A6] italic text-[14px] font-normal">
@@ -132,32 +138,6 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading
                                   </span>
                                 </div>
                                 <div className="flex justify-between m-1">
-                                  <div className="flex ">
-                                    <Image
-                                      src={line}
-                                      width={5}
-                                      height={5}
-                                      alt=""
-                                      priority={true}
-                                      style={{ height: "23px" }}
-                                    />
-                                    <Image
-                                      src={line}
-                                      width={5}
-                                      height={5}
-                                      alt=""
-                                      priority={true}
-                                      style={{ height: "23px" }}
-                                    />
-                                    <Image
-                                      src={line}
-                                      width={5}
-                                      height={5}
-                                      alt=""
-                                      priority={true}
-                                      style={{ height: "23px" }}
-                                    />
-                                  </div>
                                   <div className="mx-2">
                                     {v?.travelType == travelType.Plane ? (
                                       <>
@@ -213,28 +193,7 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading
                                         />
                                       </>
                                     ) : null}
-                                  </div>
-                                  <div className="flex">
-                                    <Image
-                                      src={line}
-                                      width={5}
-                                      height={5}
-                                      alt="Carry UP"
-                                      priority={true}
-                                      style={{ height: "23px" }}
-                                    />
-
-                                    <Image
-                                      src={arrow}
-                                      width={20}
-                                      height={5}
-                                      alt="Carry UP"
-                                      priority={true}
-                                      style={{
-                                        width: "30px",
-                                        height: "23px",
-                                      }}
-                                    />
+                                    <span className="block h-[1px] w-28 bg-[#5DA7FF]"></span>
                                   </div>
                                 </div>
                                 <div className="text-[#6B6890] font-semibold">
@@ -254,7 +213,14 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading
                 </div>
               </div>
 
-              <p className={styles.description.slice(0, 40)}>{card?.title}</p>
+              <p className={styles.description}>
+                {card?.description.length > 40
+                  ? `${card?.description.slice(0, 40)}...`
+                  : card?.description}
+                {card?.description.length > 40 && (
+                  <span className={styles.fullTitle}>{card?.description}</span>
+                )}
+              </p>
 
               <div className="flex justify-between">
                 <div className={styles.dates}>
@@ -278,9 +244,13 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading
 
                 <div className={styles.price}>
                   <span className="flex items-start">
-                   {
-                    card?.package?.currency == 1 ? <Image src={dollar} alt="" /> :   card?.package?.currency == 0 ?  <Image src={dollar} alt="" /> : null 
-                   } {card?.package?.price}</span>
+                    {card?.package?.currency == 1 ? (
+                      <Image src={dollar} alt="" />
+                    ) : card?.package?.currency == 0 ? (
+                      <Image src={dollar} alt="" />
+                    ) : null}{" "}
+                    {card?.package?.price}
+                  </span>
                 </div>
               </div>
             </div>
@@ -303,6 +273,7 @@ const MainCarryList: React.FC<MainCarryListProps> = ({ trips, loading,setLoading
             toggle={toggle}
             isOpen={modal}
             setModal={setModal}
+            loading={loading}
             detailList={detailList}
           />
         )}

@@ -14,12 +14,12 @@ const isAuth = (WrappedComponent: React.ComponentType) => {
             if (!accessToken || !user) {
                 router.push("/");
             } else {
-                setIsAuthorized(true); // Allow access
+                setIsAuthorized(true); 
             }
         }, [router]);
 
         if (!isAuthorized) {
-            return null; // You can replace this with your loader component
+            return null; 
         }
 
         return <WrappedComponent {...props} />;

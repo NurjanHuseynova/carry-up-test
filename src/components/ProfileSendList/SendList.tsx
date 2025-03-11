@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import styles from '@/assets/css/profile/profileCarryList.module.css'
-import Image from 'next/image';
+import React, { useEffect, useState } from "react";
+import styles from "@/assets/css/profile/profileCarryList.module.css";
+import Image from "next/image";
 import brush from "@/assets/img/brush.svg";
 import trash from "@/assets/img/trash.svg";
-import toast from 'react-hot-toast';
-import { formatDate } from '@/utils/formatDate';
-import Pagination from '../Pagination/Pagination';
-import ProfileSendModal from '../ProfileModal/ProfileSendModal';
-import { mapCurrencyType } from '@/utils/enumsToData';
-import { deleteApi, postApi } from '@/services/api';
-import { useRouter } from 'next/navigation';
-import SendModal from '../Modal/SendModal';
+import toast from "react-hot-toast";
+import { formatDate } from "@/utils/formatDate";
+import Pagination from "../Pagination/Pagination";
+import { mapCurrencyType } from "@/utils/enumsToData";
+import { deleteApi, postApi } from "@/services/api";
+import { useRouter } from "next/navigation";
+import SendModal from "../Modal/SendModal";
 
 interface MySends {
   id: number;
@@ -35,6 +34,7 @@ function SendList() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const[detailList,setDetailList] = useState({})
   const router = useRouter();
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
@@ -49,14 +49,11 @@ function SendList() {
   };
 
   const handleEdit = (e: React.MouseEvent, tripId: number) => {
-    e.stopPropagation(); // Prevent row click event
-    router.push(`/edit-send?id=${tripId}`);
+    e.stopPropagation();
+    router.push(`/edit-send/${tripId}`);
   };
 
   const handleDelete = async (id: number) => {
-    // const confirmDelete = window.confirm("Are you sure you want to delete this item?");
-    // if (!confirmDelete) return;
-
     setIsLoading(true);
 
     try {
@@ -71,7 +68,6 @@ function SendList() {
 
       const resData = await deleteApi(`Send/Delete/${id}`, accessToken);
 
-
       if (resData?.errors && resData?.errors.length > 0) {
         resData?.errors.forEach((error: string) => {
           toast.error(error);
@@ -83,25 +79,21 @@ function SendList() {
         toast.success("Item deleted successfully.");
       }
 
-
-      // Remove the deleted trip from the state
       setSends((prevSends) => prevSends.filter((send) => send.id !== id));
-    }
-    catch (error: any) {
+    } catch (error: any) {
       toast.error("Error deleting item: " + error.message);
     } finally {
       setIsLoading(false);
     }
-  }
-
+  };
 
   async function fetchSends(page: number) {
     setIsLoading(true);
 
     try {
-      let userId = JSON.parse(localStorage.getItem('user') || "")?.id;
+      let userId = JSON.parse(localStorage.getItem("user") || "")?.id;
       console.log(userId);
-      const accessToken = localStorage.getItem('accessToken');
+      const accessToken = localStorage.getItem("accessToken");
 
       if (!userId || !accessToken) {
         setIsLoading(false);
@@ -114,15 +106,18 @@ function SendList() {
         pageSize: 7,
         currentPage: page,
         value: {
-          userId: userId
-        }
-      }
+          userId: userId,
+        },
+      };
+
+      const responseData = await postApi(
+        `Send/GetSendsByUserId`,
+        payload,
+        accessToken
+      );
 
 
-      const responseData = await postApi(`Send/GetSendsByUserId`, payload, accessToken);
-
-      // console.log('Response: ', responseData);
-
+      
       if (responseData?.list) {
         const mappedSends = responseData.list.map((send: any) => {
           const details = send.sendPlaceDetails[0] || {};
@@ -142,27 +137,28 @@ function SendList() {
         });
 
         setSends(mappedSends);
+        setDetailList(responseData?.list[0])
         setTotalPages(Math.ceil(responseData.totalCount / payload.pageSize));
-
       } else {
         setSends([]);
 
         toast.error("No sends found.");
       }
     } catch (error: any) {
-      toast.error('Error fetching sends: ' + error)
+      toast.error("Error fetching sends: " + error);
     } finally {
       setIsLoading(false);
     }
   }
 
-
   return (
-    <div className={styles.container}
+    <div
+      className={styles.container}
       style={{
-        justifyContent: isLoading ? 'center' : '', // Deactivate justify-content when loading
-        alignItems: isLoading ? 'center' : '', // Deactivate justify-content when loading
-      }}>
+        justifyContent: isLoading ? "center" : "",
+        alignItems: isLoading ? "center" : "",
+      }}
+    >
       {isLoading ? (
         <div role="status">
           <svg
@@ -186,7 +182,7 @@ function SendList() {
         <>
           <table className={styles.table}>
             <thead>
-              <tr >
+              <tr>
                 <th>Catch date</th>
                 <th>Created date</th>
                 <th>From</th>
@@ -196,46 +192,40 @@ function SendList() {
               </tr>
             </thead>
             <tbody>
-              {sends.length != 0 ? sends?.map((send, i) => (
-                <tr key={i} onClick={() => handleRowClick(send)}>
-                  <td>{send.catchDate}</td>
-                  <td>{send.createdDate}</td>
-                  <td>{send.from}</td>
-                  <td>{send.to}</td>
-                  <td>{send.deadline}</td>
-                  <td>
-                    <button
-                      title="Edit"
-                      onClick={(e) => handleEdit(e, send.id)}
-                    >
-                      <Image
-                        src={brush}
-                        className={""}
-                        alt={'edit'}
-                      />
-                    </button>
-                    <button
-                      title="Delete"
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent triggering the row click handler
-                        handleDelete(send.id);
-                      }}
-                    >
-                      <Image
-                        src={trash}
-                        className={""}
-                        alt={'delete'}
-                      />
-                    </button>
-                  </td>
-                </tr>
-              )) :
+              {sends.length != 0 ? (
+                sends?.map((send, i) => (
+                  <tr key={i} onClick={() => handleRowClick(send)}>
+                    <td>{send.catchDate}</td>
+                    <td>{send.createdDate}</td>
+                    <td>{send.from}</td>
+                    <td>{send.to}</td>
+                    <td>{send.deadline}</td>
+                    <td>
+                      <button
+                        title="Edit"
+                        onClick={(e) => handleEdit(e, send.id)}
+                      >
+                        <Image src={brush} className={""} alt={"edit"} />
+                      </button>
+                      <button
+                        title="Delete"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(send.id);
+                        }}
+                      >
+                        <Image src={trash} className={""} alt={"delete"} />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
                 <tr>
-                  <td colSpan={6} style={{ textAlign: 'center' }}>
+                  <td colSpan={6} style={{ textAlign: "center" }}>
                     No information available.
                   </td>
                 </tr>
-              }
+              )}
             </tbody>
           </table>
           {sends.length > 0 && totalPages > 1 && (
@@ -244,13 +234,20 @@ function SendList() {
               totalPages={totalPages}
               onPageChange={(page: number) => setCurrentPage(page)}
               activetab="carry"
-            />)}
+            />
+          )}
         </>
-      )
-      }
-      {/* {isModalOpen && <SendModal toggle={toggleModal} isOpen={isModalOpen} setModal={setIsModalOpen} detailList={selectedSend}/>} */}
-    </div >
-  )
+      )}
+      {isModalOpen && (
+        <SendModal
+          toggle={toggleModal}
+          isOpen={isModalOpen}
+          setModal={setIsModalOpen}
+          detailList={detailList}
+        />
+      )}
+    </div>
+  );
 }
 
-export default SendList
+export default SendList;

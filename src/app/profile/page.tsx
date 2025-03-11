@@ -5,8 +5,10 @@ import React from 'react'
 function Page() {
   return (
     <div>
-      <Navbar />
+        <Navbar />
       <div className='custom_container'>
+    
+
         <Profile />
       </div>
     </div>

@@ -11,7 +11,11 @@ import { fetchApi } from "@/services/api";
 import dollar from "@/assets/img/dollar.svg";
 import manat from "@/assets/img/dollar.svg";
 
-const MainSendList: React.FC<MainSendListProps> = ({ sends, loading }) => {
+const MainSendList: React.FC<MainSendListProps> = ({
+  sends,
+  loading,
+  setLoading,
+}) => {
   const [modal, setModal] = useState(false);
   const [detailList, setDetailList] = useState({});
 
@@ -26,18 +30,22 @@ const MainSendList: React.FC<MainSendListProps> = ({ sends, loading }) => {
 
   const getById = async (id: string) => {
     try {
+      setLoading(true);
       const res = await fetchApi(`Send/GetById/${id}`);
       if (res?.value) {
         setDetailList(res.value);
       }
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
+
       console.log("error", error);
     }
   };
 
   return (
     <section className={`grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5`}>
-      {loading ? 
+      {loading ? (
         <div
           role="status"
           className="absolute left-[46%] md:left-[59%] top-[50%]"
@@ -59,69 +67,82 @@ const MainSendList: React.FC<MainSendListProps> = ({ sends, loading }) => {
             />
           </svg>
         </div>
-       : <>
-             {sends.map((card, index) => (
-        <article
-          key={index}
-          className={styles.list_card}
-          onClick={() => {
-            setSelectedId(card?.id);
-            toggle();
-          }}
-        >
-          <div className="p-4">
-            <div className={styles.routeContainer}>
-              <h3 className={`${styles.routeText} text-[#9166EF]`}>
-                {card?.sendPlaceDetails[0]?.fromPlace?.slice(0, 4)}
-              </h3>
+      ) : (
+        <>
+          {sends.map((card, index) => (
+            <article
+              key={index}
+              className={styles.list_card}
+              onClick={() => {
+                setSelectedId(card?.id);
+                toggle();
+              }}
+            >
+              <div className="p-4">
+                <div className={styles.routeContainer}>
+                  <h3 className={`${styles.routeText} text-[#9166EF]`}>
+                    {card?.sendPlaceDetails[0]?.fromPlace?.slice(0, 4)}
+                  </h3>
 
-              <div className={styles.lineContainer}>
-                <span className={`${styles.line} bg-[#9166EF]`}></span>
-                <span className={styles.plane}>
-                  <Image src={document} alt="document" width={30} />
-                </span>
+                  <div className={styles.lineContainer}>
+                    <span className={`${styles.line} bg-[#9166EF]`}></span>
+                    <span className={styles.plane}>
+                      <Image src={document} alt="document" width={30} />
+                    </span>
+                  </div>
+
+                  <h3 className={`${styles.routeText} text-[#9166EF]`}>
+                    {card?.sendPlaceDetails[0]?.toPlace?.slice(0, 4)}
+                  </h3>
+                </div>
+
+                <p className={styles.description}>
+                  {card?.description.length > 30
+                    ? `${card?.description.slice(0, 30)}...`
+                    : card?.description}
+                  {card?.description.length > 30 && (
+                    <span className={styles.fullTitle}>
+                      {card?.description}
+                    </span>
+                  )}
+                </p>
+
+                <div className={styles.dates}>
+                  <p className="text-[#9166EF]">
+                    <span className={styles.label}>Count:</span>{" "}
+                    {card?.package?.count}
+                  </p>
+                  <p className="text-[#9166EF]">
+                    <span className={styles.label}>Date of appointment:</span>{" "}
+                    {}
+                  </p>
+                </div>
+
+                <div className={styles.price}>
+                  <span className="flex items-start">
+                    {card?.package?.currency == 1 ? (
+                      <Image src={dollar} alt="" />
+                    ) : card?.package?.currency == 0 ? (
+                      <Image src={dollar} alt="" />
+                    ) : null}{" "}
+                    {card?.package?.price}
+                  </span>
+                </div>
               </div>
 
-              <h3 className={`${styles.routeText} text-[#9166EF]`}>
-                {card?.sendPlaceDetails[0]?.toPlace?.slice(0, 4)}
-              </h3>
-            </div>
-
-            <p className={styles.description}>
-              {card.description.slice(0, 40)}
-            </p>
-
-            <div className={styles.dates}>
-              <p className="text-[#9166EF]">
-                <span className={styles.label}>Count:</span>{" "}
-                {card?.package?.count}
-              </p>
-              <p className="text-[#9166EF]">
-                <span className={styles.label}>Date of appointment:</span> {}
-              </p>
-            </div>
-
-            <div className={styles.price}>
-            <span className="flex items-start">
-                   {
-                    card?.package?.currency == 1 ?  <Image src={dollar} alt="" /> :   card?.package?.currency == 0 ?  <Image src={dollar} alt="" /> : null 
-                   } {card?.package?.price}</span>
-            </div>
-          </div>
-
-          <div className={`${styles.applyDate} bg-[#9166EF]`}>
-            <p className="flex gap-2 italic">
-              <Image src={circle} alt="circle" /> Last date to apply:{" "}
-              {card.sendPlaceDetails[0]?.toTripDate &&
-                moment(card?.sendPlaceDetails[0]?.catchDate).format(
-                  "MM.DD.YYYY"
-                )}
-            </p>
-          </div>
-        </article>
-      ))}
-       </>}
-
+              <div className={`${styles.applyDate} bg-[#9166EF]`}>
+                <p className="flex gap-2 italic">
+                  <Image src={circle} alt="circle" /> Last date to apply:{" "}
+                  {card.sendPlaceDetails[0]?.toTripDate &&
+                    moment(card?.sendPlaceDetails[0]?.catchDate).format(
+                      "MM.DD.YYYY"
+                    )}
+                </p>
+              </div>
+            </article>
+          ))}
+        </>
+      )}
 
       {modal && (
         <SendModal
@@ -129,6 +150,7 @@ const MainSendList: React.FC<MainSendListProps> = ({ sends, loading }) => {
           isOpen={modal}
           setModal={setModal}
           detailList={detailList}
+          loading={loading}
         />
       )}
     </section>

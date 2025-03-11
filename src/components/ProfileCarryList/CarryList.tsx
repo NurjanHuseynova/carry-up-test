@@ -39,6 +39,8 @@ function CarryList() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+    const[detailList,setDetailList] = useState({})
+  
   const router = useRouter();
 
   useEffect(() => {
@@ -53,14 +55,12 @@ function CarryList() {
   };
 
   const handleEdit = (e: React.MouseEvent, tripId: number) => {
-    e.stopPropagation(); // Prevent row click event
-    router.push(`/edit-trip?id=${tripId}`);
+    e.stopPropagation(); 
+    router.push(`/edit-trip/${tripId}`);
   };
 
 
   const handleDelete = async (id: number) => {
-    // const confirmDelete = window.confirm("Are you sure you want to delete this item?");
-    // if (!confirmDelete) return;
 
     setIsLoading(true);
 
@@ -86,7 +86,6 @@ function CarryList() {
       if (res?.success) {
         toast.success("Item deleted successfully.");
       }
-      // Remove the deleted trip from the state
       setTrips((prevTrips) => prevTrips.filter((trip) => trip.id !== id));
     }
     catch (error: any) {
@@ -137,8 +136,8 @@ function CarryList() {
             deadline: formatDate(trip.package.deadline || "N/A"),
           };
         });
-        console.log(mappedTrips);
-
+        
+        setDetailList(responseData?.list[0])
         setTrips(mappedTrips);
         setTotalPages(Math.ceil(responseData.totalCount / payload.pageSize));
       } else {
@@ -155,8 +154,8 @@ function CarryList() {
   return (
     <div className={styles.container}
       style={{
-        justifyContent: isLoading ? 'center' : '', // Deactivate justify-content when loading
-        alignItems: isLoading ? 'center' : '', // Deactivate justify-content when loading
+        justifyContent: isLoading ? 'center' : '', 
+        alignItems: isLoading ? 'center' : '', 
       }}>
       {isLoading ? (
         <div role="status">
@@ -204,7 +203,7 @@ function CarryList() {
                         <Image src={brush} alt="edit" />
                       </button>
                       <button title="Delete" onClick={(e) => {
-                        e.stopPropagation(); // Prevent triggering the row click handler
+                        e.stopPropagation(); 
                         handleDelete(trip.id);
                       }}>
                         <Image src={trash} alt="delete" />
@@ -231,14 +230,14 @@ function CarryList() {
           }
         </>
       )}
-      {/* {isModalOpen && (
+      {isModalOpen && (
           <CarryModal
             toggle={toggleModal}
             isOpen={isModalOpen}
             setModal={setIsModalOpen}
-            detailList={selectedTrip}
+            detailList={detailList}
           />
-        )} */}
+        )}
     </div>
   )
 }

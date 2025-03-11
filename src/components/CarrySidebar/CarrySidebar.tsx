@@ -1,11 +1,18 @@
 import React, { ChangeEvent } from "react";
-import { IMaskInput } from "react-imask";
+// import { IMaskInput } from "react-imask";
 import styles from "@/assets/css/forSidebar/forSidebar.module.css";
 import Image from "next/image";
 import date_icon from "@/assets/img/calendar.svg";
 import { currency, travelType } from "@/json/constant";
-import { CarrySidebarProps, FormData } from "@/types/type";
+import { CarrySidebarProps } from "@/types/type";
+import DatePicker from "react-datepicker";
 
+type FormDataType = {
+  appointmentDate: Date | null;
+  toTripDate: Date | null;
+  fromTripDate: Date | null;
+
+};
 
 
 const CarrySidebar: React.FC<CarrySidebarProps> = ({
@@ -17,29 +24,19 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
   clearForm,
   tripCurrentPage,
 }) => {
+
+  const handleDateChange = (field: keyof FormDataType, date: Date | null) => {
+
+    setFormData((prev) => ({
+      ...prev,
+      [field]: date,
+    }));
+  };
+  
   return (
     <section className={styles.sidebar_section}>
       <form className={styles.form_section} onSubmit={handleSubmit}>
-        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>Create Date</label>
-          <div className="relative">
-            <IMaskInput
-              mask="00/00/0000"
-              placeholder="DD/MM/YYYY"
-              name="createDate"
-              value={formData.createDate}
-              onAccept={(value: any) =>
-                setFormData((prevData) => ({
-                  ...prevData,
-                  createDate: value,
-                }))
-              }
-            />
-            <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
-              <Image src={date_icon} alt="date_icon" />
-            </div>
-          </div>
-        </div>
+  
 
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>Title</label>
@@ -157,52 +154,45 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
         </div>
 
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>From Trip Date</label>
-          <div className="relative">
-            <IMaskInput
-              mask="00/00/0000"
-              placeholder="DD/MM/YYYY"
-              name="fromTripDate"
-              value={formData.fromTripDate}
-              onAccept={(value: any) =>
-                setFormData((prevData) => ({
-                  ...prevData,
-                  fromTripDate: value,
-                }))
-              }
-            />
-            <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
-              <Image src={date_icon} alt="date_icon" />
-            </div>
-          </div>
-        </div>
+  <label>From Trip Date</label>
+  <div className="relative">
+    <DatePicker
+      name="fromTripDate"
+      dateFormat="dd/MM/yyyy"
+      selected={formData.fromTripDate}
+      onChange={(date) => handleDateChange("fromTripDate", date)}
+      placeholderText="dd/mm/yyyy"
+      className="pl-10"
+    />
+    <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+      <Image src={date_icon} alt="date_icon" />
+    </div>
+  </div>
+</div>
 
-        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>To Trip Date</label>
-          <div className="relative">
-            <IMaskInput
-              mask="00/00/0000"
-              placeholder="DD/MM/YYYY"
-              name="toTripDate"
-              value={formData.toTripDate}
-              onAccept={(value: any) =>
-                setFormData((prevData) => ({
-                  ...prevData,
-                  toTripDate: value,
-                }))
-              }
-            />
-            <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
-              <Image src={date_icon} alt="date_icon" />
-            </div>
-          </div>
-        </div>
+<div className={`flex flex-col !gap-2 ${styles.input_group}`}>
+  <label>To Trip Date</label>
+  <div className="relative">
+    <DatePicker
+      name="toTripDate"
+      dateFormat="dd/MM/yyyy"
+      selected={formData.toTripDate} 
+      onChange={(date) => handleDateChange("toTripDate", date)}
+      placeholderText="dd/mm/yyyy"
+      className="pl-10"
+    />
+    <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+      <Image src={date_icon} alt="date_icon" />
+    </div>
+  </div>
+</div>
+
 
         <div className="mt-9 flex justify-between gap-4">
           <button
             type="button"
             className={`${styles.clear_button}`}
-            onClick={() => clearForm}
+            onClick={() => clearForm()}
           >
             Clear all
           </button>

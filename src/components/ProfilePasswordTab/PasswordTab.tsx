@@ -176,9 +176,14 @@ function PasswordTab() {
                     });
                     toast.success("Password updated successfully");
                 }
-            } catch (error) {
-                toast.error(error);
-                console.error('Error updating password:', error);
+            } catch (error: unknown) {
+                if (error instanceof Error) {
+                    toast.error(error.message); 
+                    console.error('Error updating password:', error.message); 
+                } else {
+                    toast.error("An unknown error occurred.");  
+                    console.error('Error updating password: An unknown error occurred.');
+                }
             }
 
         }

@@ -1,21 +1,54 @@
 import axios from "axios";
 
+// export const fetchApi = async (url: string, params?: object) => {
+//   try {
+
+//     const config = params ? { params } : {};
+
+//     const res = await axios.get(
+//       `${process.env.NEXT_PUBLIC_API_BASE_URL}/${url}`,
+//       config
+//     );
+
+//     return res.data;
+//   } catch (error) {
+//     console.error("Error in fetchApi:", error);
+//     throw error;
+//   }
+// };
+
 export const fetchApi = async (url: string, params?: object) => {
   try {
+    const queryParams = params
+      ? "?" + new URLSearchParams(params as Record<string, string>).toString()
+      : "";
 
-    const config = params ? { params } : {};
-
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/${url}`,
-      config
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/${url}${queryParams}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        next:{
+          revalidate:60
+        }
+      }
     );
 
-    return res.data;
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error("Error in fetchApi:", error);
     throw error;
   }
 };
+
+
 
 export const getApiWithToken = async (url: string, accessToken?: any) => {
   try {

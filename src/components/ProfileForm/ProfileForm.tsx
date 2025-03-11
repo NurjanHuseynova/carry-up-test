@@ -5,7 +5,9 @@ import { mapGenderType } from "@/utils/enumsToData";
 import { gender } from "@/json/constant";
 import toast from "react-hot-toast";
 import { getApiWithToken, putApi } from "@/services/api";
-import { useMask } from "@react-input/mask";
+// import { useMask } from "@react-input/mask";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 interface User {
   id: string;
@@ -16,6 +18,7 @@ interface User {
   countryId: string;
   countryName: string;
   city: string;
+  address:string;
   gender: number;
   // whatsapp: string;
   // instagram: string;
@@ -45,6 +48,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     countryId: "",
     countryName: "",
     city: "",
+    address:"",
     gender: 0,
     // whatsapp: '',
     // instagram: '',
@@ -79,16 +83,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 
   const [countries, setCountries] = useState<Country[]>([]);
 
-  // const countryPhoneMasks = {
-  //     "AZ": "+994-##-###-##-##",  // Azerbaijan
-  //     // Add more country codes and formats here
-  // };
-
-  const inputMaskRef = useMask({
-    mask: "+994-##-###-##-##",
-    replacement: { "#": /\d/ },
-  });
-
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
     // storedUser.gender = mapGenderType(storedUser.gender);
@@ -113,6 +107,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 
     setUser({
       ...storedUser,
+      phoneNumber: storedUser.phoneNumber || "",
       countryId: storedUser?.country?.id || "0",
       countryName: storedUser?.country?.name || "",
     });
@@ -143,7 +138,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     reader.onload = () => {
       setUser((prevUser) => ({
         ...prevUser,
-        photo: (reader.result as string).split(",")[1], // Base64 URL
+        photo: (reader.result as string).split(",")[1],
       }));
       setProfilePhoto(reader?.result);
     };
@@ -154,7 +149,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 
   const handleCancel = () => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-    // storedUser.gender = mapGenderType(storedUser.gender);
 
     setUser({
       ...storedUser,
@@ -196,7 +190,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
       return; // Prevent API request
     }
 
-    console.log("Saved Data:", user);
 
     try {
       const accessToken = localStorage.getItem("accessToken");
@@ -217,6 +210,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         countryId: user.countryId,
         city: user.city,
         photo: user.photo,
+        adrress:user?.address
       };
       const res = await putApi(`User/UserUpdate`, payload, accessToken);
 
@@ -238,6 +232,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           countryName: "",
           city: "",
           gender: 0,
+          address:"",
           // whatsapp: '',
           // instagram: '',
           photo: "",
@@ -249,10 +244,22 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         toast.success("User updated successfully");
       }
       console.log("User updated successfully:", res);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error updating password:", error);
-      toast.error(error);
+      
+      
+      if (error instanceof Error) {
+        toast.error(error.message); 
+      } else {
+        toast.error("An unknown error occurred.");  
+      }
     }
+  };
+  const handlePhoneChange = (value: string) => {
+    setUser((prev) => ({
+      ...prev,
+      phoneNumber: value,
+    }));
   };
 
   return (
@@ -296,14 +303,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         <div className={`grid gap-3 md:grid-cols-4 ${styles.input_group}`}>
           <div className={styles.input_group_item}>
             <label>Phone Number</label>
-            <input
-              ref={inputMaskRef}
-              name="phoneNumber"
-              placeholder="+994-##-###-##-##"
-              onChange={handleChange}
-              type="text"
+
+            <PhoneInput
+              country="AZ"
               value={user?.phoneNumber || ""}
-              className={formErrors.phoneNumber ? styles.error_border : ""}
+              onChange={handlePhoneChange}
+              excludeCountries={["am"]}
             />
           </div>
 
@@ -341,15 +346,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
               className="form-select"
             >
               <option value="0">Select Country</option>
-              {/* <option value={user?.countryId}>{user.countryName}</option> */}
-
-              {/* {countries?.map((c) => {
-                                return c.id.toString() != user.countryId &&
-                                    <option key={c?.id} value={c?.id}>
-                                        {c?.name}
-                                    </option>
-                            }
-                            )} */}
               {countries?.map((c) => (
                 <option key={c?.id} value={c?.id}>
                   {c.name}
@@ -371,44 +367,32 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         </div>
 
         <div className={`grid gap-3 md:grid-cols-3 ${styles.row}`}>
-          {/* <div className={styles.input_group_item}>
-                        <label>WhatsApp</label>
-                        <input
-                            name="whatsapp"
-                            placeholder='Whatsapp'
-                            onChange={handleChange}
-                            type="text"
-                            value={user?.whatsapp || ''}
-                            className={formErrors.whatsapp ? styles.error_border : ''}
-
-                        />
-                    </div> */}
-          {/* <div className={styles.input_group_item}>
-                        <label>Instagram</label>
-                        <input
-                            name="instagram"
-                            placeholder='Instagram'
-                            onChange={handleChange}
-                            type="text"
-                            value={user?.instagram || ''}
-                            className={formErrors.instagram ? styles.error_border : ''}
-
-                        />
-                    </div> */}
+        <div className={styles.input_group_item}>
+            <label>Address</label>
+            <input
+              name="address"
+              placeholder="Address"
+              onChange={handleChange}
+              type="text"
+              value={user?.address || ""}
+            />
+          </div>
           <div className={styles.input_group_item}>
-    <label>Change Photo</label>
-    <label htmlFor="photo-upload" className={styles.customFileButton}>
-        Select Image
-    </label>
-    <input
-        id="photo-upload"
-        name="photo"
-        accept="image/*"
-        onChange={handleFileUpload}
-        type="file"
-        className={`${styles.fileInput} ${formErrors.photo ? styles.errorBorder : ''}`}
-    />
-</div>
+            <label>Change Photo</label>
+            <label htmlFor="photo-upload" className={styles.customFileButton}>
+              Select Image
+            </label>
+            <input
+              id="photo-upload"
+              name="photo"
+              accept="image/*"
+              onChange={handleFileUpload}
+              type="file"
+              className={`${styles.fileInput} ${
+                formErrors.photo ? styles.errorBorder : ""
+              }`}
+            />
+          </div>
         </div>
         <div className={styles.buttonGroup}>
           <button

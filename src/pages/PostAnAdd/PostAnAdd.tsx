@@ -10,7 +10,6 @@ function PostAnAdd() {
 
   return (
     <section>
-      <Navbar />
       <div className="custom_container">
       <section className={` ${styles.create_container}`}>
         <h3>

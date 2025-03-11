@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import Image from "next/image";
 import date_icon from "@/assets/img/calendar.svg";
 import { SendSidebarProps } from "@/types/type";
-import { IMaskInput } from "react-imask";
+// import { IMaskInput } from "react-imask";
 import { currency } from "@/json/constant";
 
 const SendSidebar: React.FC<SendSidebarProps> = ({
@@ -19,7 +19,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
   return (
     <section className={styles.sidebar_section}>
       <form className={styles.form_section} onSubmit={handleSubmit}>
-        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
+        {/* <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>Create Date</label>
           <div className="relative">
             <IMaskInput
@@ -38,7 +38,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
               <Image src={date_icon} alt="date_icon" />
             </div>
           </div>
-        </div>
+        </div> */}
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>Title</label>
           <input
@@ -132,7 +132,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
         <button
           type="button"
           className={`${styles.clear_button}`}
-          onClick={() => sendClearForm}
+          onClick={() => sendClearForm()}
         >
           Clear all
         </button>

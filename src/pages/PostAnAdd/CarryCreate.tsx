@@ -42,8 +42,6 @@ function CarryCreate() {
     }[]
   >([]);
 
-  console.log("ssd", tripPlaceDetails);
-
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -100,9 +98,9 @@ function CarryCreate() {
       !formData.toDate ||
       formData.travelType === null
     ) {
-      return  toast.error("Fill in all fields.");
+      return toast.error("Fill in all fields.");
     }
-  
+
     setTripPlaceDetails((prev) => [
       ...prev,
       {
@@ -113,7 +111,7 @@ function CarryCreate() {
         travelType: formData.travelType,
       },
     ]);
-  
+
     setFormData((prev) => ({
       ...prev,
       from: "",
@@ -220,7 +218,9 @@ function CarryCreate() {
               />
             </div>
           </div>
-          <div className={`grid gap-3 grid-cols-1 md:grid-cols-2 ${styles.input_group}`}>
+          <div
+            className={`grid gap-3 grid-cols-1 md:grid-cols-2 ${styles.input_group}`}
+          >
             <div className={styles.input_group_item}>
               <label htmlFor="from" className="">
                 From<span className={styles.reqField}> * </span>
@@ -252,19 +252,21 @@ function CarryCreate() {
               </div>
             </div>
           </div>
-          <div className={`grid gap-3 grid-cols-1 md:grid-cols-2 ${styles.input_group}`}>
+          <div
+            className={`grid gap-3 grid-cols-1 md:grid-cols-2 ${styles.input_group}`}
+          >
             <div className={styles.input_group_item}>
               <label htmlFor="to" className="">
                 To<span className={styles.reqField}> * </span>
               </label>
               <input
-  type="text"
-  id="to"
-  name="to"
-  placeholder="To"
-  value={formData.to}
-  onChange={handleInputChange}
-/>
+                type="text"
+                id="to"
+                name="to"
+                placeholder="To"
+                value={formData.to}
+                onChange={handleInputChange}
+              />
             </div>
             <div className={styles.input_group_item}>
               <label htmlFor="name" className="">
@@ -284,7 +286,9 @@ function CarryCreate() {
               </div>
             </div>
           </div>
-          <div className={`grid gap-3 grid-cols-1 md:grid-cols-2 ${styles.input_group}`}>
+          <div
+            className={`grid gap-3 grid-cols-1 md:grid-cols-2 ${styles.input_group}`}
+          >
             <div className={styles.input_group_item}>
               <label htmlFor="travelType">
                 Transport<span className={styles.reqField}> * </span>
@@ -323,7 +327,9 @@ function CarryCreate() {
           </div>
         </div>
         <div>
-          <div className={`grid gap-3 grid-cols-2  md:grid-cols-3 mb-2 ${styles.input_group}`}>
+          <div
+            className={`grid gap-3 grid-cols-2  md:grid-cols-3 mb-2 ${styles.input_group}`}
+          >
             <div className={`${styles.input_group_item}`}>
               <label htmlFor="count">
                 Count<span className={styles.reqField}> * </span>
@@ -417,70 +423,73 @@ function CarryCreate() {
       </div>
 
       {tripPlaceDetails.length > 0 && (
-  <div className="relative overflow-x-auto ">
-    <table className="w-full mt-10 min-w-max">
-      <thead className={styles.thead}>
-        <tr>
-          <th className="px-6 py-3">From(City)</th>
-          <th className="px-6 py-3">From(Date)</th>
-          <th className="px-6 py-3">To(City)</th>
-          <th className="px-6 py-3">To(Date)</th>
-          <th className="px-6 py-3">Transport</th>
-          <th className="px-6 py-3"></th>
-        </tr>
-      </thead>
-      <tbody className={styles.tbody}>
-        {tripPlaceDetails.map((item, index) => (
-          <tr key={index}>
-            <td className="px-6 py-3">{item.fromPlace}</td>
-            <td className="px-6 py-3">{item.fromTripDate?.toLocaleDateString()}</td>
-            <td className="px-6 py-3">{item.toPlace}</td>
-            <td className="px-6 py-3">{item.toTripDate?.toLocaleDateString()}</td>
-            <td className="px-6 py-3">
-              {item.travelType == 0
-                ? "Bus"
-                : item.travelType == 1
-                ? "Plane"
-                : item.travelType == 2
-                ? "Car"
-                : item.travelType == 3
-                ? "Ship"
-                : item.travelType == 4
-                ? "Train"
-                : null}
-            </td>
-            <td
-              onClick={() => handleDelete(index)}
-              className="cursor-pointer px-6 py-3"
-            >
-              <Image src={trash} alt="delete" />
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-)}
+        <div className="relative overflow-x-auto ">
+          <table className="w-full mt-10 min-w-max">
+            <thead className={styles.thead}>
+              <tr>
+                <th className="px-6 py-3">From(City)</th>
+                <th className="px-6 py-3">From(Date)</th>
+                <th className="px-6 py-3">To(City)</th>
+                <th className="px-6 py-3">To(Date)</th>
+                <th className="px-6 py-3">Transport</th>
+                <th className="px-6 py-3"></th>
+              </tr>
+            </thead>
+            <tbody className={styles.tbody}>
+              {tripPlaceDetails.map((item, index) => (
+                <tr key={index}>
+                  <td className="px-6 py-3">{item.fromPlace}</td>
+                  <td className="px-6 py-3">
+                    {item.fromTripDate?.toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-3">{item.toPlace}</td>
+                  <td className="px-6 py-3">
+                    {item.toTripDate?.toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-3">
+                    {item.travelType == 0
+                      ? "Bus"
+                      : item.travelType == 1
+                      ? "Plane"
+                      : item.travelType == 2
+                      ? "Car"
+                      : item.travelType == 3
+                      ? "Ship"
+                      : item.travelType == 4
+                      ? "Train"
+                      : null}
+                  </td>
+                  <td
+                    onClick={() => handleDelete(index)}
+                    className="cursor-pointer px-6 py-3"
+                  >
+                    <Image src={trash} alt="delete" />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
-{tripPlaceDetails.length > 0 && (
-  <div className="flex gap-3 justify-end items-end mt-3">
-    <button
-      type="button"
-      className={styles.cancel_btn}
-      onClick={clearInput}
-    >
-      Cancel
-    </button>
-    <button
-      type="submit"
-      className={styles.save_btn}
-      onClick={handleSubmit}
-    >
-      Save
-    </button>
-  </div>
-)}
-
+      {tripPlaceDetails.length > 0 && (
+        <div className="flex gap-3 justify-end items-end mt-3">
+          <button
+            type="button"
+            className={styles.cancel_btn}
+            onClick={clearInput}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className={styles.save_btn}
+            onClick={handleSubmit}
+          >
+            Save
+          </button>
+        </div>
+      )}
     </div>
   );
 }

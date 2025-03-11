@@ -23,7 +23,7 @@ function Profile() {
 
 
   useEffect(() => {
-    const tab = searchParams?.get('tab'); // Extract 'tab' from query string
+    const tab = searchParams?.get('tab'); 
     if (tab && typeof tab === 'string') {
       setActiveTab(tab);
     }
@@ -37,7 +37,7 @@ function Profile() {
         activeTab={activeTab}
         onTabChange={(newTab) => {
           setActiveTab(newTab);
-          router.push(`/profile?tab=${newTab}`); // Update the URL when tab changes
+          router.push(`/profile?tab=${newTab}`);
         }} />
       {activeTab === "profile" && <ProfileForm profilePhoto={profilePhoto} setProfilePhoto={setProfilePhoto} />}
       {activeTab === "password" && <PasswordTab />}

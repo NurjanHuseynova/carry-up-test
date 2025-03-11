@@ -15,7 +15,7 @@ interface UserPoint {
   photo:string;
 
   };
-  description?: string;
+  description: string;
   value?: number;
   createdDate:string;
 }
@@ -41,10 +41,10 @@ console.log(userPoint,);
           <div className="flex w-full justify-between items-center">
             <h3>Points details</h3>
             <div className="flex gap-3">
-              <button onClick={commentModal} className="add_comment ">Add comment</button>
-              <div className="bg-white rounded-lg flex items-center justify-center mr-3 px-2">
+              <button onClick={commentModal} className="add_comment mr-3">Add comment</button>
+              {/* <div className="bg-white rounded-lg flex items-center justify-center mr-3 px-2">
                 <Image src={whatsapp} alt="" />
-              </div>
+              </div> */}
             </div>
           </div>
         </ModalHeader>
@@ -79,7 +79,16 @@ console.log(userPoint,);
                   <span>{moment(item?.createdDate).format("DD-MM-YYYY")}</span>
                 </div>
                 <div>
-                  <p>{item?.description}</p>
+                <p className="description">
+                  {item?.description.length > 30
+                    ? `${item?.description?.slice(0, 30)}...`
+                    : item?.description}
+                  {item?.description.length > 30 && (
+                    <span className="fullTitle">
+                      {item?.description}
+                    </span>
+                  )}
+                </p>
                 </div>
               </div>
             ))}

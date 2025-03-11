@@ -296,7 +296,7 @@ const MainPage: React.FC = () => {
           />
         )}
         {activeTab === "send" && (
-          <MainSendList sends={sends} loading={sendLoading} />
+          <MainSendList sends={sends} loading={sendLoading} setLoading={setSendLoading} />
         )}
 
         {activeTab === "carry" && trips?.length > 0 && (

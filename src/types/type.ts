@@ -79,6 +79,8 @@ export interface FormData {
   export interface MainSendListProps {
     sends: Send[];
     loading:boolean;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+
   }
 
   export interface Trip {

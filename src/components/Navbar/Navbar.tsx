@@ -215,9 +215,9 @@ function Navbar() {
                         </button>
                       </li>
                       <li>
-                        <button className={styles.postAdButton}>
-                          <Link href={"post-an-add"} className="text-white">Post an Add</Link>
-                        </button>
+
+                          <Link href={"post-an-add"} className={styles.postAdButton}>Post an Add</Link>
+                 
                       </li>
                       <li>
                         <button className={styles.menuItem} onClick={handleLogout}>
@@ -287,9 +287,8 @@ function Navbar() {
                   </button>
                 </div>
               )}
-              <button className={styles.postAdButton}>
-                <Link href={"post-an-add"} className="text-white">Post an Add</Link>
-              </button>
+                <Link href={"post-an-add"}  className={styles.postAdButton}>Post an Add</Link>
+             
             </div>
           )}
         </nav>
