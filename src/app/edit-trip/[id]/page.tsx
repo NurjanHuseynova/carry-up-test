@@ -4,13 +4,14 @@ import EditTrip from "@/pages/Profile/EditTrip";
 import Navbar from "@/components/Navbar/Navbar";
 
 interface PageProps {
-  params: Promise<{
+    params: {
       id: string;
-  }>;
-}
+    };
+  }
+  
 
   const Page: React.FC<PageProps> = async ({ params }) => {
-    const { id } = await params;
+    const { id } = params;
 
   return (
     <div>
