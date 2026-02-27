@@ -11,7 +11,7 @@
 .user_list {
   width: 379px;
   gap: 10px;
-  margin: 72px 0 0;
+  /* margin: 72px 0 0; */
   padding: 20px 0;
   border-radius: 8px;
   box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.1);
