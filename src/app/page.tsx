@@ -7,7 +7,7 @@ export default function Page() {
     <div>
       <Navbar />
       <Home />
-      <Chat />
+      {/* <Chat /> */}
     </div>
   );
 }

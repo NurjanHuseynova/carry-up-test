@@ -93,6 +93,7 @@
   
   .fullTitle {
     visibility: hidden;
+    display: none;
     position: absolute;
     background-color: white;
     padding: 5px;
