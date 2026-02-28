@@ -16,6 +16,7 @@ import microphone from "@/assets/img/microphone.svg";
 import buliding from "@/assets/img/buliding.svg";
 import message from "@/assets/img/message.svg";
 import close from "@/assets/img/close.svg";
+import { useTranslations } from "next-intl";
 
 
 
@@ -25,7 +26,7 @@ interface User {
   photo: string;
 }
 
-function Navbar() {
+ function Navbar() {
   const [user, setUser] = useState<User | null>(null);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
@@ -34,6 +35,9 @@ function Navbar() {
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
+  const t =  useTranslations("Static")
+  
+  console.log("t",t("login"))
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -135,7 +139,7 @@ function Navbar() {
                   <>
                     <li>
                       <Link href="/login" className={styles.menuItem}>
-                        Login
+                       {t("Login")}
                       </Link>
                     </li>
                     {!isMobileMenuOpen &&
@@ -241,7 +245,7 @@ function Navbar() {
           {!user ? (
             <>
               <Link href="/login" className={styles.navLink}>
-                Login
+              {t("login")}
               </Link>
               <span className={styles.radius}></span>
               <Link href="/signUp" className={styles.navLink}>
