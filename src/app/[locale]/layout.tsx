@@ -43,7 +43,7 @@ export default async  function RootLayout({
         <RootLayout>
         <main>{children}</main>
         </RootLayout> */}
-        <Toaster position="top-right" />
+        <Toaster position="bottom-right" />
     
    <NextIntlClientProvider  messages={messages} locale={locale}>
   {children} 

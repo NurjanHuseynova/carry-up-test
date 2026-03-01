@@ -11,6 +11,7 @@ import Pagination from "@/components/Pagination/Pagination";
 import { FormData, SendFormData } from "@/types/type";
 import Image from "next/image";
 import arrow_search from "@/assets/img/arrow_search.svg";
+import { useTranslations } from "next-intl";
 
 const MainPage: React.FC = () => {
   let tripPerPage = 6;
@@ -57,6 +58,10 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     fetchTrips(tripCurrentPage);
   }, [tripCurrentPage]);
+
+
+    const t =  useTranslations("Static")
+    
 
   const fetchTrips = async (currentPage: number) => {
     const filter = {
@@ -230,7 +235,7 @@ const MainPage: React.FC = () => {
           className="flex justify-between items-center  md:hidden"
           onClick={() => setIsSearchOpen(!isSearchOpen)}
         >
-          <h2 className="text-[#292D32] text-xl">Search</h2>
+          <h2 className="text-[#292D32] text-xl">{t("search")}</h2>
           <Image
             src={arrow_search}
             alt="search icon"
@@ -249,7 +254,7 @@ const MainPage: React.FC = () => {
                 }`}
                 onClick={() => setActiveTab("carry")}
               >
-                For Carry
+               {t("for carry")} 
               </button>
               <button
                 className={`${styles.tab_button} ${
@@ -257,7 +262,7 @@ const MainPage: React.FC = () => {
                 }`}
                 onClick={() => setActiveTab("send")}
               >
-                For Send
+              {t("for send")}
               </button>
             </div>
 

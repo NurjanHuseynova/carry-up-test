@@ -6,6 +6,7 @@ import date_icon from "@/assets/img/calendar.svg";
 import { currency, travelType } from "@/json/constant";
 import { CarrySidebarProps } from "@/types/type";
 import DatePicker from "react-datepicker";
+import { useTranslations } from "next-intl";
 
 type FormDataType = {
   appointmentDate: Date | null;
@@ -33,13 +34,16 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
     }));
   };
   
+  
+  const t =  useTranslations("Static")
+  
   return (
     <section className={styles.sidebar_section}>
       <form className={styles.form_section} onSubmit={handleSubmit}>
   
 
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>Title</label>
+          <label>{t("title")}</label>
           <input
             type="text"
             name="title"
@@ -51,14 +55,14 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
         </div>
 
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>Travel Type</label>
+          <label>{t("Travel Type")}</label>
           <select
             name="travelType"
             value={formData.travelType}
             onChange={handleInputChange}
             className="form-select"
           >
-            <option value="" >Select travel type</option>
+            <option value="" >{t("Select travel type")}</option>
             {travelType &&
               Object.entries(travelType).map(([key, value]) => (
                 <option key={value} value={value}>
@@ -69,10 +73,10 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
         </div>
 
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>Price</label>
+          <label>{t("price")}</label>
           <div className="!grid !grid-cols-2 gap-2">
             <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-              <label>Min Price</label>
+              <label>{t("min price")}</label>
               <input
                 type="text"
                 name="minPrice"
@@ -82,7 +86,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
               />
             </div>
             <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-              <label>Max Price</label>
+              <label>{t("max price")}</label>
               <input
                 type="text"
                 name="maxPrice"
@@ -95,14 +99,14 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
         </div>
 
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>Currency</label>
+          <label>{t("currency")}</label>
           <select
             name="currency"
             value={formData.currency}
             onChange={handleInputChange}
             className="form-select"
           >
-            <option value="" style={{ color: "gray !important" }} >Select currency</option>
+            <option value="" style={{ color: "gray !important" }} >{t("select currency")}</option>
             {currency &&
               Object.entries(currency).map(([key, value]) => (
                 <option key={value} value={value}>
@@ -114,7 +118,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
 
  
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>Category</label>
+          <label>{t("category")}</label>
 
           <select
             name="category"
@@ -123,14 +127,14 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
             className="form-select"
           >
             <option value={0} >
-              Select category
+              {t("select category")}
             </option>
-            <option value={1}>Document</option>
+            <option value={1}>{t("document")}</option>
           </select>
         </div>
 
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>From Place</label>
+          <label>{t("from place")}</label>
           <input
             type="text"
             name="fromPlace"
@@ -142,7 +146,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
         </div>
 
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>To Place</label>
+          <label>{t("to place")}</label>
           <input
             type="text"
             name="toPlace"
@@ -154,7 +158,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
         </div>
 
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-  <label>From Trip Date</label>
+  <label>{t("from trip date")}</label>
   <div className="relative">
     <DatePicker
       name="fromTripDate"
@@ -171,7 +175,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
 </div>
 
 <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-  <label>To Trip Date</label>
+  <label>{t("to trip date")}</label>
   <div className="relative">
     <DatePicker
       name="toTripDate"
@@ -194,7 +198,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
             className={`${styles.clear_button}`}
             onClick={() => clearForm()}
           >
-            Clear all
+            {t("clear all")}
           </button>
           <button
             type="submit"
@@ -203,7 +207,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
               fetchTrips(tripCurrentPage);
             }}
           >
-            Search
+          {t("search")}
           </button>
         </div>
       </form>

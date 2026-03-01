@@ -3,6 +3,7 @@ import { Button, Modal, ModalBody, ModalHeader } from "reactstrap";
 import styles from "@/assets/css/postanadd/postanadd.module.css";
 import toast from "react-hot-toast";
 import { postApi } from "@/services/api";
+import { useTranslations } from "next-intl";
 
 interface CommentModalProps {
   toggle: () => void;
@@ -43,6 +44,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ toggle, modal ,caseId,fromU
     }
     
     setLoading(true); 
+
   
     try {
       const obj = {
@@ -68,10 +70,14 @@ const CommentModal: React.FC<CommentModalProps> = ({ toggle, modal ,caseId,fromU
     }
   };
   
+  
+  const t =  useTranslations("Static")
+  
+
 
   return (
     <Modal isOpen={modal} toggle={toggle} centered>
-      <ModalHeader toggle={toggle}>Add comments</ModalHeader>
+      <ModalHeader toggle={toggle}>{t("add comments")}</ModalHeader>
       <ModalBody>
         <form onSubmit={handleSubmit}>
           <div
@@ -79,7 +85,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ toggle, modal ,caseId,fromU
           >
             <div className={styles.input_group_item}>
               <label>
-                Select point <span className={styles.reqField}>*</span>
+                {t("select point")}<span className={styles.reqField}>*</span>
               </label>
               <div className="rating">
                 {[5, 4, 3, 2, 1].map((num) => (
@@ -100,7 +106,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ toggle, modal ,caseId,fromU
 
             <div className={styles.input_group_item}>
               <label htmlFor="description">
-                Description<span className={styles.reqField}>*</span>
+                {t("description")}<span className={styles.reqField}>*</span>
               </label>
               <textarea
                 id="description"
@@ -119,10 +125,10 @@ const CommentModal: React.FC<CommentModalProps> = ({ toggle, modal ,caseId,fromU
 
           <div className="flex gap-3 mt-4">
             <button type="button" className="clear_btn" onClick={clearForm}>
-              Clear all
+              {t("clear all")}
             </button>
             <button type="submit" className="save_btn" disabled={loading}>
-  {loading ? "Saving..." : "Save"}
+  {loading ? `${t("saving")}...` : `${t("save")}`}
 </button>
           </div>
         </form>

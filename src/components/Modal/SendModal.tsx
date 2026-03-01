@@ -18,6 +18,7 @@ import CommentModal from "./CommentModal";
 import AllSeeModal from "./AllSeeModal";
 import heart from "@/assets/img/heart.svg";
 import moment from "moment";
+import { useTranslations } from "next-intl";
 
 interface CarryModalProps {
   toggle: () => void;
@@ -86,6 +87,10 @@ function SendModal({
     setAllSeeModal(!allSeeModal);
   };
 
+  const t =  useTranslations("Static")
+  
+
+
   return (
     <>
       <Modal
@@ -98,10 +103,10 @@ function SendModal({
       >
         <ModalHeader toggle={() => setModal(!isOpen)}>
           <div className="flex w-full justify-between items-center">
-            <h3>For Send details</h3>
-            <div className="flex gap-3">
-              <button className="add_comment mr-3">Chat us</button>
-            </div>
+            <h3>{t("for send details")}</h3>
+            {/* <div className="flex gap-3">
+              <button className="add_comment mr-3">{t("price")}Chat us</button>
+            </div> */}
           </div>
         </ModalHeader>
         <ModalBody className={`${loading ? "h-96" : "h-auto"}`}>
@@ -151,7 +156,7 @@ function SendModal({
                   </div>
 
                   <div className="details-section">
-                    <h3 className="!text-[#9166EF]">Details</h3>
+                    <h3 className="!text-[#9166EF]">{t("details")}</h3>
                     <div className="details-grid">
                       <div className="flex gap-7 md:gap-11 flex-col">
                         <div className="flex gap-3  md:gap-4">
@@ -167,7 +172,7 @@ function SendModal({
                             <p>
                               {detailList?.sendPlaceDetails?.[0]?.fromPlace}{" "}
                             </p>
-                            <span className="label">From</span>
+                            <span className="label">{t("from")}</span>
                           </div>
                         </div>
                         <div className="flex gap-3  md:gap-4">
@@ -181,7 +186,7 @@ function SendModal({
                           </span>
                           <div>
                             <p>{detailList?.sendPlaceDetails?.[0]?.toPlace} </p>
-                            <span className="label">To</span>
+                            <span className="label">{t("to")}</span>
                           </div>
                         </div>
                       </div>
@@ -197,7 +202,7 @@ function SendModal({
                           </span>
                           <div>
                             <p>{detailList?.package?.count}</p>
-                            <span className="label">Count of documents</span>
+                            <span className="label">{t("count of documents")}</span>
                           </div>
                         </div>
                         <div className="flex gap-3  md:gap-4">
@@ -211,7 +216,7 @@ function SendModal({
                           </span>
                           <div>
                             <p> {detailList?.package?.price} USD</p>
-                            <span className="label">Price</span>
+                            <span className="label">{t("price")}</span>
                           </div>
                         </div>
                       </div>
@@ -234,7 +239,7 @@ function SendModal({
                           </span>
                         </p>
 
-                        <span className="label">Name,surname,point</span>
+                        <span className="label">{t("name surname point")}</span>
                       </div>
                     </div>
                     <div className="flex gap-3  md:gap-5">
@@ -249,7 +254,7 @@ function SendModal({
                       <div>
                         <p>{detailList?.case?.user?.email} </p>
 
-                        <span className="label">Email address</span>
+                        <span className="label">{t("email address")}</span>
                       </div>
                     </div>
                     <div className="flex gap-3  md:gap-5">
@@ -270,7 +275,7 @@ function SendModal({
                             : ""}
                         </p>
 
-                        <span className="label">Publication Date</span>
+                        <span className="label">{t("publication date")}</span>
                       </div>
                     </div>
                     <div className="flex gap-3  md:gap-5">
@@ -296,7 +301,7 @@ function SendModal({
                             : ""}
                         </p>
 
-                        <span className="label">Last Date to Apply</span>
+                        <span className="label">{t("last date to apply")}</span>
                       </div>
                     </div>
                     {/* <div className="flex gap-3  md:gap-5">
@@ -321,7 +326,7 @@ function SendModal({
                       <div>
                         <p>{detailList?.case?.user?.phoneNumber}</p>
 
-                        <span className="label">Phone number</span>
+                        <span className="label">{t("phone number")}</span>
                       </div>
                     </div>
                   </div>
@@ -330,18 +335,18 @@ function SendModal({
 
               <div className="carry-right">
                 <div className="description-section">
-                  <h3 className="!text-[#9166EF]">Description</h3>
+                  <h3 className="!text-[#9166EF]">{t("description")}</h3>
                   <p>{detailList?.description}</p>
                 </div>
 
                 <div className="points-details">
                   <div className="flex justify-between items-baseline">
-                    <h3 className="!text-[#9166EF]">Points Details</h3>
+                    <h3 className="!text-[#9166EF]">{t("points details")}</h3>
                     <button
                       className="all_see !text-[#9166EF]"
                       onClick={allSeeModalToggle}
                     >
-                      All see
+                      {t("all see")}
                     </button>
                   </div>
                   <div>
@@ -394,7 +399,7 @@ function SendModal({
                         className="comment-button"
                         onClick={commentModalToggle}
                       >
-                        Comment
+                        {t("comment")}
                       </button>
                     </div>
                   )}

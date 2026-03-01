@@ -37,7 +37,7 @@ interface User {
 
   const t =  useTranslations("Static")
   
-  console.log("t",t("login"))
+
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -139,7 +139,7 @@ interface User {
                   <>
                     <li>
                       <Link href="/login" className={styles.menuItem}>
-                       {t("Login")}
+                       {t("login")}
                       </Link>
                     </li>
                     {!isMobileMenuOpen &&
@@ -147,7 +147,7 @@ interface User {
                     }
                     <li>
                       <Link href="/signUp" className={styles.menuItem}>
-                        Sign Up
+                       {t("sign up")}
                       </Link>
                     </li>
                   </>
@@ -164,7 +164,7 @@ interface User {
                               alt="profile"
                               className={styles.icon}
                             />
-                            Profile
+                           {t("profile")} 
                           </Link>
                         </button>
                       </li>
@@ -176,7 +176,7 @@ interface User {
                               alt={'password_icon'}
                               className={styles.icon}
                             />
-                            Password
+                            {t("password")}
                           </Link>
                         </button>
 
@@ -189,7 +189,7 @@ interface User {
                               alt={'microphone'}
                               className={styles.icon}
                             />
-                            My Ads Trip
+                           {t("my ads trip")} 
                           </Link>
                         </button>
                       </li>
@@ -202,7 +202,7 @@ interface User {
                               alt={'building'}
                               className={styles.icon}
                             />
-                            My Ads Send
+                            {t("my ads send")}
                           </Link>
                         </button>
                       </li>
@@ -214,13 +214,13 @@ interface User {
                               alt={'message'}
                               className={styles.icon}
                             />
-                            My Points
+                           {t("my points")} 
                           </Link>
                         </button>
                       </li>
                       <li>
 
-                          <Link href={"post-an-add"} className={styles.postAdButton}>Post an Add</Link>
+                          <Link href={"post-an-add"} className={styles.postAdButton}>{t("post an add")}</Link>
                  
                       </li>
                       <li>
@@ -230,7 +230,7 @@ interface User {
                             alt="logout"
                             className={styles.popIcon}
                           />
-                          Logout
+                         {t("logout")} 
                         </button>
                       </li>
                     </>
@@ -249,7 +249,7 @@ interface User {
               </Link>
               <span className={styles.radius}></span>
               <Link href="/signUp" className={styles.navLink}>
-                Sign Up
+              {t("sign up")}  
               </Link>
             </>
           ) : (
@@ -279,7 +279,7 @@ interface User {
                       alt="profile"
                       className={styles.popIcon}
                     />
-                    Profile
+                  {t("profile")}  
                   </Link>
                   <button className={styles.menuItem} onClick={handleLogout}>
                     <Image
@@ -287,11 +287,11 @@ interface User {
                       alt="logout"
                       className={styles.popIcon}
                     />
-                    Logout
+                   {t("logout")} 
                   </button>
                 </div>
               )}
-                <Link href={"post-an-add"}  className={styles.postAdButton}>Post an Add</Link>
+                <Link href={"post-an-add"}  className={styles.postAdButton}>{t("post an add")}</Link>
              
             </div>
           )}

@@ -3,7 +3,28 @@
     "title": "Hello world!"
   },
    "Static" : {
-  "login":"Login"
+  "login":"Login",
+  "Travel Type":"Travel Type",
+  "price":"Price"
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+  // "login":"Login",
+
+
 
 
  }

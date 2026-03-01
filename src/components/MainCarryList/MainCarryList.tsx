@@ -15,6 +15,7 @@ import distance from "@/assets/img/distance.png";
 import dollar from "@/assets/img/dollar.svg";
 
 import { travelType } from "@/json/constant";
+import { useTranslations } from "next-intl";
 
 const MainCarryList: React.FC<MainCarryListProps> = ({
   trips,
@@ -24,6 +25,10 @@ const MainCarryList: React.FC<MainCarryListProps> = ({
   const [modal, setModal] = useState(false);
   const [detailList, setDetailList] = useState({});
   const [selectedId, setSelectedId] = useState("");
+
+  
+  const t =  useTranslations("Static")
+  
 
   const toggle = () => {
     if (selectedId) {
@@ -225,7 +230,7 @@ const MainCarryList: React.FC<MainCarryListProps> = ({
               <div className="flex justify-between">
                 <div className={styles.dates}>
                   <p className="text-[#5fa0ee]">
-                    <span className={styles.label}>Departure:</span>{" "}
+                    <span className={styles.label}>{t("departure")}:</span>{" "}
                     {card?.tripPlaceDetails?.[0]?.createDate
                       ? moment(card.tripPlaceDetails[0].createDate).format(
                           "DD.MM.YYYY"
@@ -233,7 +238,7 @@ const MainCarryList: React.FC<MainCarryListProps> = ({
                       : ""}
                   </p>
                   <p className="text-[#5fa0ee]">
-                    <span className={styles.label}>Arrival:</span>{" "}
+                    <span className={styles.label}>{t("arrival")}:</span>{" "}
                     {card?.tripPlaceDetails?.[0]?.toTripDate
                       ? moment(card.tripPlaceDetails[0].toTripDate).format(
                           "DD.MM.YYYY"
@@ -257,7 +262,7 @@ const MainCarryList: React.FC<MainCarryListProps> = ({
 
             <div className={`${styles.applyDate} bg-[#5fa0ee]`}>
               <p className="flex gap-2 italic">
-                <Image src={circle} alt="circle" /> Last date to apply:{" "}
+                <Image src={circle} alt="circle" /> {t("last date to apply")}:{" "}
                 {card?.tripPlaceDetails?.[0]?.toTripDate
                   ? moment(card.tripPlaceDetails[0].toTripDate).format(
                       "DD.MM.YYYY"

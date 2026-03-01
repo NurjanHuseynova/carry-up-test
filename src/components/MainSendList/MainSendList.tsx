@@ -10,6 +10,7 @@ import SendModal from "../Modal/SendModal";
 import { fetchApi } from "@/services/api";
 import dollar from "@/assets/img/dollar.svg";
 import manat from "@/assets/img/dollar.svg";
+import { useTranslations } from "next-intl";
 
 const MainSendList: React.FC<MainSendListProps> = ({
   sends,
@@ -42,6 +43,10 @@ const MainSendList: React.FC<MainSendListProps> = ({
       console.log("error", error);
     }
   };
+
+  
+  const t =  useTranslations("Static")
+  
 
   return (
     <section className={`grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5`}>
@@ -109,11 +114,11 @@ const MainSendList: React.FC<MainSendListProps> = ({
 
                 <div className={styles.dates}>
                   <p className="text-[#9166EF]">
-                    <span className={styles.label}>Count:</span>{" "}
+                    <span className={styles.label}>{t("count")}:</span>{" "}
                     {card?.package?.count}
                   </p>
                   <p className="text-[#9166EF]">
-                    <span className={styles.label}>Date of appointment:</span>{" "}
+                    <span className={styles.label}>{t("date of appointment")}:</span>{" "}
                     {}
                   </p>
                 </div>
@@ -132,7 +137,7 @@ const MainSendList: React.FC<MainSendListProps> = ({
 
               <div className={`${styles.applyDate} bg-[#9166EF]`}>
                 <p className="flex gap-2 italic">
-                  <Image src={circle} alt="circle" /> Last date to apply:{" "}
+                  <Image src={circle} alt="circle" /> {t("last date to apply")}:{" "}
                   {card.sendPlaceDetails[0]?.toTripDate &&
                     moment(card?.sendPlaceDetails[0]?.catchDate).format(
                       "MM.DD.YYYY"

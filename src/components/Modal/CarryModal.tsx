@@ -34,6 +34,7 @@ import arrow from "@/assets/img/downarrow.png";
 import dollar from "@/assets/img/dollar.svg";
 import manat from "@/assets/img/dollar.svg";
 import { travelType } from "@/json/constant";
+import { useTranslations } from "next-intl";
 
 interface CarryModalProps {
   toggle: () => void;
@@ -86,7 +87,9 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
     ? JSON.parse(localStorage.getItem("user") as string)
     : null;
 
-    console.log('user',user?.id);
+   
+  const t =  useTranslations("Static")
+  
     
 
   const [commentModal, setCommentModal] = useState(false);
@@ -117,9 +120,6 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
       setIsLoading(true);
     }
   }, [isOpen]);
-
-  console.log('de',detailList);
-  
   
 
   return (
@@ -135,10 +135,10 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
       >
         <ModalHeader toggle={() => setModal(!isOpen)}>
           <div className="flex w-full justify-between items-center">
-            <h3>For Carry details</h3>
-            <div className="flex gap-3">
+            <h3>{t("for carry details")}</h3>
+            {/* <div className="flex gap-3">
               <button className="add_comment mr-3">Chat us</button>
-            </div>
+            </div> */}
           </div>
         </ModalHeader>
         <ModalBody className={`${loading ? "h-96" : "h-auto"}`}>
@@ -187,7 +187,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
             </div>
 
             <div className="details-section">
-              <h3>Details</h3>
+              <h3>{t("details")}</h3>
               <div className="details-grid">
                 <div className="flex gap-[20px] md:gap-11 flex-col justify-between">
                   <div className="flex gap-3 items-center md:gap-4">
@@ -201,7 +201,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
                     </span>
                     <div>
                       <p>{detailList?.tripPlaceDetails?.[0]?.fromPlace} </p>
-                      <span className="label">From</span>
+                      <span className="label">{t("from")}</span>
                       <br />
 
                       <span className="text-[14px] text-[#505050]">
@@ -233,7 +233,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
                           onClick={toggleTooltip}
                           className="break_in_button"
                         >
-                          Break in
+                          {t("break in")}
                         </button>
                       )}
                       {breakToggle && (
@@ -352,7 +352,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
                     </span>
                     <div>
                       <p>{detailList?.package?.count}</p>
-                      <span className="label">Count of documents</span>
+                      <span className="label">{t("count of documents")}</span>
                     </div>
                   </div>
                   <div className="flex gap-3 items-center md:gap-4">
@@ -366,7 +366,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
                     </span>
                     <div>
                       <p> {detailList?.package?.price} USD</p>
-                      <span className="label">Price</span>
+                      <span className="label">{t("price")}</span>
                     </div>
                   </div>
                 </div>
@@ -389,7 +389,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
                     </span>
                   </p>
 
-                  <span className="label">Name,surname,point</span>
+                  <span className="label">{t("name surname point")}</span>
                 </div>
               </div>
               <div className="flex gap-3 md:gap-5 items-center">
@@ -399,7 +399,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
                 <div>
                   <p>{detailList?.case?.user?.email} </p>
 
-                  <span className="label">Email address</span>
+                  <span className="label">{t("email address")}</span>
                 </div>
               </div>
               <div className="flex gap-3 md:gap-5 items-center">
@@ -421,7 +421,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
                       : ""}
                   </p>
 
-                  <span className="label">Publication Date</span>
+                  <span className="label">{t("publication date")}</span>
                 </div>
               </div>
               <div className="flex gap-3 md:gap-5 items-center">
@@ -447,7 +447,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
                       : ""}
                   </p>
 
-                  <span className="label">Last Date to Apply</span>
+                  <span className="label">{t("last date to apply")}</span>
                 </div>
               </div>
               {/* <div className="flex gap-3 md:gap-5 items-center">
@@ -472,7 +472,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
                 <div>
                   <p>{detailList?.case?.user?.phoneNumber}</p>
 
-                  <span className="label">Phone number</span>
+                  <span className="label">{t("phone number")}</span>
                 </div>
               </div>
             </div>
@@ -481,15 +481,15 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
 
         <div className="carry-right">
           <div className="description-section">
-            <h3>Description</h3>
+            <h3>{t("description")}</h3>
             <p>{detailList?.description}</p>
           </div>
 
           <div className="points-details">
             <div className="flex justify-between items-baseline">
-              <h3>Points Details</h3>
+              <h3>{t("point details")}</h3>
               <button className="all_see" onClick={allSeeModalToggle}>
-                All see
+               {t("all see")}
               </button>
             </div>
             <div>
@@ -538,7 +538,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
     className="comment-button"
     onClick={commentModalToggle}
   >
-    Comment
+    {t("comment")}
   </button>
 </div>
 }

@@ -7,6 +7,7 @@ import whatsapp from "@/assets/img/whatsapp.svg";
 import carry_title from "@/assets/img/carry_title.svg";
 import Pagination from "../Pagination/Pagination";
 import moment from "moment";
+import { useTranslations } from "next-intl";
 
 interface UserPoint {
   fromUser?: {
@@ -30,18 +31,19 @@ interface AllSeeModalProps {
 function AllSeeModal({ toggle, modal, userPoint,commentModal }: AllSeeModalProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-useEffect(() => {
-console.log(userPoint,);
 
-},[])
+    
+  const t =  useTranslations("Static")
+  
+
   return (
     <div>
       <Modal isOpen={modal} toggle={toggle} centered size="xl">
         <ModalHeader toggle={toggle}>
           <div className="flex w-full justify-between items-center">
-            <h3>Points details</h3>
+            <h3>{t("points details")}Points details</h3>
             <div className="flex gap-3">
-              <button onClick={commentModal} className="add_comment mr-3">Add comment</button>
+              <button onClick={commentModal} className="add_comment mr-3">{t("add comment")}</button>
               {/* <div className="bg-white rounded-lg flex items-center justify-center mr-3 px-2">
                 <Image src={whatsapp} alt="" />
               </div> */}
@@ -94,7 +96,7 @@ console.log(userPoint,);
             ))}
              
           </div>
-          <button onClick={commentModal} className="add_comment mobile_add_comment  w-full my-3 ">Add comment</button>
+          <button onClick={commentModal} className="add_comment mobile_add_comment  w-full my-3 ">{t("add comment")}</button>
           <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

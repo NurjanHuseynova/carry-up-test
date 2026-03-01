@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { postApi } from "@/services/api";
 import toast from "react-hot-toast";
+import { useTranslations } from "next-intl";
 // // @ts-ignore
 
 // import { LoginSocialGoogle } from "reactjs-social-login";
@@ -133,6 +134,9 @@ function Login() {
     }
   };
 
+  
+  const t =  useTranslations("Static")
+  
   return (
     <>
       {loading && (
@@ -146,13 +150,13 @@ function Login() {
             <Image src={carry_logo} alt="Carry Logo" />
           </div>
           <div className={styles.welcome_text}>
-            <h2>Welcome!</h2>
-            <span>Please enter your profile information</span>
+            <h2>{t("welcome")}!</h2>
+            <span>{t("please enter your profile information")}</span>
           </div>
           <div className={styles.form_container}>
             <form onSubmit={handleSubmit}>
               <div className={styles.input_group}>
-                <label htmlFor="email_or_phone">Mobile number or email</label>
+                <label htmlFor="email_or_phone">{t("mobile number or email")}</label>
                 <input
                   type="text"
                   id="email_or_phone"
@@ -164,7 +168,7 @@ function Login() {
                 />
               </div>
               <div className={styles.input_group}>
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">{t("password")}</label>
                 <div className={styles.password_container}>
                   <input
                     type={showPassword ? "text" : "password"}
@@ -231,19 +235,19 @@ function Login() {
                       />
                     </svg>
                   </div>
-                  <label htmlFor="rememberMe">Remember me</label>
+                  <label htmlFor="rememberMe">{t("remember me")}</label>
                 </div>
 
                 <div className={styles.forgot_password}>
-                  <Link href="/forgot-password">Forgot password?</Link>
+                  <Link href="/forgot-password">{t("forgot password")}</Link>
                 </div>
               </div>
               <button type="submit" className={styles.login_button}>
-                Log In
+                {t("log in")}
               </button>
               <div className={styles.or_container}>
                 <span></span>
-                <p>Or with</p>
+                <p>{t("or with")}</p>
                 <span></span>
               </div>
               <button type="button" className={styles.google_button}>
@@ -267,7 +271,7 @@ function Login() {
             </form>
             <div className={styles.signup_link}>
               <p>
-                Don’t have an account? <Link href="/signUp">Sign Up</Link>
+                {t("don't have an account")}? <Link href="/signUp">{t("sign up")}</Link>
               </p>
             </div>
           </div>

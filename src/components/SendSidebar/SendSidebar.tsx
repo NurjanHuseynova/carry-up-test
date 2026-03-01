@@ -6,6 +6,7 @@ import date_icon from "@/assets/img/calendar.svg";
 import { SendSidebarProps } from "@/types/type";
 // import { IMaskInput } from "react-imask";
 import { currency } from "@/json/constant";
+import { useTranslations } from "next-intl";
 
 const SendSidebar: React.FC<SendSidebarProps> = ({
   handleSubmit,
@@ -16,6 +17,9 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
   sendClearForm,
   sendCurrentPage,
 }) => {
+  
+  const t =  useTranslations("Static")
+  
   return (
     <section className={styles.sidebar_section}>
       <form className={styles.form_section} onSubmit={handleSubmit}>
@@ -40,7 +44,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
           </div>
         </div> */}
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>Title</label>
+          <label>{t("title")}</label>
           <input
             type="text"
             name="title"
@@ -51,10 +55,10 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
         </div>
 
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>Price</label>
+          <label>{t("price")}</label>
           <div className="!grid !grid-cols-2 gap-2">
             <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-              <label>Min Price</label>
+              <label>{t("min price")}</label>
               <input
                 type="text"
                 name="minPrice"
@@ -64,7 +68,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
               />
             </div>
             <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-              <label>Max Price</label>
+              <label>{t("max price")}</label>
               <input
                 type="text"
                 name="maxPrice"
@@ -76,14 +80,14 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
           </div>
         </div>
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>Currency</label>
+          <label>{t("currency")}</label>
           <select
             name="currency"
             value={sendFormData.currency}
             onChange={handleInputChange}
             className="form-select"
           >
-            <option value="">Select currency</option>
+            <option value="">{t("select currency")}</option>
             {currency &&
               Object.entries(currency).map(([key, value]) => (
                 <option key={value} value={value}>
@@ -93,7 +97,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
           </select>
         </div>
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>Category</label>
+          <label>{t("category")}</label>
           <select
             name="category"
             value={sendFormData.category}
@@ -101,13 +105,13 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
             className="form-select"
           >
             <option value={0} >
-              Select category
+              {t("select category")}
             </option>
-            <option value={1}>Document</option>
+            <option value={1}>{t("document")}</option>
           </select>
         </div>
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>From Place</label>
+          <label>{t("from place")}</label>
           <input
             type="text"
             name="fromPlace"
@@ -117,7 +121,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
           />
         </div>
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>To Place</label>
+          <label>{t("to place")}</label>
           <input
             type="text"
             name="toPlace"
@@ -134,7 +138,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
           className={`${styles.clear_button}`}
           onClick={() => sendClearForm()}
         >
-          Clear all
+          {t("clear all")}
         </button>
         <button
           type="submit"
@@ -143,7 +147,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
             fetchSends(sendCurrentPage);
           }}
         >
-          Search
+          {t("search")}
         </button>
       </div>
     </section>

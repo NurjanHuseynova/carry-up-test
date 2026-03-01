@@ -229,6 +229,10 @@ function SignUp() {
     }
   };
 
+  
+  const t =  useTranslations("Static")
+  
+
   return (
     <>
       {loading && (
@@ -242,8 +246,8 @@ function SignUp() {
             <Image src={carry_logo} alt="carry_logo" />
           </div>
           <div className={styles.welcome_text}>
-            <h2>Welcome!</h2>
-            <span>Please create an account</span>
+            <h2>{t("welcome")}!</h2>
+            <span>{t("please create an account")}</span>
           </div>
 
           <div className={styles.form_container}>
@@ -253,7 +257,7 @@ function SignUp() {
               >
                 <div className={styles.input_group_item}>
                   <label htmlFor="name" className="">
-                    Name<span className={styles.reqField}> * </span>
+                   {t("name")} <span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="text"
@@ -267,7 +271,7 @@ function SignUp() {
                 </div>
                 <div className={styles.input_group_item}>
                   <label htmlFor="surname" className="">
-                    Surname<span className={styles.reqField}> * </span>
+                   {t("surname")}<span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="text"
@@ -286,7 +290,7 @@ function SignUp() {
               >
                 <div className={styles.input_group_item}>
                   <label htmlFor="birthday">
-                    Birthday<span className={styles.reqField}> * </span>
+                    {t("birthday")}<span className={styles.reqField}> * </span>
                   </label>
                   <div className="relative">
                     <DatePicker
@@ -305,7 +309,7 @@ function SignUp() {
                 </div>
                 <div className={styles.input_group_item}>
                   <label htmlFor="gender" className="">
-                    Gender<span className={styles.reqField}> * </span>
+                    {t("gender")}<span className={styles.reqField}> * </span>
                   </label>
                   <select
                     name="gender"
@@ -316,7 +320,7 @@ function SignUp() {
                     onChange={handleChange}
                   >
                     <option value="" disabled>
-                      Gender
+                     {t("gender")} 
                     </option>
                     {Object.entries(gender).map(([key, value]) => (
                       <option key={value} value={value}>
@@ -332,7 +336,7 @@ function SignUp() {
               >
                 <div className={styles.input_group_item}>
                   <label htmlFor="email" className="">
-                    Email<span className={styles.reqField}> * </span>
+                  {t("email")}  <span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="email"
@@ -346,7 +350,7 @@ function SignUp() {
                 </div>
                 <div className={styles.input_group_item}>
                   <label htmlFor="number" className="">
-                    Phone Number<span className={styles.reqField}> * </span>
+                   {t("phone number")}<span className={styles.reqField}> * </span>
                   </label>
                   {/* <input
                     type="text"
@@ -372,7 +376,7 @@ function SignUp() {
               >
                 <div className={styles.input_group_item}>
                   <label htmlFor="text" className="">
-                    City<span className={styles.reqField}> * </span>
+                   {t("city")}<span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="text"
@@ -386,7 +390,7 @@ function SignUp() {
                 </div>
                 <div className={styles.input_group_item}>
                   <label htmlFor="text" className="">
-                    Country
+                   {t("country")}
                   </label>
                   <select
                     className={`${
@@ -397,7 +401,7 @@ function SignUp() {
                     name="country"
                     value={formData.country}
                   >
-                    <option value="0">Select country</option>
+                    <option value="0">{t("select country")}</option>
                     {countries.map((item, i) => (
                       <option value={item?.id} key={item?.id}>
                         {item?.name}
@@ -421,7 +425,7 @@ function SignUp() {
               >
                 <div className={styles.input_group_item}>
                   <label htmlFor="password" className="">
-                    Create password<span className={styles.reqField}> * </span>
+                   {t("create password")}<span className={styles.reqField}> * </span>
                   </label>
                   <div className={styles.password_container}>
                     <input
@@ -446,7 +450,7 @@ function SignUp() {
                 </div>
                 <div className={styles.input_group_item}>
                   <label htmlFor="confirmPassword" className="">
-                    Confirm password<span className={styles.reqField}> * </span>
+                   {t("confirm password")}<span className={styles.reqField}> * </span>
                   </label>
                   <div className={styles.password_container}>
                     <input
@@ -520,12 +524,12 @@ function SignUp() {
                   </svg>
                 </div>
                 <label htmlFor="terms">
-                  I have read and agree to{" "}
+                {t("I have read and agree to")} {" "}
                   <Link
                     href=""
                     className="text-[#45a8ff] font-medium md:text-lg"
                   >
-                    terms of services
+                   {t("terms of services")} 
                   </Link>
                 </label>
               </div>
@@ -536,12 +540,12 @@ function SignUp() {
                   className={styles.signup_button}
                   disabled={loading}
                 >
-                  Sign Up
+                  {t("sign up")}
                 </button>
               </div>
               <div className={styles.or_container}>
                 <span></span>
-                <p>Or with</p>
+                <p>{t("or with")}</p>
                 <span></span>
               </div>
               {/* <button type="button" className={styles.google_button}>
@@ -567,7 +571,7 @@ function SignUp() {
 
           <div className={styles.signup_link}>
             <p>
-              Already have an account? <Link href="/login">Sign In</Link>
+             {t("already have an account")}? <Link href="/login">{t("sign in")}</Link>
             </p>
           </div>
         </div>
