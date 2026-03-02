@@ -16,9 +16,7 @@ import microphone from "@/assets/img/microphone.svg";
 import buliding from "@/assets/img/buliding.svg";
 import message from "@/assets/img/message.svg";
 import close from "@/assets/img/close.svg";
-import { useTranslations } from "next-intl";
-
-
+import { useLocale, useTranslations } from "next-intl";
 
 interface User {
   name: string;
@@ -26,18 +24,30 @@ interface User {
   photo: string;
 }
 
- function Navbar() {
+function Navbar() {
   const [user, setUser] = useState<User | null>(null);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+
+  const currentLocale = useLocale();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const languages = ["en", "az", "ru"]; 
+
+  const handleSelect = (lang: string) => {
+    setMenuOpen(false);
+    const path = window.location.pathname; 
+    const newPath = `/${lang}${path.replace(/^\/(en|az|ru)/, "")}`;
+    router.push(newPath);
+  };
+
+  const selectedLang = currentLocale;
 
   const menuRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const t =  useTranslations("Static")
-  
-
+  const t = useTranslations("Static");
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -52,24 +62,24 @@ interface User {
         !event.target.closest(`.${styles.userInfo}`)
       ) {
         setShowMenu(false);
-      }
-      else if (mobileMenuRef.current &&
+      } else if (
+        mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target) &&
-        !event.target.closest(`.${styles.hamburger}`)) {
-        setIsMobileMenuOpen(false)
+        !event.target.closest(`.${styles.hamburger}`)
+      ) {
+        setIsMobileMenuOpen(false);
       }
     };
     document.addEventListener("click", handleOutsideClick);
     return () => document.removeEventListener("click", handleOutsideClick);
   }, []);
 
-
   const handleLogout = async () => {
     try {
       const refreshToken = localStorage.getItem("refreshToken");
 
       const res = await fetchApi(`Manage/Logout`, {
-        refreshToken
+        refreshToken,
       });
 
       if (res?.errors && res?.errors.length > 0) {
@@ -84,7 +94,7 @@ interface User {
 
       setUser(null);
       router.push("/");
-      toast.success('You have successfully logged out!')
+      toast.success("You have successfully logged out!");
     } catch (error: any) {
       toast.error(`Logout failed!`);
     }
@@ -92,34 +102,34 @@ interface User {
 
   const base64Image = `data:image/png;base64,${user?.photo}`;
 
-
   return (
     <section className={styles.navbar}>
       <header className={`custom_container ${styles.header}`}>
         <div className={styles.logo}>
           <Link href="/" className="flex items-center">
-            <Image src={carry_logo} alt="Carry Logo"  width={153} height={43}/>
+            <Image src={carry_logo} alt="Carry Logo" width={153} height={43} />
           </Link>
         </div>
 
-        <button className={styles.hamburger} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+        <button
+          className={styles.hamburger}
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
           <Image src={hambuger_menu} alt="menu icon" />
         </button>
 
         {isMobileMenuOpen && (
           <div className={styles.mobileMenu} ref={mobileMenuRef}>
             <div className={styles.closeHeader}>
-              <Image src={carry_logo} alt=""/>
+              <Image src={carry_logo} alt="" />
               <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                 <Image src={close} alt="close icon" />
               </button>
             </div>
             <ul className={styles.menu}>
-              {
-                user?.name && (<li>
-                  <div
-                    className={styles.userInfo}
-                  >
+              {user?.name && (
+                <li>
+                  <div className={styles.userInfo}>
                     <Image
                       src={base64Image}
                       className={styles.avatar}
@@ -131,113 +141,125 @@ interface User {
                       {user?.name + " " + user?.surname}
                     </span>
                   </div>
-                </li>)
-              }
+                </li>
+              )}
 
-              {
-                !user ? (
-                  <>
-                    <li>
-                      <Link href="/login" className={styles.menuItem}>
-                       {t("login")}
+              {!user ? (
+                <>
+                  <li>
+                    <Link href="/login" className={styles.menuItem}>
+                      {t("login")}
+                    </Link>
+                  </li>
+                  {!isMobileMenuOpen && <span className={styles.radius}></span>}
+                  <li>
+                    <Link href="/signUp" className={styles.menuItem}>
+                      {t("sign up")}
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <button>
+                      <Link
+                        href="/profile?tab=profile"
+                        className={styles.menuItem}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <Image
+                          src={profile_icon}
+                          width={36}
+                          height={36}
+                          alt="profile"
+                          className={styles.icon}
+                        />
+                        {t("profile")}
                       </Link>
-                    </li>
-                    {!isMobileMenuOpen &&
-                      <span className={styles.radius}></span>
-                    }
-                    <li>
-                      <Link href="/signUp" className={styles.menuItem}>
-                       {t("sign up")}
+                    </button>
+                  </li>
+                  <li>
+                    <button className={`getTabClass("password")`}>
+                      <Link
+                        href="/profile?tab=password"
+                        className={styles.menuItem}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <Image
+                          src={keySquare}
+                          alt={"password_icon"}
+                          className={styles.icon}
+                        />
+                        {t("password")}
                       </Link>
-                    </li>
-                  </>
-                )
-                  : (
-                    <>
-                      <li>
-                        <button>
-                          <Link href="/profile?tab=profile" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>
-                            <Image
-                              src={profile_icon}
-                              width={36}
-                              height={36}
-                              alt="profile"
-                              className={styles.icon}
-                            />
-                           {t("profile")} 
-                          </Link>
-                        </button>
-                      </li>
-                      <li>
-                        <button className={`getTabClass("password")`}>
-                          <Link href="/profile?tab=password" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>
-                            <Image
-                              src={keySquare}
-                              alt={'password_icon'}
-                              className={styles.icon}
-                            />
-                            {t("password")}
-                          </Link>
-                        </button>
-
-                      </li>
-                      <li>
-                        <button className={`getTabClass("myAdsTrip")`} >
-                          <Link href="/profile?tab=myAdsTrip" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>
-                            <Image
-                              src={microphone}
-                              alt={'microphone'}
-                              className={styles.icon}
-                            />
-                           {t("my ads trip")} 
-                          </Link>
-                        </button>
-                      </li>
-                      <li>
-                        <button className={`getTabClass("myAdsSend")`}>
-                          <Link href="/profile?tab=myAdsSend" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>
-
-                            <Image
-                              src={buliding}
-                              alt={'building'}
-                              className={styles.icon}
-                            />
-                            {t("my ads send")}
-                          </Link>
-                        </button>
-                      </li>
-                      <li>
-                        <button className={`getTabClass("myPoints")`} >
-                          <Link href="/profile?tab=myPoints" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>
-                            <Image
-                              src={message}
-                              alt={'message'}
-                              className={styles.icon}
-                            />
-                           {t("my points")} 
-                          </Link>
-                        </button>
-                      </li>
-                      <li>
-
-                          <Link href={"post-an-add"} className={styles.postAdButton}>{t("post an add")}</Link>
-                 
-                      </li>
-                      <li>
-                        <button className={styles.menuItem} onClick={handleLogout}>
-                          <Image
-                            src={logout_icon}
-                            alt="logout"
-                            className={styles.popIcon}
-                          />
-                         {t("logout")} 
-                        </button>
-                      </li>
-                    </>
-                  )}
+                    </button>
+                  </li>
+                  <li>
+                    <button className={`getTabClass("myAdsTrip")`}>
+                      <Link
+                        href="/profile?tab=myAdsTrip"
+                        className={styles.menuItem}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <Image
+                          src={microphone}
+                          alt={"microphone"}
+                          className={styles.icon}
+                        />
+                        {t("my ads trip")}
+                      </Link>
+                    </button>
+                  </li>
+                  <li>
+                    <button className={`getTabClass("myAdsSend")`}>
+                      <Link
+                        href="/profile?tab=myAdsSend"
+                        className={styles.menuItem}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <Image
+                          src={buliding}
+                          alt={"building"}
+                          className={styles.icon}
+                        />
+                        {t("my ads send")}
+                      </Link>
+                    </button>
+                  </li>
+                  <li>
+                    <button className={`getTabClass("myPoints")`}>
+                      <Link
+                        href="/profile?tab=myPoints"
+                        className={styles.menuItem}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <Image
+                          src={message}
+                          alt={"message"}
+                          className={styles.icon}
+                        />
+                        {t("my points")}
+                      </Link>
+                    </button>
+                  </li>
+                  <li>
+                    <Link href={"post-an-add"} className={styles.postAdButton}>
+                      {t("post an add")}
+                    </Link>
+                  </li>
+                  <li>
+                    <button className={styles.menuItem} onClick={handleLogout}>
+                      <Image
+                        src={logout_icon}
+                        alt="logout"
+                        className={styles.popIcon}
+                      />
+                      {t("logout")}
+                    </button>
+                  </li>
+                </>
+              )}
             </ul>
-
-
           </div>
         )}
 
@@ -245,12 +267,38 @@ interface User {
           {!user ? (
             <>
               <Link href="/login" className={styles.navLink}>
-              {t("login")}
+                {t("login")}
               </Link>
               <span className={styles.radius}></span>
               <Link href="/signUp" className={styles.navLink}>
-              {t("sign up")}  
+                {t("sign up")}
               </Link>
+           <div className={styles.langContainer}>
+      <button
+        className={styles.langTrigger}
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
+        {selectedLang.toUpperCase()}
+      </button>
+
+      {menuOpen && (
+        <div className={styles.langMenu}>
+          {languages
+            .filter((lang) => lang !== selectedLang)
+            .map((lang) => (
+              <a
+                key={lang}
+                onClick={() => handleSelect(lang)}
+                className={styles.langItem}
+              >
+                {lang.toUpperCase()}
+              </a>
+            ))}
+        </div>
+      )}
+    </div>
+
+           
             </>
           ) : (
             <div className={styles.userNav}>
@@ -279,7 +327,7 @@ interface User {
                       alt="profile"
                       className={styles.popIcon}
                     />
-                  {t("profile")}  
+                    {t("profile")}
                   </Link>
                   <button className={styles.menuItem} onClick={handleLogout}>
                     <Image
@@ -287,12 +335,13 @@ interface User {
                       alt="logout"
                       className={styles.popIcon}
                     />
-                   {t("logout")} 
+                    {t("logout")}
                   </button>
                 </div>
               )}
-                <Link href={"post-an-add"}  className={styles.postAdButton}>{t("post an add")}</Link>
-             
+              <Link href={"post-an-add"} className={styles.postAdButton}>
+                {t("post an add")}
+              </Link>
             </div>
           )}
         </nav>

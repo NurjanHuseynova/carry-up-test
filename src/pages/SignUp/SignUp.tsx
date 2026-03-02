@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import SuccessModal from "@/components/SuccessModal/SuccessModal";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { useTranslations } from "next-intl";
 
 // // @ts-ignore
 // import { LoginSocialGoogle } from "reactjs-social-login";
@@ -374,9 +375,9 @@ function SignUp() {
               <div
                 className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}
               >
-                <div className={styles.input_group_item}>
+                {/* <div className={styles.input_group_item}>
                   <label htmlFor="text" className="">
-                   {t("city")}<span className={styles.reqField}> * </span>
+                   {t(" city")}<span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="text"
@@ -408,16 +409,8 @@ function SignUp() {
                       </option>
                     ))}
                   </select>
-                  {/* <input
-                  type="text"
-                  id="country"
-                  name="country"
-              
-                  placeholder="Enter"
-                  value={formData.country}
-                  onChange={handleChange}
-                /> */}
-                </div>
+               
+                </div> */}
               </div>
 
               <div

@@ -10,6 +10,7 @@ import date_icon from "@/assets/img/calendar.svg";
 
 import styles from "@/assets/css/postanadd/postanadd.module.css";
 import "@/assets/css/profile/profileEdit.css";
+import { useTranslations } from "next-intl";
 
 type FormDataType = {
   appointmentDate: Date | null;
@@ -246,6 +247,9 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
       setIsLoading(false);
     }
   }
+
+    const t = useTranslations("Static")
+
   return (
     <div
       style={{
@@ -253,7 +257,7 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
       }}
       className={`editContainer ${styles.create_container}`}
     >
-      <h4 className={styles.activeTab}>Edit Send</h4>
+      <h4 className={styles.activeTab}>{t("Edit Send")}</h4>
       {isLoading ? (
         <div role="status" className="loading">
           <svg
@@ -287,7 +291,7 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
               >
                 <div className={styles.input_group_item}>
                   <label htmlFor="title">
-                    Title<span className={styles.reqField}> * </span>
+                    {t("Title")}<span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="text"
@@ -300,7 +304,7 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
                 </div>
                 <div className={styles.input_group_item}>
                   <label htmlFor="category">
-                    Category<span className={styles.reqField}> * </span>
+                    {t("Category")} <span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="text"
@@ -317,7 +321,7 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
               >
                 <div className={`${styles.input_group_item}`}>
                   <label htmlFor="count">
-                    Count<span className={styles.reqField}> * </span>
+                    {t("Count")}<span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="number"
@@ -331,7 +335,7 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
                 </div>
                 <div className={`${styles.input_group_item}`}>
                   <label htmlFor="price">
-                    Price<span className={styles.reqField}> * </span>
+                      {t("price")}<span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="number"
@@ -346,7 +350,7 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
                 </div>
                 <div className={`${styles.currencySection}`}>
                   <label>
-                    Currency<span className={styles.reqField}> * </span>
+                    {t("Currency")}<span className={styles.reqField}> * </span>
                   </label>
                   <div className="flex gap-4">
                     <label className="flex items-center gap-2">
@@ -380,7 +384,7 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
               >
                 <div className={styles.input_group_item}>
                   <label htmlFor="from">
-                    From<span className={styles.reqField}> * </span>
+                    {t("From City")}<span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="text"
@@ -393,7 +397,34 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
                 </div>
                 <div className={styles.input_group_item}>
                   <label htmlFor="to">
-                    To<span className={styles.reqField}> * </span>
+                    {t("To City")}<span className={styles.reqField}> * </span>
+                  </label>
+                  <input
+                    type="text"
+                    id="to"
+                    name="to"
+                    placeholder="To"
+                    value={formData.to}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                      <div className={styles.input_group_item}>
+                  <label htmlFor="from">
+                    {t("From Country")}<span className={styles.reqField}> * </span>
+                  </label>
+                  <input
+                    type="text"
+                    id="from"
+                    name="from"
+                    placeholder="From"
+                    value={formData.from}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className={styles.input_group_item}>
+                  <label htmlFor="to">
+                    {t("To Country")}<span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="text"
@@ -410,7 +441,7 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
               >
                 <div className={styles.input_group_item}>
                   <label htmlFor="description">
-                    Description<span className={styles.reqField}> * </span>
+                     {t("description")}<span className={styles.reqField}> * </span>
                   </label>
                   <textarea
                     id="description"
@@ -431,7 +462,7 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
               >
                 <div className={styles.input_group_item}>
                   <label htmlFor="appointmentDate">
-                    Date of appointment
+                   {t("date of appointment")} 
                     <span className={styles.reqField}> * </span>
                   </label>
                   <div className="relative">
@@ -452,7 +483,7 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
 
                 <div className={styles.input_group_item}>
                   <label htmlFor="name" className="">
-                    Deadline<span className={styles.reqField}> * </span>
+                     {t("Deadline")}<span className={styles.reqField}> * </span>
                   </label>
                   <div className="relative">
                     <DatePicker
@@ -467,6 +498,23 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
                     </div>
                   </div>
                 </div>
+                  <div className={styles.input_group_item}>
+              <label htmlFor="name" className="">
+                 {t("Last apply date")}<span className={styles.reqField}> * </span>
+              </label>
+              <div className="relative">
+                <DatePicker
+                  dateFormat="dd/MM/yyyy"
+                  // selected={formData.appointmentDate}
+                  // onChange={(date) => handleDateChange("appointmentDate", date)}
+                  placeholderText="dd/mm/yyyy"
+                  className="pl-10"
+                />
+                <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+                  <Image src={date_icon} alt="date_icon" />
+                </div>
+              </div>
+            </div>
               </div>
             </div>
 
@@ -476,14 +524,14 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
                 className={styles.cancel_btn}
                 onClick={clearInput}
               >
-                Cancel
+                 {t("Cancel")} 
               </button>
               <button
                 type="submit"
                 className={styles.save_btn}
                 disabled={isLoading}
               >
-                Save
+                    {t("save")} 
               </button>
             </div>
           </form>

@@ -6,6 +6,7 @@ import carry_logo from "@/assets/img/Carry UP.svg";
 import Image from "next/image";
 import { postApi } from "@/services/api";
 import modalStyles from "@/assets/css/succesmodal/successmodal.module.css";
+import { useTranslations } from "next-intl";
 
 interface FormState {
   email: string;
@@ -58,6 +59,8 @@ function ForgotPassword() {
     router.push("/"); 
   };
 
+   const t = useTranslations("Static")
+
   return (
  <div>
      {isLoading && (
@@ -72,14 +75,14 @@ function ForgotPassword() {
         </div>
 
         <div className={styles.welcome_text}>
-          <h2>{"Forgot Password?"}</h2>
-          <span>{"Don’t worry, we will help you recover your account."}</span>
+          <h2>{t("Forgot Password")}</h2>
+          <span>{t("Don’t worry, we will help you recover your account")}</span>
         </div>
 
         <div className={styles.form_container}>
           <form onSubmit={handleSubmit}>
             <div className={styles.input_group}>
-              <label htmlFor="email">Email address</label>
+              <label htmlFor="email">{t("email address")}</label>
               <input
                 type="text"
                 id="email"
@@ -92,7 +95,7 @@ function ForgotPassword() {
 
             {error && <p className={styles.error_message}>{error}</p>}
             <button type="submit" className={styles.login_button} disabled={isLoading}>
-              {isLoading ? "Loading..." : "Continue"}
+              {isLoading ? `${t("Loading")}...` : `${t("Continue")}`}
             </button>
           </form>
         </div>
@@ -105,10 +108,10 @@ function ForgotPassword() {
               <div className={modalStyles.spinner}></div>
             ) : (
               <>
-                <h2>{"Success!"}</h2>
-                <p>{"A password reset link has been sent to your email."}</p>
+                <h2>{t("Success")!}</h2>
+                <p>{t("A password reset link has been sent to your email")}</p>
                 <button onClick={handleCloseModal} className={modalStyles.closeButton}>
-                  Ok
+                 {t("ok")} 
                 </button>
               </>
             )}

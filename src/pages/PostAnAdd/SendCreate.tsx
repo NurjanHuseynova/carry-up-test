@@ -7,6 +7,7 @@ import date_icon from "@/assets/img/calendar.svg";
 import toast from "react-hot-toast";
 import { postApi } from "../../services/api";
 import { currency } from "../../json/constant";
+import { useTranslations } from "next-intl";
 
 interface User {
   id: string;
@@ -133,7 +134,7 @@ function SendCreate() {
       appointmentDate: null as Date | null,
     });
   };
-
+  const t = useTranslations("Static")
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -141,7 +142,7 @@ function SendCreate() {
           <div className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}>
             <div className={styles.input_group_item}>
               <label htmlFor="title">
-                Title<span className={styles.reqField}> * </span>
+              {t("Title")}<span className={styles.reqField}> * </span>
               </label>
               <input
                 type="text"
@@ -154,7 +155,7 @@ function SendCreate() {
             </div>
             <div className={styles.input_group_item}>
               <label htmlFor="category">
-                Category<span className={styles.reqField}> * </span>
+              {t("Category")}  <span className={styles.reqField}> * </span>
               </label>
               <input
                 type="text"
@@ -169,7 +170,7 @@ function SendCreate() {
           <div className={`grid gap-3 grid-cols-2 md:grid-cols-3 mb-2 ${styles.input_group}`}>
             <div className={`${styles.input_group_item}`}>
               <label htmlFor="count">
-                Count<span className={styles.reqField}> * </span>
+               {t("Count")}  <span className={styles.reqField}> * </span>
               </label>
               <input
                 type="number"
@@ -183,7 +184,7 @@ function SendCreate() {
             </div>
             <div className={`${styles.input_group_item}`}>
               <label htmlFor="price">
-                Price<span className={styles.reqField}> * </span>
+                 {t("price")}<span className={styles.reqField}> * </span>
               </label>
               <input
                 type="number"
@@ -198,7 +199,7 @@ function SendCreate() {
             </div>
             <div className={`${styles.currencySection}`}>
               <label>
-                Currency<span className={styles.reqField}> * </span>
+                {t("Currency")}<span className={styles.reqField}> * </span>
               </label>
               <div className="flex gap-4">
                 <label className="flex items-center gap-2">
@@ -230,7 +231,7 @@ function SendCreate() {
           <div className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}>
             <div className={styles.input_group_item}>
               <label htmlFor="from">
-                From<span className={styles.reqField}> * </span>
+                {t("From City")}<span className={styles.reqField}> * </span>
               </label>
               <input
                 type="text"
@@ -243,7 +244,33 @@ function SendCreate() {
             </div>
             <div className={styles.input_group_item}>
               <label htmlFor="to">
-                To<span className={styles.reqField}> * </span>
+               {t("To City")}<span className={styles.reqField}> * </span>
+              </label>
+              <input
+                type="text"
+                id="to"
+                name="to"
+                placeholder="To"
+                value={formData.to}
+                onChange={handleInputChange}
+              />
+            </div>
+               <div className={styles.input_group_item}>
+              <label htmlFor="from" className="">
+                 {t("From Country")}<span className={styles.reqField}> * </span>
+              </label>
+              <input
+                type="text"
+                id="from"
+                name="from"
+                placeholder="from"
+                value={formData.from}
+                onChange={handleInputChange}
+              />
+            </div>
+              <div className={styles.input_group_item}>
+              <label htmlFor="to" className="">
+                 {t("To Country")}<span className={styles.reqField}> * </span>
               </label>
               <input
                 type="text"
@@ -258,7 +285,7 @@ function SendCreate() {
           <div className={`grid gap-3 md:grid-cols-1 ${styles.input_group}`}>
             <div className={styles.input_group_item}>
               <label htmlFor="description">
-                Description<span className={styles.reqField}> * </span>
+                {t("description")}<span className={styles.reqField}> * </span>
               </label>
               <textarea
                 id="description"
@@ -274,16 +301,33 @@ function SendCreate() {
               </span>
             </div>
           </div>
-          <div className={`grid gap-3 md:grid-cols-1 ${styles.input_group}`}>
+          <div className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}>
             <div className={styles.input_group_item}>
               <label htmlFor="appointmentDate">
-                Date of appointment<span className={styles.reqField}> * </span>
+            {t("date of appointment")}    <span className={styles.reqField}> * </span>
               </label>
               <div className="relative">
                 <DatePicker
                   dateFormat="dd/MM/yyyy"
                   selected={formData.appointmentDate}
                   onChange={handleDateChange}
+                  placeholderText="dd/mm/yyyy"
+                  className="pl-10"
+                />
+                <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+                  <Image src={date_icon} alt="date_icon" />
+                </div>
+              </div>
+            </div>
+             <div className={styles.input_group_item}>
+              <label htmlFor="name" className="">
+                 {t("Last apply date")}<span className={styles.reqField}> * </span>
+              </label>
+              <div className="relative">
+                <DatePicker
+                  dateFormat="dd/MM/yyyy"
+                  // selected={formData.appointmentDate}
+                  // onChange={(date) => handleDateChange("appointmentDate", date)}
                   placeholderText="dd/mm/yyyy"
                   className="pl-10"
                 />
@@ -301,10 +345,10 @@ function SendCreate() {
             className={styles.cancel_btn}
             onClick={clearInput}
           >
-            Cancel
+              {t("Cancel")} 
           </button>
           <button type="submit" className={styles.save_btn}>
-            Save
+           {t("save")} 
           </button>
         </div>
       </form>

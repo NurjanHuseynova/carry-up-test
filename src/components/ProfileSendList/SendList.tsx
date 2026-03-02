@@ -10,6 +10,7 @@ import { mapCurrencyType } from "@/utils/enumsToData";
 import { deleteApi, postApi } from "@/services/api";
 import { useRouter } from "next/navigation";
 import SendModal from "../Modal/SendModal";
+import { useTranslations } from "next-intl";
 
 interface MySends {
   id: number;
@@ -34,10 +35,11 @@ function SendList() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const[detailList,setDetailList] = useState({})
+  const [detailList, setDetailList] = useState({});
   const router = useRouter();
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
+  const t = useTranslations("Static");
 
   useEffect(() => {
     fetchSends(currentPage);
@@ -61,7 +63,7 @@ function SendList() {
       console.log(accessToken);
 
       if (!accessToken) {
-        toast.error("User credentials is missing.");
+        toast.error(t("userCredentialsMissing"));
         setIsLoading(false);
         return;
       }
@@ -76,12 +78,12 @@ function SendList() {
       }
 
       if (resData?.success) {
-        toast.success("Item deleted successfully.");
+        toast.success(t("itemDeletedSuccessfully"));
       }
 
       setSends((prevSends) => prevSends.filter((send) => send.id !== id));
     } catch (error: any) {
-      toast.error("Error deleting item: " + error.message);
+      toast.error(t("errorDeletingItem") + error.message);
     } finally {
       setIsLoading(false);
     }
@@ -98,7 +100,7 @@ function SendList() {
       if (!userId || !accessToken) {
         setIsLoading(false);
 
-        toast.error("User credentials is missing.");
+        toast.error(t("userCredentialsMissing"));
         return;
       }
 
@@ -113,11 +115,9 @@ function SendList() {
       const responseData = await postApi(
         `Send/GetSendsByUserId`,
         payload,
-        accessToken
+        accessToken,
       );
 
-
-      
       if (responseData?.list) {
         const mappedSends = responseData.list.map((send: any) => {
           const details = send.sendPlaceDetails[0] || {};
@@ -137,15 +137,15 @@ function SendList() {
         });
 
         setSends(mappedSends);
-        setDetailList(responseData?.list[0])
+        setDetailList(responseData?.list[0]);
         setTotalPages(Math.ceil(responseData.totalCount / payload.pageSize));
       } else {
         setSends([]);
 
-        toast.error("No sends found.");
+        toast.error(t("noSendsFound"));
       }
     } catch (error: any) {
-      toast.error("Error fetching sends: " + error);
+      toast.error(t("errorFetchingSends") + error);
     } finally {
       setIsLoading(false);
     }
@@ -183,12 +183,12 @@ function SendList() {
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Catch date</th>
-                <th>Created date</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Deadline</th>
-                <th>Actions</th>
+                <th>{t("catchDate")}</th>
+                <th>{t("createdDate")}</th>
+                <th>{t("from")}</th>
+                <th>{t("to")}</th>
+                <th>{t("deadline")}</th>
+                <th>{t("actions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -202,19 +202,19 @@ function SendList() {
                     <td>{send.deadline}</td>
                     <td>
                       <button
-                        title="Edit"
+                        title={t("edit")}
                         onClick={(e) => handleEdit(e, send.id)}
                       >
-                        <Image src={brush} className={""} alt={"edit"} />
+                        <Image src={brush} alt={t("edit")} />
                       </button>
                       <button
-                        title="Delete"
+                        title={t("delete")}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDelete(send.id);
                         }}
                       >
-                        <Image src={trash} className={""} alt={"delete"} />
+                        <Image src={trash} alt={t("delete")} />
                       </button>
                     </td>
                   </tr>
@@ -222,7 +222,7 @@ function SendList() {
               ) : (
                 <tr>
                   <td colSpan={6} style={{ textAlign: "center" }}>
-                    No information available.
+                    {t("noInformation")}
                   </td>
                 </tr>
               )}

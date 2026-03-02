@@ -10,6 +10,7 @@ import date_icon from "@/assets/img/calendar.svg";
 
 import styles from "@/assets/css/postanadd/postanadd.module.css";
 import "@/assets/css/profile/profileEdit.css";
+import { useTranslations } from "next-intl";
 
 type FormDataType = {
   appointmentDate: Date | null;
@@ -242,6 +243,8 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
       setIsLoading(false);
     }
   }
+
+    const t = useTranslations("Static")
   return (
     <div
       style={{
@@ -249,7 +252,7 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
       }}
       className={`editContainer ${styles.create_container}`}
     >
-      <h4 className={styles.activeTab}>Edit Trip</h4>
+      <h4 className={styles.activeTab}>{t("Edit Trip")}</h4>
       {isLoading ? (
         <div role="status" className="loading">
           <svg
@@ -280,7 +283,7 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
             <div className="grid gap-3 grid-cols-2 mt-8">
               <div>
                 <div className={`grid gap-3 grid-cols-2 ${styles.input_group}`}>
-                  <div className={styles.input_group_item}>
+                  {/* <div className={styles.input_group_item}>
                     <label htmlFor="title" className="">
                       Title<span className={styles.reqField}> * </span>
                     </label>
@@ -305,12 +308,12 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                       value={formData.category}
                       onChange={handleInputChange}
                     />
-                  </div>
+                  </div> */}
                 </div>
                 <div className={`grid gap-3 grid-cols-2 ${styles.input_group}`}>
                   <div className={styles.input_group_item}>
                     <label htmlFor="from" className="">
-                      From<span className={styles.reqField}> * </span>
+                       {t("From City")}<span className={styles.reqField}> * </span>
                     </label>
                     <input
                       type="text"
@@ -323,7 +326,7 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                   </div>
                   <div className={styles.input_group_item}>
                     <label htmlFor="name" className="">
-                      Date<span className={styles.reqField}> * </span>
+                       {t("Date")}<span className={styles.reqField}> * </span>
                     </label>
                     <div className="relative">
                       <DatePicker
@@ -342,7 +345,7 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                 <div className={`grid gap-3 grid-cols-2 ${styles.input_group}`}>
                   <div className={styles.input_group_item}>
                     <label htmlFor="to" className="">
-                      To<span className={styles.reqField}> * </span>
+                        {t("To City")}<span className={styles.reqField}> * </span>
                     </label>
                     <input
                       type="text"
@@ -355,7 +358,7 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                   </div>
                   <div className={styles.input_group_item}>
                     <label htmlFor="name" className="">
-                      Date<span className={styles.reqField}> * </span>
+                       {t("Date")}<span className={styles.reqField}> * </span>
                     </label>
                     <div className="relative">
                       <DatePicker
@@ -372,9 +375,35 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                   </div>
                 </div>
                 <div className={`grid gap-3 grid-cols-2 ${styles.input_group}`}>
+                        <div className={styles.input_group_item}>
+              <label htmlFor="from" className="">
+                {t("From Country")}<span className={styles.reqField}> * </span>
+              </label>
+              <input
+                type="text"
+                id="from"
+                name="from"
+                placeholder="from"
+                // value={formData.from}
+                // onChange={handleInputChange}
+              />
+            </div>
+              <div className={styles.input_group_item}>
+              <label htmlFor="to" className="">
+              {t("To Country")}<span className={styles.reqField}> * </span>
+              </label>
+              <input
+                type="text"
+                id="to"
+                name="to"
+                placeholder="To"
+                // value={formData.to}
+                // onChange={handleInputChange}
+              />
+            </div>
                   <div className={styles.input_group_item}>
                     <label htmlFor="travelType">
-                      Transport<span className={styles.reqField}> * </span>
+                       {t("Transport")}<span className={styles.reqField}> * </span>
                     </label>
                     <select
                       name="travelType"
@@ -391,7 +420,7 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                   </div>
                   <div className={styles.input_group_item}>
                     <label htmlFor="name" className="">
-                      Date of appointment
+                      {t("Date of appointment")}
                       <span className={styles.reqField}> * </span>
                     </label>
                     <div className="relative">
@@ -415,7 +444,7 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                 <div
                   className={`grid gap-3  md:grid-cols-3 ${styles.input_group}`}
                 >
-                  <div className={`${styles.input_group_item}`}>
+                  {/* <div className={`${styles.input_group_item}`}>
                     <label htmlFor="count">
                       Count<span className={styles.reqField}> * </span>
                     </label>
@@ -428,10 +457,27 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                       onChange={handleInputChange}
                       min="0"
                     />
-                  </div>
+                  </div> */}
+                     <div className={styles.input_group_item}>
+              <label htmlFor="name" className="">
+               {t("Last apply date")}<span className={styles.reqField}> * </span>
+              </label>
+              <div className="relative">
+                <DatePicker
+                  dateFormat="dd/MM/yyyy"
+                  // selected={formData.appointmentDate}
+                  // onChange={(date) => handleDateChange("appointmentDate", date)}
+                  placeholderText="dd/mm/yyyy"
+                  className="pl-10"
+                />
+                <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+                  <Image src={date_icon} alt="date_icon" />
+                </div>
+              </div>
+            </div>
                   <div className={`${styles.input_group_item}`}>
                     <label htmlFor="price">
-                      Price<span className={styles.reqField}> * </span>
+                        {t("price")}<span className={styles.reqField}> * </span>
                     </label>
                     <input
                       type="number"
@@ -446,7 +492,7 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                   </div>
                   <div className={`${styles.currencySection}`}>
                     <label>
-                      Currency<span className={styles.reqField}> * </span>
+                      {t("Currency")}<span className={styles.reqField}> * </span>
                     </label>
                     <div className="flex gap-4">
                       <label className="flex items-center gap-2">
@@ -484,7 +530,7 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                 >
                   <div className={styles.input_group_item}>
                     <label htmlFor="description">
-                      Description<span className={styles.reqField}> * </span>
+                       {t("description")}<span className={styles.reqField}> * </span>
                     </label>
                     <textarea
                       id="description"
@@ -509,14 +555,14 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                 className={styles.cancel_btn}
                 onClick={clearInput}
               >
-                Cancel
+                  {t("Cancel")} 
               </button>
               <button
                 className={styles.save_btn}
                 type="submit"
                 disabled={isLoading}
               >
-                Save
+                {t("Save")}    
               </button>
             </div>
           </form>

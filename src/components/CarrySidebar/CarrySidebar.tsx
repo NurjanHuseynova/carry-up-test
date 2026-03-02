@@ -42,7 +42,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
       <form className={styles.form_section} onSubmit={handleSubmit}>
   
 
-        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
+        {/* <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>{t("title")}</label>
           <input
             type="text"
@@ -52,7 +52,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
             onChange={handleInputChange}
             className="form-input"
           />
-        </div>
+        </div> */}
 
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>{t("Travel Type")}</label>
@@ -98,7 +98,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
           </div>
         </div>
 
-        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
+        {/* <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>{t("currency")}</label>
           <select
             name="currency"
@@ -114,7 +114,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
                 </option>
               ))}
           </select>
-        </div>
+        </div> */}
 
  
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
@@ -207,7 +207,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
               fetchTrips(tripCurrentPage);
             }}
           >
-          {t("search")}
+          {t("Search")}
           </button>
         </div>
       </form>

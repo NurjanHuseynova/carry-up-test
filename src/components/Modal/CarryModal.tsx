@@ -180,9 +180,9 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
                 <span className="price-tag">
                   ${detailList?.package?.price}
                 </span>
-                <span className="">
+                {/* <span className="">
                   <Image src={heart} alt="" width={32} height={26} />
-                </span>
+                </span> */}
               </div>
             </div>
 

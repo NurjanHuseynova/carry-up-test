@@ -155,7 +155,9 @@
   width: 100%;
   margin: 24px 0;
 }
-
+.signup_link {
+  margin-top: 20px;
+}
 .signup_link p {
   font-size: 18px;
   text-align: left;

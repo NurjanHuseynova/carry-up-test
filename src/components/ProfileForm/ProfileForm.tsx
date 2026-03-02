@@ -8,6 +8,7 @@ import { getApiWithToken, putApi } from "@/services/api";
 // import { useMask } from "@react-input/mask";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { useTranslations } from "next-intl";
 
 interface User {
   id: string;
@@ -18,7 +19,7 @@ interface User {
   countryId: string;
   countryName: string;
   city: string;
-  address:string;
+  address: string;
   gender: number;
   // whatsapp: string;
   // instagram: string;
@@ -48,7 +49,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     countryId: "",
     countryName: "",
     city: "",
-    address:"",
+    address: "",
     gender: 0,
     // whatsapp: '',
     // instagram: '',
@@ -82,7 +83,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   });
 
   const [countries, setCountries] = useState<Country[]>([]);
-
+  const t = useTranslations("Static");
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
     // storedUser.gender = mapGenderType(storedUser.gender);
@@ -94,14 +95,13 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         if (res?.success) {
           setCountries(res.list || []);
         } else {
-          toast.error("Failed to load countries");
+          toast.error(t("failedLoadCountries"));
         }
       } catch (error) {
         console.error("Error fetching countries:", error);
-        toast.error("Error fetching country data");
+        toast.error(t("errorFetchingCountryData"));
       }
     };
-    console.log("storedUser", storedUser);
 
     fetchCountries();
 
@@ -114,7 +114,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setUser((prev) => ({ ...prev, [name]: value }));
@@ -190,12 +190,11 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
       return; // Prevent API request
     }
 
-
     try {
       const accessToken = localStorage.getItem("accessToken");
 
       if (!accessToken) {
-        throw new Error("Access token is missing. Please log in again.");
+        throw new Error(`${t("accessTokenMissing")}`);
       }
 
       const userId = user.id;
@@ -210,7 +209,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         countryId: user.countryId,
         city: user.city,
         photo: user.photo,
-        adrress:user?.address
+        adrress: user?.address,
       };
       const res = await putApi(`User/UserUpdate`, payload, accessToken);
 
@@ -232,7 +231,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           countryName: "",
           city: "",
           gender: 0,
-          address:"",
+          address: "",
           // whatsapp: '',
           // instagram: '',
           photo: "",
@@ -241,17 +240,15 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         let userObj = res?.list[0];
         localStorage.setItem("user", JSON.stringify(userObj));
         window.location.reload();
-        toast.success("User updated successfully");
+        toast.success(t("userUpdated"));
       }
-      console.log("User updated successfully:", res);
     } catch (error: unknown) {
       console.error("Error updating password:", error);
-      
-      
+
       if (error instanceof Error) {
-        toast.error(error.message); 
+        toast.error(error.message);
       } else {
-        toast.error("An unknown error occurred.");  
+        toast.error(t("unknownError"));
       }
     }
   };
@@ -267,10 +264,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
       <form onSubmit={handleSave}>
         <div className={`grid gap-3 md:grid-cols-3 ${styles.input_group}`}>
           <div className={styles.input_group_item}>
-            <label>Name</label>
+            <label>{t("name")}</label>
             <input
               name="name"
-              placeholder="Name"
+              placeholder={t("name")}
               onChange={handleChange}
               type="text"
               value={user?.name || ""}
@@ -278,10 +275,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             />
           </div>
           <div className={styles.input_group_item}>
-            <label>Surname</label>
+            <label>{t("surname")}</label>
             <input
               name="surname"
-              placeholder="Surname"
+              placeholder={t("surname")}
               onChange={handleChange}
               type="text"
               value={user?.surname || ""}
@@ -289,10 +286,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             />
           </div>
           <div className={styles.input_group_item}>
-            <label>Email</label>
+            <label>{t("email")}</label>
             <input
               name="email"
-              placeholder="Email"
+              placeholder={t("email")}
               onChange={handleChange}
               type="email"
               value={user?.email || ""}
@@ -302,8 +299,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         </div>
         <div className={`grid gap-3 md:grid-cols-4 ${styles.input_group}`}>
           <div className={styles.input_group_item}>
-            <label>Phone Number</label>
-
+            <label>{t("phone number")}</label>
             <PhoneInput
               country="AZ"
               value={user?.phoneNumber || ""}
@@ -314,7 +310,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 
           <div className={styles.input_group_item}>
             <label htmlFor="gender" className="">
-              Gender
+              <label htmlFor="gender">{t("gender")}</label>
             </label>
             <select
               name="gender"
@@ -322,7 +318,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
               onChange={handleChange}
               className="form-select"
             >
-              <option value="">Gender</option>
+              <option value="">{t("selectGender")}</option>
 
               <option value={user?.gender}>
                 {mapGenderType(user?.gender)}
@@ -338,14 +334,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             </select>
           </div>
           <div className={styles.input_group_item}>
-            <label>Country</label>
+            <label>{t("country")}</label>
             <select
               name="countryId"
               value={user?.countryId || "0"}
               onChange={handleChange}
               className="form-select"
             >
-              <option value="0">Select Country</option>
+              <option value="0">{t("selectCountry")}</option>
               {countries?.map((c) => (
                 <option key={c?.id} value={c?.id}>
                   {c.name}
@@ -354,10 +350,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             </select>
           </div>
           <div className={styles.input_group_item}>
-            <label>City</label>
+            <label>{t("city")}</label>
             <input
               name="city"
-              placeholder="City"
+              placeholder={t("city")}
               onChange={handleChange}
               type="text"
               value={user?.city || ""}
@@ -367,20 +363,20 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         </div>
 
         <div className={`grid gap-3 md:grid-cols-3 ${styles.row}`}>
-        <div className={styles.input_group_item}>
-            <label>Address</label>
+          <div className={styles.input_group_item}>
+            <label>{t("address")}</label>
             <input
               name="address"
-              placeholder="Address"
+              placeholder={t("address")}
               onChange={handleChange}
               type="text"
               value={user?.address || ""}
             />
           </div>
           <div className={styles.input_group_item}>
-            <label>Change Photo</label>
+            <label>{t("changePhoto")}</label>
             <label htmlFor="photo-upload" className={styles.customFileButton}>
-              Select Image
+              {t("selectImage")}
             </label>
             <input
               id="photo-upload"
@@ -400,10 +396,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             type="button"
             className={styles.cancelBtn}
           >
-            Cancel
+            {t("Cancel")}
           </button>
           <button type="submit" className={styles.saveBtn}>
-            Save
+            {t("save")}
           </button>
         </div>
       </form>

@@ -41,7 +41,7 @@ function AllSeeModal({ toggle, modal, userPoint,commentModal }: AllSeeModalProps
       <Modal isOpen={modal} toggle={toggle} centered size="xl">
         <ModalHeader toggle={toggle}>
           <div className="flex w-full justify-between items-center">
-            <h3>{t("points details")}Points details</h3>
+            <h3>{t("points details")}</h3>
             <div className="flex gap-3">
               <button onClick={commentModal} className="add_comment mr-3">{t("add comment")}</button>
               {/* <div className="bg-white rounded-lg flex items-center justify-center mr-3 px-2">

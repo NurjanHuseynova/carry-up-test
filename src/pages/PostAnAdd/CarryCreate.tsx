@@ -7,6 +7,7 @@ import Image from "next/image";
 import date_icon from "@/assets/img/calendar.svg";
 import { currency, travelType } from "@/json/constant";
 import trash from "@/assets/img/trash.svg";
+import { useTranslations } from "next-intl";
 
 type FormDataType = {
   appointmentDate: Date | null;
@@ -126,23 +127,23 @@ function CarryCreate() {
     e.preventDefault();
     try {
       if (
-        !formData.title ||
+        // !formData.title ||
         !formData.description ||
         !formData.currency ||
         !formData.price ||
-        !formData.count ||
+        // !formData.count ||
         !formData.appointmentDate
       ) {
         return toast.error("Fill in all fields.");
       }
 
       const obj = {
-        title: formData.title,
+        // title: formData.title,
         description: formData.description,
         package: {
           currency: formData.currency,
           price: formData.price,
-          count: formData.count,
+          // count: formData.count,
           deadline: formData.appointmentDate,
           packageCategoryId: 1,
           packageSubCategoryId: 0,
@@ -186,11 +187,13 @@ function CarryCreate() {
     setTripPlaceDetails((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const t = useTranslations("Static")
+
   return (
     <div>
       <div className="grid md:gap-3 grid-cols-1 md:grid-cols-2 mt-8">
         <div>
-          <div className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}>
+          {/* <div className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}>
             <div className={styles.input_group_item}>
               <label htmlFor="title" className="">
                 Title<span className={styles.reqField}> * </span>
@@ -217,13 +220,13 @@ function CarryCreate() {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
+          </div> */}
           <div
             className={`grid gap-3 grid-cols-1 md:grid-cols-2 ${styles.input_group}`}
           >
             <div className={styles.input_group_item}>
               <label htmlFor="from" className="">
-                From<span className={styles.reqField}> * </span>
+                {t("From City")}<span className={styles.reqField}> * </span>
               </label>
               <input
                 type="text"
@@ -236,7 +239,7 @@ function CarryCreate() {
             </div>
             <div className={styles.input_group_item}>
               <label htmlFor="name" className="">
-                Date<span className={styles.reqField}> * </span>
+                {t("Date")}<span className={styles.reqField}> * </span>
               </label>
               <div className="relative">
                 <DatePicker
@@ -257,7 +260,7 @@ function CarryCreate() {
           >
             <div className={styles.input_group_item}>
               <label htmlFor="to" className="">
-                To<span className={styles.reqField}> * </span>
+                {t("To City")}<span className={styles.reqField}> * </span>
               </label>
               <input
                 type="text"
@@ -268,9 +271,10 @@ function CarryCreate() {
                 onChange={handleInputChange}
               />
             </div>
+            
             <div className={styles.input_group_item}>
               <label htmlFor="name" className="">
-                Date<span className={styles.reqField}> * </span>
+                {t("Date")}<span className={styles.reqField}> * </span>
               </label>
               <div className="relative">
                 <DatePicker
@@ -289,9 +293,35 @@ function CarryCreate() {
           <div
             className={`grid gap-3 grid-cols-1 md:grid-cols-2 ${styles.input_group}`}
           >
+                <div className={styles.input_group_item}>
+              <label htmlFor="from" className="">
+                {t("From Country")}<span className={styles.reqField}> * </span>
+              </label>
+              <input
+                type="text"
+                id="from"
+                name="from"
+                placeholder="from"
+                value={formData.from}
+                onChange={handleInputChange}
+              />
+            </div>
+              <div className={styles.input_group_item}>
+              <label htmlFor="to" className="">
+              {t("To Country")}<span className={styles.reqField}> * </span>
+              </label>
+              <input
+                type="text"
+                id="to"
+                name="to"
+                placeholder="To"
+                value={formData.to}
+                onChange={handleInputChange}
+              />
+            </div>
             <div className={styles.input_group_item}>
               <label htmlFor="travelType">
-                Transport<span className={styles.reqField}> * </span>
+               {t("Transport")} <span className={styles.reqField}> * </span>
               </label>
               <select
                 name="travelType"
@@ -299,7 +329,7 @@ function CarryCreate() {
                 onChange={handleInputChange}
                 className="form-select"
               >
-                <option value="">Select travel type</option>
+                <option value="">{t("Select travel type")}</option>
                 {Object.entries(travelType).map(([key, value]) => (
                   <option key={value} value={value}>
                     {key}
@@ -309,7 +339,7 @@ function CarryCreate() {
             </div>
             <div className={styles.input_group_item}>
               <label htmlFor="name" className="">
-                Date of appointment<span className={styles.reqField}> * </span>
+               {t("Date of appointment")}<span className={styles.reqField}> * </span>
               </label>
               <div className="relative">
                 <DatePicker
@@ -324,13 +354,30 @@ function CarryCreate() {
                 </div>
               </div>
             </div>
+            <div className={styles.input_group_item}>
+              <label htmlFor="name" className="">
+               {t("Last apply date")}<span className={styles.reqField}> * </span>
+              </label>
+              <div className="relative">
+                <DatePicker
+                  dateFormat="dd/MM/yyyy"
+                  // selected={formData.appointmentDate}
+                  // onChange={(date) => handleDateChange("appointmentDate", date)}
+                  placeholderText="dd/mm/yyyy"
+                  className="pl-10"
+                />
+                <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+                  <Image src={date_icon} alt="date_icon" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div>
           <div
             className={`grid gap-3 grid-cols-2  md:grid-cols-3 mb-2 ${styles.input_group}`}
           >
-            <div className={`${styles.input_group_item}`}>
+            {/* <div className={`${styles.input_group_item}`}>
               <label htmlFor="count">
                 Count<span className={styles.reqField}> * </span>
               </label>
@@ -343,10 +390,10 @@ function CarryCreate() {
                 onChange={handleInputChange}
                 min="0"
               />
-            </div>
+            </div> */}
             <div className={`${styles.input_group_item}`}>
               <label htmlFor="price">
-                Price<span className={styles.reqField}> * </span>
+                {t("price")}<span className={styles.reqField}> * </span>
               </label>
               <input
                 type="number"
@@ -361,7 +408,7 @@ function CarryCreate() {
             </div>
             <div className={`$}`}>
               <label>
-                Currency<span className={styles.reqField}> * </span>
+                {t("Currency")}<span className={styles.reqField}> * </span>
               </label>
               <div className="flex gap-3 md:gap-4 items-center">
                 <label className="flex items-center gap-2">
@@ -393,7 +440,7 @@ function CarryCreate() {
           >
             <div className={styles.input_group_item}>
               <label htmlFor="description">
-                Description<span className={styles.reqField}> * </span>
+                {t("description")}<span className={styles.reqField}> * </span>
               </label>
               <textarea
                 id="description"
@@ -418,7 +465,7 @@ function CarryCreate() {
           className={styles.save_btn}
           onClick={handleAddAnother}
         >
-          Add another
+         {t("Add another")} 
         </button>
       </div>
 
@@ -427,11 +474,11 @@ function CarryCreate() {
           <table className="w-full mt-10 min-w-max">
             <thead className={styles.thead}>
               <tr>
-                <th className="px-6 py-3">From(City)</th>
-                <th className="px-6 py-3">From(Date)</th>
-                <th className="px-6 py-3">To(City)</th>
-                <th className="px-6 py-3">To(Date)</th>
-                <th className="px-6 py-3">Transport</th>
+                <th className="px-6 py-3">   {t("From(City)")} </th>
+                <th className="px-6 py-3">{t("From(Date)")}</th>
+                <th className="px-6 py-3">{t("To(City)")}</th>
+                <th className="px-6 py-3">{t("To(Date)")}</th>
+                <th className="px-6 py-3">{t("Transport")}</th>
                 <th className="px-6 py-3"></th>
               </tr>
             </thead>
@@ -479,14 +526,14 @@ function CarryCreate() {
             className={styles.cancel_btn}
             onClick={clearInput}
           >
-            Cancel
+           {t("Cancel")} 
           </button>
           <button
             type="submit"
             className={styles.save_btn}
             onClick={handleSubmit}
           >
-            Save
+         {t("Save")}    
           </button>
         </div>
       )}

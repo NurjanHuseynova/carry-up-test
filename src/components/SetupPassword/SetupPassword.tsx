@@ -10,6 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 import modalStyles from "@/assets/css/succesmodal/successmodal.module.css";
+import { useTranslations } from "next-intl";
 
 
 interface FormState {
@@ -35,7 +36,7 @@ function SetupPassword() {
 
       const router = useRouter();
     
-
+const t = useTranslations("Static");
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -46,7 +47,8 @@ function SetupPassword() {
     e.preventDefault();
 
     if (form.password !== form.confirmPassword) {
-      toast.error("Passwords do not match.");
+     toast.error(t("passwordsDoNotMatch"));
+
       return;
     }
 
@@ -71,7 +73,7 @@ function SetupPassword() {
 
       } else {
         
-        toast.error("Failed to set up password.");
+       toast.error(t("failedSetupPassword"));
         setIsLoading(false);
       }
       setIsLoading(false);
@@ -79,7 +81,7 @@ function SetupPassword() {
     } catch (err) {
       console.error("Error setting up password:", err);
       setIsLoading(false);
-      toast.error("An error occurred while setting up your password. Please try again.");
+     toast.error(t("setupPasswordError"));
     }
   };
 
@@ -93,7 +95,7 @@ function SetupPassword() {
 
   useEffect(() => {
     if (!token) {
-      setError("Invalid or missing token.");
+     setError(t("invalidToken"));
     }
   }, [token]);
 
@@ -104,7 +106,7 @@ function SetupPassword() {
           <div className={styles.logo}>
             <Image src={carry_logo} alt="Carry Logo" />
           </div>
-          <div className={styles.error_message}>Invalid or missing token.</div>
+          <div className={styles.error_message}> {t("invalidToken")}</div>
         </div>
       </section>
     );
@@ -128,64 +130,68 @@ function SetupPassword() {
           <Image src={carry_logo} alt="Carry Logo" />
         </div>
         <div className={styles.welcome_text}>
-              <h2>Setup Password</h2>
-              <span>Please set up your password.</span>
+                <h2>{t("setupPasswordTitle")}</h2>
+                <span>{t("setupPasswordSubtitle")}</span>
             </div>
             <div className={styles.form_container}>
               <form onSubmit={handleSubmit}>
                 <div className={styles.input_group}>
-                  <label htmlFor="password">New Password</label>
+                <label htmlFor="password">{t("newPassword")}</label>
                   <div className={styles.password_container}>
                     <input
                       type={showPassword ? "text" : "password"}
                       id="password"
                       name="password"
-                      placeholder="Enter your password"
+                       placeholder={t("enterPassword")}
                       value={form.password}
                       onChange={handleChange}
                     />
-                    <span
-                      className={styles.eye_icon}
-                      onClick={togglePasswordVisibility}
-                      aria-label="Toggle password visibility"
-                      role="button"
-                    >
-                      <Image
-                        src={showPassword ? eye : eye_icon}
-                        alt={showPassword ? "Hide password" : "Show password"}
-                      />
-                    </span>
+                <span
+  className={styles.eye_icon}
+  onClick={togglePasswordVisibility}
+  aria-label={t("togglePasswordVisibility")}
+  role="button"
+>
+  <Image
+    src={showPassword ? eye : eye_icon}
+    alt={showPassword ? t("hidePassword") : t("showPassword")}
+  />
+</span>
                   </div>
                 </div>
                 <div className={styles.input_group}>
-                  <label htmlFor="confirmPassword">Confirm Password</label>
+                 <label htmlFor="confirmPassword">
+  {t("confirmPassword")}
+</label>
                   <div className={styles.password_container}>
                     <input
                       type={showPasswordConfirm ? "text" : "password"}
                       id="confirmPassword"
                       name="confirmPassword"
-                      placeholder="Confirm your password"
+                       placeholder={t("confirmYourPassword")}
                       value={form.confirmPassword}
                       onChange={handleChange}
                     />
-                    <span
-                      className={styles.eye_icon}
-                      onClick={togglePasswordConfirmVisibility}
-                      aria-label="Toggle confirm password visibility"
-                      role="button"
-                    >
-                      <Image
-                        src={showPasswordConfirm ? eye : eye_icon}
-                        alt={
-                          showPasswordConfirm ? "Hide password" : "Show password"
-                        }
-                      />
-                    </span>
+                 <span
+  className={styles.eye_icon}
+  onClick={togglePasswordConfirmVisibility}
+  aria-label={t("togglePasswordVisibility")}
+  role="button"
+>
+  <Image
+    src={showPasswordConfirm ? eye : eye_icon}
+    alt={
+      showPasswordConfirm
+        ? t("hidePassword")
+        : t("showPassword")
+    }
+  />
+</span>
                   </div>
                 </div>
                 {/* {error && <p className={styles.error_message}>{error}</p>} */}
                 <button type="submit" className={styles.login_button}>
-                  Continue
+                   {t("Continue")}
                 </button>
               </form>
             </div>
@@ -197,10 +203,10 @@ function SetupPassword() {
               <div className={modalStyles.spinner}></div>
             ) : (
               <>
-                <h2>{"Success!"}</h2>
-                <p>{"A password has been successful."}</p>
+              <h2>{t("Success")}!</h2>
+               <p>{t("passwordSetupSuccess")}</p>
                 <button onClick={handleCloseModal} className={modalStyles.closeButton}>
-                  Ok
+                    {t("ok")}
                 </button>
               </>
             )}

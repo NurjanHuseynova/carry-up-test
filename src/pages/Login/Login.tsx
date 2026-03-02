@@ -156,11 +156,11 @@ function Login() {
           <div className={styles.form_container}>
             <form onSubmit={handleSubmit}>
               <div className={styles.input_group}>
-                <label htmlFor="email_or_phone">{t("mobile number or email")}</label>
+                <label htmlFor="email_or_phone">{t("email")}</label>
                 <input
                   type="text"
                   id="email_or_phone"
-                  placeholder="Enter your mobile or email"
+                  placeholder="Enter your email"
                   name="email"
                   value={form.email}
                   onChange={handleChange}
@@ -245,13 +245,13 @@ function Login() {
               <button type="submit" className={styles.login_button}>
                 {t("log in")}
               </button>
-              <div className={styles.or_container}>
+              {/* <div className={styles.or_container}>
                 <span></span>
                 <p>{t("or with")}</p>
                 <span></span>
-              </div>
-              <button type="button" className={styles.google_button}>
-                {/* <LoginSocialGoogle
+              </div> */}
+              {/* <button type="button" className={styles.google_button}>
+                <LoginSocialGoogle
   client_id="650935634351-7mr5vjrtaarg7t4s9ogetopg0mfll6cu.apps.googleusercontent.com"
   scope="openid profile email"
   discoveryDocs="claims_supported"
@@ -266,8 +266,8 @@ function Login() {
   <span className="px-2 font-bold" style={{ color: "#746bd4" }}>
     <Image src={google_icon} alt="Google Login" />
   </span>
-</LoginSocialGoogle> */}
-              </button>
+</LoginSocialGoogle>
+              </button> */}
             </form>
             <div className={styles.signup_link}>
               <p>

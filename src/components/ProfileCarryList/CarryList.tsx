@@ -1,19 +1,19 @@
 // import { fetchApi, postApi } from '@/services/api';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 // import toast from "react-hot-toast";
-import styles from '@/assets/css/profile/profileCarryList.module.css'
-import Image from 'next/image';
+import styles from "@/assets/css/profile/profileCarryList.module.css";
+import Image from "next/image";
 import brush from "@/assets/img/brush.svg";
 import trash from "@/assets/img/trash.svg";
-import toast from 'react-hot-toast';
-import { mapCurrencyType, mapTransportType } from '@/utils/enumsToData';
-import { formatDate } from '@/utils/formatDate';
+import toast from "react-hot-toast";
+import { mapCurrencyType, mapTransportType } from "@/utils/enumsToData";
+import { formatDate } from "@/utils/formatDate";
 import Pagination from "@/components/Pagination/Pagination";
-import ProfileCarryModal from '@/components/ProfileModal/ProfileCarryModal';
-import { deleteApi, postApi } from '@/services/api';
-import { useRouter } from 'next/navigation';
-import CarryModal from '../Modal/CarryModal';
-
+import ProfileCarryModal from "@/components/ProfileModal/ProfileCarryModal";
+import { deleteApi, postApi } from "@/services/api";
+import { useRouter } from "next/navigation";
+import CarryModal from "../Modal/CarryModal";
+import { useTranslations } from "next-intl";
 
 interface Trip {
   id: number;
@@ -36,13 +36,12 @@ function CarryList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
 
-
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-    const[detailList,setDetailList] = useState({})
-  
-  const router = useRouter();
+  const [detailList, setDetailList] = useState({});
 
+  const router = useRouter();
+  const t = useTranslations("Static");
   useEffect(() => {
     fetchTrips(currentPage);
   }, [currentPage]);
@@ -55,13 +54,11 @@ function CarryList() {
   };
 
   const handleEdit = (e: React.MouseEvent, tripId: number) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     router.push(`/edit-trip/${tripId}`);
   };
 
-
   const handleDelete = async (id: number) => {
-
     setIsLoading(true);
 
     try {
@@ -69,7 +66,7 @@ function CarryList() {
       console.log(accessToken);
 
       if (!accessToken) {
-        toast.error("User credentials is missing.");
+        toast.error(t("userCredentialsMissing"));
         setIsLoading(false);
         return;
       }
@@ -84,27 +81,25 @@ function CarryList() {
       }
 
       if (res?.success) {
-        toast.success("Item deleted successfully.");
+        toast.error(t("userCredentialsMissing"));
       }
       setTrips((prevTrips) => prevTrips.filter((trip) => trip.id !== id));
-    }
-    catch (error: any) {
-      toast.error("Error deleting item: " + error.message);
+    } catch (error: any) {
+      toast.error(t("errorDeletingItem") + error.message);
     } finally {
       setIsLoading(false);
     }
-  }
-
+  };
 
   async function fetchTrips(page: number) {
     setIsLoading(true);
     try {
-      let userId = JSON.parse(localStorage.getItem('user') || "")?.id;
-      const accessToken = localStorage.getItem('accessToken');
+      let userId = JSON.parse(localStorage.getItem("user") || "")?.id;
+      const accessToken = localStorage.getItem("accessToken");
 
       if (!userId || !accessToken) {
         setIsLoading(false);
-        toast.error("User credentials is missing.");
+        toast.error(t("userCredentialsMissing"));
         return;
       }
 
@@ -112,12 +107,15 @@ function CarryList() {
         pageSize: 7,
         currentPage: page,
         value: {
-          userId: userId
-        }
-      }
+          userId: userId,
+        },
+      };
 
-      const responseData = await postApi(`Trip/GetTripsByUserId`, payload, accessToken);
-
+      const responseData = await postApi(
+        `Trip/GetTripsByUserId`,
+        payload,
+        accessToken,
+      );
 
       if (responseData?.list) {
         const mappedTrips = responseData.list.map((trip: any) => {
@@ -136,27 +134,28 @@ function CarryList() {
             deadline: formatDate(trip.package.deadline || "N/A"),
           };
         });
-        
-        setDetailList(responseData?.list[0])
+
+        setDetailList(responseData?.list[0]);
         setTrips(mappedTrips);
         setTotalPages(Math.ceil(responseData.totalCount / payload.pageSize));
       } else {
-        toast.error("No trips found.");
+        toast.error(t("noTripsFound"));
       }
     } catch (error: any) {
-      toast.error('Error fetching trips: ' + error)
-    }
-    finally {
+      toast.error(t("errorFetchingTrips") + error);
+    } finally {
       setIsLoading(false);
     }
   }
 
   return (
-    <div className={styles.container}
+    <div
+      className={styles.container}
       style={{
-        justifyContent: isLoading ? 'center' : '', 
-        alignItems: isLoading ? 'center' : '', 
-      }}>
+        justifyContent: isLoading ? "center" : "",
+        alignItems: isLoading ? "center" : "",
+      }}
+    >
       {isLoading ? (
         <div role="status">
           <svg
@@ -181,12 +180,12 @@ function CarryList() {
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Created date</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Transport</th>
-                <th>Deadline</th>
-                <th>Actions</th>
+                <th>{t("createdDate")}</th>
+                <th>{t("from")}</th>
+                <th>{t("to")}</th>
+                <th>{t("Transport")}</th>
+                <th>{t("Deadline")}</th>
+                <th>{t("actions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -199,22 +198,29 @@ function CarryList() {
                     <td>{trip.transport}</td>
                     <td>{trip.deadline}</td>
                     <td>
-                      <button title="Edit" onClick={(e) => handleEdit(e, trip.id)}>
-                        <Image src={brush} alt="edit" />
+                      <button
+                        title={t("edit")}
+                        onClick={(e) => handleEdit(e, trip.id)}
+                      >
+                        <Image src={brush} alt={t("edit")} />
                       </button>
-                      <button title="Delete" onClick={(e) => {
-                        e.stopPropagation(); 
-                        handleDelete(trip.id);
-                      }}>
-                        <Image src={trash} alt="delete" />
+
+                      <button
+                        title={t("delete")}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(trip.id);
+                        }}
+                      >
+                        <Image src={trash} alt={t("delete")} />
                       </button>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} style={{ textAlign: 'center' }}>
-                    No information available.
+                  <td colSpan={6} style={{ textAlign: "center" }}>
+                    {t("noInformation")}
                   </td>
                 </tr>
               )}
@@ -226,20 +232,20 @@ function CarryList() {
               totalPages={totalPages}
               onPageChange={(page: number) => setCurrentPage(page)}
               activetab="carry"
-            />)
-          }
+            />
+          )}
         </>
       )}
       {isModalOpen && (
-          <CarryModal
-            toggle={toggleModal}
-            isOpen={isModalOpen}
-            setModal={setIsModalOpen}
-            detailList={detailList}
-          />
-        )}
+        <CarryModal
+          toggle={toggleModal}
+          isOpen={isModalOpen}
+          setModal={setIsModalOpen}
+          detailList={detailList}
+        />
+      )}
     </div>
-  )
+  );
 }
 
-export default CarryList
+export default CarryList;

@@ -14,6 +14,7 @@ import keySquare from "@/assets/img/key-square.svg";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { fetchApi } from "@/services/api";
+import { useTranslations } from "next-intl";
 
 interface ProfileSidebarProps {
   onTabChange: (tab: string) => void;
@@ -70,6 +71,8 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
 
   const base64Image = `data:image/png;base64,${user?.photo}`;
 
+    const t = useTranslations("Static")
+
   return (
     <div className={styles.sidebar}>
       <div className={styles.userInfo}>
@@ -118,7 +121,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
               className={styles.icon}
             />
            
-            Profile
+           {t("Profile")} 
           </button>
         </li>
         <li>
@@ -131,7 +134,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
               alt={"password_icon"}
               className={styles.icon}
             />
-            Password
+            {t("password")} 
           </button>
         </li>
         <li>
@@ -144,7 +147,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
               alt={"microphone"}
               className={styles.icon}
             />
-            My Ads Trip
+           {t("My Ads Trip")}  
           </button>
         </li>
         <li>
@@ -153,13 +156,13 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
             onClick={() => onTabChange("myAdsSend")}
           >
             <Image src={buliding} alt={"building"} className={styles.icon} />
-            My Ads Send
+           {t("My Ads Send")}   
           </button>
         </li>
         <li>
           <button className={styles.flex} onClick={handleLogout}>
             <Image src={logout_icon} alt={"logout"} />
-            Log out
+          {t( "Log out")}   
           </button>
         </li>
       </ul>
