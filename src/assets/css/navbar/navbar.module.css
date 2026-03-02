@@ -177,7 +177,7 @@
 .langMenu {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: -18px;
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
