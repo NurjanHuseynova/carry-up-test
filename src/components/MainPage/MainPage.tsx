@@ -224,12 +224,12 @@ const MainPage: React.FC = () => {
 
   return (
     <section
-      className={`custom_container flex md:flex-row flex-col ${styles.main_container}`}
+      className={`custom_container grid grid-cols-4 ${styles.main_container}`}
     >
       <article
         className={`col-span-1 distanceScroll ${
           styles.left_section
-        } w-full md:w-[17rem] ${!isSearchOpen ? "h-auto" : "h-full"}`}
+        }  ${!isSearchOpen ? "h-auto" : "h-full"}`}
       >
         <div
           className="flex justify-between items-center  md:hidden"
@@ -292,7 +292,7 @@ const MainPage: React.FC = () => {
         )}
       </article>
 
-      <article className={`col-span-2 ${styles.right_section} `}>
+      <article className={` ${styles.right_section} col-span-3`}>
         {activeTab === "carry" && (
           <MainCarryList
             trips={trips}

@@ -76,7 +76,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
           <label>{t("price")}</label>
           <div className="!grid !grid-cols-2 gap-2">
             <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-              <label>{t("min price")}</label>
+              {/* <label>{t("min price")}</label> */}
               <input
                 type="text"
                 name="minPrice"
@@ -86,7 +86,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
               />
             </div>
             <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-              <label>{t("max price")}</label>
+              {/* <label>{t("max price")}</label> */}
               <input
                 type="text"
                 name="maxPrice"
@@ -192,7 +192,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
 </div>
 
 
-        <div className="mt-9 flex justify-between gap-4">
+        <div className="mt-9 grid grid-cols-2 justify-between gap-2">
           <button
             type="button"
             className={`${styles.clear_button}`}
