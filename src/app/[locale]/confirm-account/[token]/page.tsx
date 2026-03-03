@@ -1,4 +1,5 @@
-import ConfirmAccount from '@/pages/ConfirmAccount/ConfirmAccount'
+
+import ConfirmAccount from '@/components/ConfirmAccount/ConfirmAccount'
 import React from 'react'
 
 function page() {

@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
-import EditTrip from "@/pages/Profile/EditTrip";
 import Navbar from "@/components/Navbar/Navbar";
+import EditTrip from "@/components/Profile/EditTrip";
 
 interface PageProps {
     params: {

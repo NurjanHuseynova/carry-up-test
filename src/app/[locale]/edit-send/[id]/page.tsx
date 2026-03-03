@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "@/components/Navbar/Navbar";
-import EditSend from "@/pages/Profile/EditSend";
+import EditSend from "@/components/Profile/EditSend";
 
 interface PageProps {
     params: {

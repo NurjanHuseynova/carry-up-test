@@ -1,5 +1,5 @@
 import Navbar from '@/components/Navbar/Navbar'
-import Profile from '@/pages/Profile/Profile'
+import Profile from '@/components/Profile/Profile'
 import React from 'react'
 
 function Page() {
