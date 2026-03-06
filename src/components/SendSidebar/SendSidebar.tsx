@@ -43,22 +43,46 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
             </div>
           </div>
         </div> */}
-        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>{t("title")}</label>
+            <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
+          <label>{t("to place")}</label>
           <input
             type="text"
-            name="title"
-            value={sendFormData.title}
+            name="toPlace"
+            value={sendFormData.toPlace}
+            placeholder="Enter"
+            onChange={handleInputChange}
+          />
+        </div>
+            <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
+          <label>{t("from place")}</label>
+          <input
+            type="text"
+            name="fromPlace"
+            value={sendFormData.fromPlace}
             placeholder="Enter"
             onChange={handleInputChange}
           />
         </div>
 
-        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
+           <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
+          <label>{t("category")}</label>
+          <select
+            name="category"
+            value={sendFormData.category}
+            onChange={handleInputChange}
+            className="form-select"
+          >
+            <option value={0} >
+              {t("select category")}
+            </option>
+            <option value={1}>{t("document")}</option>
+          </select>
+        </div>
+          <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>{t("price")}</label>
           <div className="!grid !grid-cols-2 gap-2">
             <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-              <label>{t("min price")}</label>
+             
               <input
                 type="text"
                 name="minPrice"
@@ -68,7 +92,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
               />
             </div>
             <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-              <label>{t("max price")}</label>
+         
               <input
                 type="text"
                 name="maxPrice"
@@ -80,7 +104,19 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
           </div>
         </div>
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>{t("currency")}</label>
+          <label>{t("Title")}</label>
+          <input
+            type="text"
+            name="title"
+            value={sendFormData.title}
+            placeholder="Enter"
+            onChange={handleInputChange}
+          />
+        </div>
+
+  
+        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
+          <label>{t("Currency")}</label>
           <select
             name="currency"
             value={sendFormData.currency}
@@ -96,40 +132,8 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
               ))}
           </select>
         </div>
-        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>{t("category")}</label>
-          <select
-            name="category"
-            value={sendFormData.category}
-            onChange={handleInputChange}
-            className="form-select"
-          >
-            <option value={0} >
-              {t("select category")}
-            </option>
-            <option value={1}>{t("document")}</option>
-          </select>
-        </div>
-        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>{t("from place")}</label>
-          <input
-            type="text"
-            name="fromPlace"
-            value={sendFormData.fromPlace}
-            placeholder="Enter"
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-          <label>{t("to place")}</label>
-          <input
-            type="text"
-            name="toPlace"
-            value={sendFormData.toPlace}
-            placeholder="Enter"
-            onChange={handleInputChange}
-          />
-        </div>
+     
+    
       </form>
 
       <div className="mt-9 flex justify-between gap-4">
@@ -147,7 +151,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
             fetchSends(sendCurrentPage);
           }}
         >
-          {t("search")}
+          {t("Search")}
         </button>
       </div>
     </section>

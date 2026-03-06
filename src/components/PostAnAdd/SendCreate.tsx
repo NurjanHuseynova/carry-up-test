@@ -140,19 +140,7 @@ function SendCreate() {
       <form onSubmit={handleSubmit}>
         <div className="grid md:grid-cols-2 gap-3 mt-8">
           <div className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}>
-            <div className={styles.input_group_item}>
-              <label htmlFor="title">
-              {t("Title")}<span className={styles.reqField}> * </span>
-              </label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                placeholder="Type here"
-                value={formData.title}
-                onChange={handleInputChange}
-              />
-            </div>
+       
             <div className={styles.input_group_item}>
               <label htmlFor="category">
               {t("Category")}  <span className={styles.reqField}> * </span>
@@ -168,20 +156,7 @@ function SendCreate() {
             </div>
           </div>
           <div className={`grid gap-3 grid-cols-2 md:grid-cols-3 mb-2 ${styles.input_group}`}>
-            <div className={`${styles.input_group_item}`}>
-              <label htmlFor="count">
-               {t("Count")}  <span className={styles.reqField}> * </span>
-              </label>
-              <input
-                type="number"
-                id="count"
-                name="count"
-                placeholder="0"
-                value={formData.count}
-                onChange={handleInputChange}
-                min="0" 
-              />
-            </div>
+  
             <div className={`${styles.input_group_item}`}>
               <label htmlFor="price">
                  {t("price")}<span className={styles.reqField}> * </span>

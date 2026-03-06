@@ -218,14 +218,7 @@ const MainCarryList: React.FC<MainCarryListProps> = ({
                 </div>
               </div>
 
-              <p className={styles.description}>
-                {card?.description.length > 40
-                  ? `${card?.description.slice(0, 40)}...`
-                  : card?.description}
-                {card?.description.length > 40 && (
-                  <span className={styles.fullTitle}>{card?.description}</span>
-                )}
-              </p>
+             
 
               <div className="flex justify-between">
                 <div className={styles.dates}>

@@ -67,7 +67,7 @@ function ProfileSendModal({ toggle, isOpen, send }: SendModalProps) {
                                         <p className='details-text'>From</p>
                                     </div>
                                 </div>
-                                <div className={'flexRow'}>
+                                {/* <div className={'flexRow'}>
                                     <div className={'iconDiv'}>
                                         <Image
                                             src={megaphone}
@@ -79,7 +79,7 @@ function ProfileSendModal({ toggle, isOpen, send }: SendModalProps) {
                                         <p className='details-bold'>{send?.count}</p>
                                         <p className='details-text'>Count of Documents</p>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                             <div className={'flexRow parent'}>
                                 <div className={'flexRow'}>
