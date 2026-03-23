@@ -9,13 +9,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { fetchApi, getApiWithToken, postApi } from "@/services/api";
 import DatePicker from "react-datepicker";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/light.css";
+
 import { gender } from "@/json/constant";
 import eye from "@/assets/img/eye.svg";
 import toast from "react-hot-toast";
 import SuccessModal from "@/components/SuccessModal/SuccessModal";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 // // @ts-ignore
 // import { LoginSocialGoogle } from "reactjs-social-login";
@@ -42,8 +45,8 @@ function SignUp() {
     password: "",
     confirmPassword: "",
     terms: false,
-    country: "",
-    city: "",
+    // country: "",
+    // city: "",
   });
   const [toggle, setToggle] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -57,9 +60,9 @@ function SignUp() {
     number: boolean;
     password: boolean;
     confirmPassword: boolean;
-    // terms: boolean;
+    terms: boolean;
     // country: boolean;
-    city: boolean;
+    // city: boolean;
   }>({
     name: false,
     surname: false,
@@ -69,10 +72,11 @@ function SignUp() {
     number: false,
     password: false,
     confirmPassword: false,
-    // terms: false,
+    terms: false,
     // country: false,
-    city: false,
+    // city: false,
   });
+const locale = useLocale()
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -95,9 +99,15 @@ function SignUp() {
 
     if (type === "checkbox") {
       const checked = (e.target as HTMLInputElement).checked;
+
       setFormData((prevData) => ({
         ...prevData,
         [name]: checked,
+      }));
+
+      setFormErrors((errors) => ({
+        ...errors,
+        [name]: !checked,
       }));
     } else {
       setFormData((prevData) => ({
@@ -111,7 +121,10 @@ function SignUp() {
     }
   };
 
-  const handleDateChange = (date: Date | null) => {
+  const handleDateChange = (dates: Date[] | Date | null) => {
+  
+    const date = Array.isArray(dates) ? dates[0] : dates;
+
     setFormData((prevData) => ({
       ...prevData,
       birthday: date,
@@ -127,6 +140,11 @@ function SignUp() {
     setFormData((prev) => ({
       ...prev,
       number: value,
+    }));
+
+    setFormErrors((prev) => ({
+      ...prev,
+      number: value.trim() === ""
     }));
   };
 
@@ -145,9 +163,9 @@ function SignUp() {
       number: formData.number.trim() === "",
       password: formData.password.trim() === "",
       confirmPassword: formData.confirmPassword.trim() === "",
-      // terms: !formData.terms,
+      terms: !formData.terms,
       // country: formData.country.trim() === "",
-      city: formData.city.trim() === "",
+      // city: formData.city.trim() === "",
     };
 
     setFormErrors(errors);
@@ -174,12 +192,17 @@ function SignUp() {
         confirmPassword: formData.confirmPassword,
         birthDate: formData.birthday ? formData.birthday.toISOString() : null,
         gender: formData.gender,
-        city: formData.city,
-        country: formData.country,
+        // city: formData.city,
+        // country: formData.country,
         term: formData.terms,
       };
 
-      const response = await postApi("Manage/Register", userData);
+const response = await postApi(
+  "Manage/Register",
+  userData,
+  undefined,   
+  locale      
+);
 
       if (response?.errors && response.errors.length > 0) {
         response.errors.forEach((error: string) => {
@@ -230,9 +253,9 @@ function SignUp() {
     }
   };
 
-  
-  const t =  useTranslations("Static")
-  
+
+  const t = useTranslations("Static")
+
 
   return (
     <>
@@ -258,7 +281,7 @@ function SignUp() {
               >
                 <div className={styles.input_group_item}>
                   <label htmlFor="name" className="">
-                   {t("name")} <span className={styles.reqField}> * </span>
+                    {t("name")} <span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="text"
@@ -272,7 +295,7 @@ function SignUp() {
                 </div>
                 <div className={styles.input_group_item}>
                   <label htmlFor="surname" className="">
-                   {t("surname")}<span className={styles.reqField}> * </span>
+                    {t("surname")}<span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="text"
@@ -294,14 +317,24 @@ function SignUp() {
                     {t("birthday")}<span className={styles.reqField}> * </span>
                   </label>
                   <div className="relative">
-                    <DatePicker
+                    {/* <DatePicker
                       selected={formData.birthday}
                       onChange={handleDateChange}
                       dateFormat="dd/MM/yyyy"
                       placeholderText="Select your birthday"
-                      className={`pl-10 ${
-                        formErrors.birthday ? styles.error_border : ""
-                      }`}
+                      className={`pl-10 ${formErrors.birthday ? styles.error_border : ""
+                        }`}
+                    /> */}
+                    <Flatpickr
+                      value={formData.birthday || ""}
+                      onChange={handleDateChange}
+                      options={{
+                        dateFormat: "d.m.Y",
+                        allowInput: true,
+                        disableMobile: true,
+                      }}
+                      placeholder="dd.mm.yyyy"
+                      className={`pl-10 ${formErrors.birthday ? styles.error_border : ""}`}
                     />
                     <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
                       <Image src={date_icon} alt="date_icon" />
@@ -314,14 +347,13 @@ function SignUp() {
                   </label>
                   <select
                     name="gender"
-                    className={`${
-                      formErrors.gender ? styles.error_border : ""
-                    } form-select`}
+                    className={`${formErrors.gender ? styles.error_border : ""
+                      } form-select`}
                     value={formData.gender}
                     onChange={handleChange}
                   >
                     <option value="" disabled>
-                     {t("gender")} 
+                      {t("gender")}
                     </option>
                     {Object.entries(gender).map(([key, value]) => (
                       <option key={value} value={value}>
@@ -337,7 +369,7 @@ function SignUp() {
               >
                 <div className={styles.input_group_item}>
                   <label htmlFor="email" className="">
-                  {t("email")}  <span className={styles.reqField}> * </span>
+                    {t("email")}  <span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="email"
@@ -351,7 +383,7 @@ function SignUp() {
                 </div>
                 <div className={styles.input_group_item}>
                   <label htmlFor="number" className="">
-                   {t("phone number")}<span className={styles.reqField}> * </span>
+                    {t("phone number")}<span className={styles.reqField}> * </span>
                   </label>
                   {/* <input
                     type="text"
@@ -362,13 +394,13 @@ function SignUp() {
                     value={formData.number}
                     onChange={handleChange}
                   /> */}
-                    <PhoneInput
-              country="az"
-              value={formData?.number || ""}
-              onChange={handlePhoneChange}
-      
-              excludeCountries={["am"]}
-            />
+                  <PhoneInput
+                    country="az"
+                    value={formData?.number || ""}
+                    onChange={handlePhoneChange}
+                    excludeCountries={["am"]}
+                    inputClass={formErrors.number ? styles.error_border : ""}
+                  />
                 </div>
               </div>
 
@@ -418,7 +450,7 @@ function SignUp() {
               >
                 <div className={styles.input_group_item}>
                   <label htmlFor="password" className="">
-                   {t("create password")}<span className={styles.reqField}> * </span>
+                    {t("create password")}<span className={styles.reqField}> * </span>
                   </label>
                   <div className={styles.password_container}>
                     <input
@@ -443,7 +475,7 @@ function SignUp() {
                 </div>
                 <div className={styles.input_group_item}>
                   <label htmlFor="confirmPassword" className="">
-                   {t("confirm password")}<span className={styles.reqField}> * </span>
+                    {t("confirm password")}<span className={styles.reqField}> * </span>
                   </label>
                   <div className={styles.password_container}>
                     <input
@@ -486,21 +518,14 @@ function SignUp() {
                   className="checkbox"
                 />
                 <div
-                  className={`checkbox-icon `}
-                  onClick={() => {
-                    const checkbox = document.getElementById(
-                      "terms"
-                    ) as HTMLInputElement;
-
-                    if (checkbox) {
-                      checkbox.checked = !checkbox.checked;
-
-                      setFormData((prevData) => ({
-                        ...prevData,
-                        terms: checkbox.checked,
-                      }));
-                    }
-                  }}
+                  className={`checkbox-icon ${formErrors.terms ? styles.error_border : ""
+                    }`}
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      terms: !prev.terms,
+                    }))
+                  }
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -517,12 +542,12 @@ function SignUp() {
                   </svg>
                 </div>
                 <label htmlFor="terms">
-                {t("I have read and agree to")} {" "}
+                  {t("I have read and agree to")} {" "}
                   <Link
                     href=""
                     className="text-[#45a8ff] font-medium md:text-lg"
                   >
-                   {t("terms of services")} 
+                    {" "} {t("terms of services")}
                   </Link>
                 </label>
               </div>
@@ -564,7 +589,7 @@ function SignUp() {
 
           <div className={styles.signup_link}>
             <p>
-             {t("already have an account")}? <Link href="/login">{t("sign in")}</Link>
+              {t("already have an account")} <Link href="/login">{t("sign in")}</Link>
             </p>
           </div>
         </div>

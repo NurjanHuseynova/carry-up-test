@@ -11,7 +11,8 @@ import date_icon from "@/assets/img/calendar.svg";
 import styles from "@/assets/css/postanadd/postanadd.module.css";
 import "@/assets/css/profile/profileEdit.css";
 import { useTranslations } from "next-intl";
-
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/light.css";
 type FormDataType = {
   appointmentDate: Date | null;
   deadline: Date | null;
@@ -20,12 +21,12 @@ type FormDataType = {
 };
 
 interface EditSendProps {
-  id: string | string[] | undefined; 
+  id: string | string[] | undefined;
 }
 
 const EditSend: React.FC<EditSendProps> = ({ id }) => {
 
-  
+
   const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -129,9 +130,9 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
       ...prev,
       [name]:
         name === "currency" ||
-        name === "travelType" ||
-        name == "count" ||
-        name == "price"
+          name === "travelType" ||
+          name == "count" ||
+          name == "price"
           ? Number(value)
           : value,
     }));
@@ -237,7 +238,7 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
           // travelType: null,
         });
         toast.success("Send updated successfully.");
-     
+
       } else {
         toast.error("Failed to update send!");
       }
@@ -248,12 +249,12 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
     }
   }
 
-    const t = useTranslations("Static")
+  const t = useTranslations("Static")
 
   return (
     <div
       style={{
-        justifyContent: isLoading ? "center" : "", 
+        justifyContent: isLoading ? "center" : "",
       }}
       className={`editContainer ${styles.create_container}`}
     >
@@ -335,7 +336,7 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
                 </div>
                 <div className={`${styles.input_group_item}`}>
                   <label htmlFor="price">
-                      {t("price")}<span className={styles.reqField}> * </span>
+                    {t("price")}<span className={styles.reqField}> * </span>
                   </label>
                   <input
                     type="number"
@@ -409,7 +410,7 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
                   />
                 </div>
 
-                      <div className={styles.input_group_item}>
+                <div className={styles.input_group_item}>
                   <label htmlFor="from">
                     {t("From Country")}<span className={styles.reqField}> * </span>
                   </label>
@@ -441,7 +442,7 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
               >
                 <div className={styles.input_group_item}>
                   <label htmlFor="description">
-                     {t("description")}<span className={styles.reqField}> * </span>
+                    {t("description")}<span className={styles.reqField}> * </span>
                   </label>
                   <textarea
                     id="description"
@@ -462,17 +463,31 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
               >
                 <div className={styles.input_group_item}>
                   <label htmlFor="appointmentDate">
-                   {t("date of appointment")} 
+                    {t("date of appointment")}
                     <span className={styles.reqField}> * </span>
                   </label>
                   <div className="relative">
-                    <DatePicker
+                    {/* <DatePicker
                       dateFormat="dd/MM/yyyy"
                       selected={formData.appointmentDate}
                       onChange={(date) =>
                         handleDateChange("appointmentDate", date)
                       }
                       placeholderText="dd/mm/yyyy"
+                      className="pl-10"
+                    /> */}
+                    <Flatpickr
+                      value={formData.appointmentDate || ""}
+                      onChange={(dates) => {
+                        const date = Array.isArray(dates) ? dates[0] : dates;
+                        handleDateChange("appointmentDate", date);
+                      }}
+                      options={{
+                        dateFormat: "d.m.Y",
+                        allowInput: true,
+                        disableMobile: true,
+                      }}
+                      placeholder="dd/mm/yyyy"
                       className="pl-10"
                     />
                     <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
@@ -483,14 +498,28 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
 
                 <div className={styles.input_group_item}>
                   <label htmlFor="name" className="">
-                     {t("Deadline")}<span className={styles.reqField}> * </span>
+                    {t("Deadline")}<span className={styles.reqField}> * </span>
                   </label>
                   <div className="relative">
-                    <DatePicker
+                    {/* <DatePicker
                       dateFormat="dd/MM/yyyy"
                       selected={formData.deadline}
                       onChange={(date) => handleDateChange("deadline", date)}
                       placeholderText="dd/mm/yyyy"
+                      className="pl-10"
+                    /> */}
+                    <Flatpickr
+                      value={formData.deadline || ""}
+                      onChange={(dates) => {
+                        const date = Array.isArray(dates) ? dates[0] : dates;
+                        handleDateChange("deadline", date);
+                      }}
+                      options={{
+                        dateFormat: "d.m.Y",
+                        allowInput: true,
+                        disableMobile: true,
+                      }}
+                      placeholder="dd/mm/yyyy"
                       className="pl-10"
                     />
                     <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
@@ -498,23 +527,37 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
                     </div>
                   </div>
                 </div>
-                  <div className={styles.input_group_item}>
-              <label htmlFor="name" className="">
-                 {t("Last apply date")}<span className={styles.reqField}> * </span>
-              </label>
-              <div className="relative">
-                <DatePicker
+                <div className={styles.input_group_item}>
+                  <label htmlFor="name" className="">
+                    {t("Last apply date")}<span className={styles.reqField}> * </span>
+                  </label>
+                  <div className="relative">
+                    {/* <DatePicker
                   dateFormat="dd/MM/yyyy"
                   // selected={formData.appointmentDate}
                   // onChange={(date) => handleDateChange("appointmentDate", date)}
                   placeholderText="dd/mm/yyyy"
                   className="pl-10"
-                />
-                <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
-                  <Image src={date_icon} alt="date_icon" />
+                /> */}
+                    <Flatpickr
+                      // value={formData.fromDate || ""}
+                      // onChange={(dates) => {
+                      //   const date = Array.isArray(dates) ? dates[0] : dates;
+                      //   handleDateChange("fromDate", date);
+                      // }}
+                      options={{
+                        dateFormat: "d.m.Y",
+                        allowInput: true,
+                        disableMobile: true,
+                      }}
+                      placeholder="dd/mm/yyyy"
+                      className="pl-10"
+                    />
+                    <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+                      <Image src={date_icon} alt="date_icon" />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
               </div>
             </div>
 
@@ -524,14 +567,14 @@ const EditSend: React.FC<EditSendProps> = ({ id }) => {
                 className={styles.cancel_btn}
                 onClick={clearInput}
               >
-                 {t("Cancel")} 
+                {t("Cancel")}
               </button>
               <button
                 type="submit"
                 className={styles.save_btn}
                 disabled={isLoading}
               >
-                    {t("save")} 
+                {t("save")}
               </button>
             </div>
           </form>

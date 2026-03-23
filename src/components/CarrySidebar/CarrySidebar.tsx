@@ -5,8 +5,11 @@ import Image from "next/image";
 import date_icon from "@/assets/img/calendar.svg";
 import { currency, travelType } from "@/json/constant";
 import { CarrySidebarProps } from "@/types/type";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/light.css";
 import DatePicker from "react-datepicker";
 import { useTranslations } from "next-intl";
+
 
 type FormDataType = {
   appointmentDate: Date | null;
@@ -33,14 +36,14 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
       [field]: date,
     }));
   };
-  
-  
-  const t =  useTranslations("Static")
-  
+
+
+  const t = useTranslations("Static")
+
   return (
     <section className={styles.sidebar_section}>
       <form className={styles.form_section} onSubmit={handleSubmit}>
-  
+
 
         {/* <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>{t("title")}</label>
@@ -116,7 +119,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
           </select>
         </div> */}
 
- 
+
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>{t("category")}</label>
 
@@ -158,38 +161,66 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
         </div>
 
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-  <label>{t("from trip date")}</label>
-  <div className="relative">
-    <DatePicker
+          <label>{t("from trip date")}</label>
+          <div className="relative">
+            {/* <DatePicker
       name="fromTripDate"
       dateFormat="dd/MM/yyyy"
       selected={formData.fromTripDate}
       onChange={(date) => handleDateChange("fromTripDate", date)}
       placeholderText="dd/mm/yyyy"
       className="pl-10"
-    />
-    <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
-      <Image src={date_icon} alt="date_icon" />
-    </div>
-  </div>
-</div>
+    /> */}
+            <Flatpickr
+              value={formData.fromTripDate || ""}
+              onChange={(dates) => {
+                const date = Array.isArray(dates) ? dates[0] : dates;
+                handleDateChange("fromTripDate", date);
+              }}
+              options={{
+                dateFormat: "d.m.Y",
+                allowInput: true,
+                disableMobile: true,
+              }}
+              placeholder="dd/mm/yyyy"
+              className="pl-10"
+            />
+            <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+              <Image src={date_icon} alt="date_icon" />
+            </div>
+          </div>
+        </div>
 
-<div className={`flex flex-col !gap-2 ${styles.input_group}`}>
-  <label>{t("to trip date")}</label>
-  <div className="relative">
-    <DatePicker
+        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
+          <label>{t("to trip date")}</label>
+          <div className="relative">
+            {/* <DatePicker
       name="toTripDate"
       dateFormat="dd/MM/yyyy"
       selected={formData.toTripDate} 
       onChange={(date) => handleDateChange("toTripDate", date)}
       placeholderText="dd/mm/yyyy"
       className="pl-10"
-    />
-    <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
-      <Image src={date_icon} alt="date_icon" />
-    </div>
-  </div>
-</div>
+    /> */}
+            <Flatpickr
+              value={formData.toTripDate || ""}
+              onChange={(dates) => {
+                const date = Array.isArray(dates) ? dates[0] : dates;
+                handleDateChange("toTripDate", date);
+              }}
+              options={{
+                dateFormat: "d.m.Y",
+                allowInput: true,
+                disableMobile: true,
+              }}
+              placeholder="dd/mm/yyyy"
+              className="pl-10"
+            />
+            <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+              <Image src={date_icon} alt="date_icon" />
+            </div>
+          </div>
+        </div>
 
 
         <div className="mt-9 grid grid-cols-2 justify-between gap-2">
@@ -207,7 +238,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
               fetchTrips(tripCurrentPage);
             }}
           >
-          {t("Search")}
+            {t("Search")}
           </button>
         </div>
       </form>

@@ -9,9 +9,11 @@ import axios from "axios";
 import { useTranslations } from "next-intl";
 
 function ConfirmAccount() {
-  const params = useParams();
-  const token = params?.token;
-
+ const params = useParams();
+ console.log("params",params)
+const token = Array.isArray(params?.token)
+  ? params.token[0]
+  : params?.token;
 
   useEffect(() => {
     if (token) {

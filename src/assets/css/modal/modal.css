@@ -116,7 +116,8 @@
     color: #454545;
 }
 .details-grid{
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto;
    justify-content: stretch;
     
 }
@@ -309,6 +310,7 @@ height: 53px;
   }
   .details-grid{
     justify-content: space-between;
+    grid-template-columns: auto;
   }
   .mobile_add_comment{
     display: flex;

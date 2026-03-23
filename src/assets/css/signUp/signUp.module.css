@@ -183,6 +183,14 @@
   border: 1px solid red !important;
 }
 
+.react-tel-input .form-control.error_border{
+
+    border:  1px solid red !important;
+
+}
+
+
+
 .loading_overlay {
   position: fixed;
   top: 0;

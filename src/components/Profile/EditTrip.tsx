@@ -11,6 +11,8 @@ import date_icon from "@/assets/img/calendar.svg";
 import styles from "@/assets/css/postanadd/postanadd.module.css";
 import "@/assets/css/profile/profileEdit.css";
 import { useTranslations } from "next-intl";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/light.css";
 
 type FormDataType = {
   appointmentDate: Date | null;
@@ -19,7 +21,7 @@ type FormDataType = {
 };
 
 interface EditTripProps {
-  id: string | string[] | undefined; 
+  id: string | string[] | undefined;
 }
 
 const EditTrip: React.FC<EditTripProps> = ({ id }) => {
@@ -126,9 +128,9 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
       ...prev,
       [name]:
         name === "currency" ||
-        name === "travelType" ||
-        name == "count" ||
-        name == "price"
+          name === "travelType" ||
+          name == "count" ||
+          name == "price"
           ? Number(value)
           : value,
     }));
@@ -244,7 +246,7 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
     }
   }
 
-    const t = useTranslations("Static")
+  const t = useTranslations("Static")
   return (
     <div
       style={{
@@ -313,7 +315,7 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                 <div className={`grid gap-3 grid-cols-2 ${styles.input_group}`}>
                   <div className={styles.input_group_item}>
                     <label htmlFor="from" className="">
-                       {t("From City")}<span className={styles.reqField}> * </span>
+                      {t("From City")}<span className={styles.reqField}> * </span>
                     </label>
                     <input
                       type="text"
@@ -326,14 +328,28 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                   </div>
                   <div className={styles.input_group_item}>
                     <label htmlFor="name" className="">
-                       {t("Date")}<span className={styles.reqField}> * </span>
+                      {t("Date")}<span className={styles.reqField}> * </span>
                     </label>
                     <div className="relative">
-                      <DatePicker
+                      {/* <DatePicker
                         dateFormat="dd/MM/yyyy"
                         selected={formData.fromDate}
                         onChange={(date) => handleDateChange("fromDate", date)}
                         placeholderText="dd/mm/yyyy"
+                        className="pl-10"
+                      /> */}
+                      <Flatpickr
+                        value={formData.fromDate || ""}
+                        onChange={(dates) => {
+                          const date = Array.isArray(dates) ? dates[0] : dates;
+                          handleDateChange("fromDate", date);
+                        }}
+                        options={{
+                          dateFormat: "d.m.Y",
+                          allowInput: true,
+                          disableMobile: true,
+                        }}
+                        placeholder="dd/mm/yyyy"
                         className="pl-10"
                       />
                       <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
@@ -345,7 +361,7 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                 <div className={`grid gap-3 grid-cols-2 ${styles.input_group}`}>
                   <div className={styles.input_group_item}>
                     <label htmlFor="to" className="">
-                        {t("To City")}<span className={styles.reqField}> * </span>
+                      {t("To City")}<span className={styles.reqField}> * </span>
                     </label>
                     <input
                       type="text"
@@ -358,14 +374,28 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                   </div>
                   <div className={styles.input_group_item}>
                     <label htmlFor="name" className="">
-                       {t("Date")}<span className={styles.reqField}> * </span>
+                      {t("Date")}<span className={styles.reqField}> * </span>
                     </label>
                     <div className="relative">
-                      <DatePicker
+                      {/* <DatePicker
                         dateFormat="dd/MM/yyyy"
                         selected={formData.toDate}
                         onChange={(date) => handleDateChange("toDate", date)}
                         placeholderText="dd/mm/yyyy"
+                        className="pl-10"
+                      /> */}
+                      <Flatpickr
+                        value={formData.toDate || ""}
+                        onChange={(dates) => {
+                          const date = Array.isArray(dates) ? dates[0] : dates;
+                          handleDateChange("toDate", date);
+                        }}
+                        options={{
+                          dateFormat: "d.m.Y",
+                          allowInput: true,
+                          disableMobile: true,
+                        }}
+                        placeholder="dd/mm/yyyy"
                         className="pl-10"
                       />
                       <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
@@ -375,35 +405,35 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                   </div>
                 </div>
                 <div className={`grid gap-3 grid-cols-2 ${styles.input_group}`}>
-                        <div className={styles.input_group_item}>
-              <label htmlFor="from" className="">
-                {t("From Country")}<span className={styles.reqField}> * </span>
-              </label>
-              <input
-                type="text"
-                id="from"
-                name="from"
-                placeholder="from"
-                // value={formData.from}
-                // onChange={handleInputChange}
-              />
-            </div>
-              <div className={styles.input_group_item}>
-              <label htmlFor="to" className="">
-              {t("To Country")}<span className={styles.reqField}> * </span>
-              </label>
-              <input
-                type="text"
-                id="to"
-                name="to"
-                placeholder="To"
-                // value={formData.to}
-                // onChange={handleInputChange}
-              />
-            </div>
+                  <div className={styles.input_group_item}>
+                    <label htmlFor="from" className="">
+                      {t("From Country")}<span className={styles.reqField}> * </span>
+                    </label>
+                    <input
+                      type="text"
+                      id="from"
+                      name="from"
+                      placeholder="from"
+                    // value={formData.from}
+                    // onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className={styles.input_group_item}>
+                    <label htmlFor="to" className="">
+                      {t("To Country")}<span className={styles.reqField}> * </span>
+                    </label>
+                    <input
+                      type="text"
+                      id="to"
+                      name="to"
+                      placeholder="To"
+                    // value={formData.to}
+                    // onChange={handleInputChange}
+                    />
+                  </div>
                   <div className={styles.input_group_item}>
                     <label htmlFor="travelType">
-                       {t("Transport")}<span className={styles.reqField}> * </span>
+                      {t("Transport")}<span className={styles.reqField}> * </span>
                     </label>
                     <select
                       name="travelType"
@@ -424,13 +454,27 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                       <span className={styles.reqField}> * </span>
                     </label>
                     <div className="relative">
-                      <DatePicker
+                      {/* <DatePicker
                         dateFormat="dd/MM/yyyy"
                         selected={formData.appointmentDate}
                         onChange={(date) =>
                           handleDateChange("appointmentDate", date)
                         }
                         placeholderText="dd/mm/yyyy"
+                        className="pl-10"
+                      /> */}
+                      <Flatpickr
+                        value={formData.appointmentDate || ""}
+                        onChange={(dates) => {
+                          const date = Array.isArray(dates) ? dates[0] : dates;
+                          handleDateChange("appointmentDate", date);
+                        }}
+                        options={{
+                          dateFormat: "d.m.Y",
+                          allowInput: true,
+                          disableMobile: true,
+                        }}
+                        placeholder="dd/mm/yyyy"
                         className="pl-10"
                       />
                       <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
@@ -458,26 +502,40 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                       min="0"
                     />
                   </div> */}
-                     <div className={styles.input_group_item}>
-              <label htmlFor="name" className="">
-               {t("Last apply date")}<span className={styles.reqField}> * </span>
-              </label>
-              <div className="relative">
-                <DatePicker
+                  <div className={styles.input_group_item}>
+                    <label htmlFor="name" className="">
+                      {t("Last apply date")}<span className={styles.reqField}> * </span>
+                    </label>
+                    <div className="relative">
+                      {/* <DatePicker
                   dateFormat="dd/MM/yyyy"
                   // selected={formData.appointmentDate}
                   // onChange={(date) => handleDateChange("appointmentDate", date)}
                   placeholderText="dd/mm/yyyy"
                   className="pl-10"
-                />
-                <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
-                  <Image src={date_icon} alt="date_icon" />
-                </div>
-              </div>
-            </div>
+                /> */}
+                      <Flatpickr
+                        // value={formData.fromDate || ""}
+                        // onChange={(dates) => {
+                        //   const date = Array.isArray(dates) ? dates[0] : dates;
+                        //   handleDateChange("fromDate", date);
+                        // }}
+                        options={{
+                          dateFormat: "d.m.Y",
+                          allowInput: true,
+                          disableMobile: true,
+                        }}
+                        placeholder="dd/mm/yyyy"
+                        className="pl-10"
+                      />
+                      <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+                        <Image src={date_icon} alt="date_icon" />
+                      </div>
+                    </div>
+                  </div>
                   <div className={`${styles.input_group_item}`}>
                     <label htmlFor="price">
-                        {t("price")}<span className={styles.reqField}> * </span>
+                      {t("price")}<span className={styles.reqField}> * </span>
                     </label>
                     <input
                       type="number"
@@ -530,7 +588,7 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                 >
                   <div className={styles.input_group_item}>
                     <label htmlFor="description">
-                       {t("description")}<span className={styles.reqField}> * </span>
+                      {t("description")}<span className={styles.reqField}> * </span>
                     </label>
                     <textarea
                       id="description"
@@ -555,14 +613,14 @@ const EditTrip: React.FC<EditTripProps> = ({ id }) => {
                 className={styles.cancel_btn}
                 onClick={clearInput}
               >
-                  {t("Cancel")} 
+                {t("Cancel")}
               </button>
               <button
                 className={styles.save_btn}
                 type="submit"
                 disabled={isLoading}
               >
-                {t("Save")}    
+                {t("Save")}
               </button>
             </div>
           </form>

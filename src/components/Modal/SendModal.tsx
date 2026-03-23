@@ -133,7 +133,7 @@ function SendModal({
             <div className="carry-modal-container">
               <div className="carry-left">
                 <div className="flex flex-col gap-7">
-                  <div className="carry-header">
+                  {/* <div className="carry-header">
                     <div className="flex items-center gap-3">
                       <span className="send_icon">
                         <Image
@@ -149,11 +149,11 @@ function SendModal({
                       <span className="price-tag">
                         ${detailList?.package?.price}
                       </span>
-                      {/* <span className="">
+                      <span className="">
                         <Image src={heart} alt="" width={32} height={26} />
-                      </span> */}
+                      </span>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="details-section">
                     <h3 className="!text-[#9166EF]">{t("details")}</h3>

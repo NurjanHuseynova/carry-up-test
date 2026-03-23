@@ -74,7 +74,28 @@ export const getApiWithToken = async (url: string, accessToken?: any) => {
 
 
 
-export const postApi = async (url: string, bodyData?: any, accessToken?: any) => {
+// export const postApi = async (url: string, bodyData?: any, accessToken?: any) => {
+//   try {
+//     const isFormData = bodyData instanceof FormData;
+
+//     const res = await axios.post(
+//       `${process.env.NEXT_PUBLIC_API_BASE_URL}/${url}`,
+//       bodyData,
+//       {
+//         headers: {
+//           "Content-Type": isFormData ? "multipart/form-data" : "application/json",
+//           Authorization: `Bearer ${accessToken}`,
+//         },
+//       }
+//     );
+
+//     return res.data;
+//   } catch (error) {
+//     console.error("Error in postApi:", error);
+//     throw error;
+//   }
+// };
+export const postApi = async (url: string, bodyData?: any, accessToken?: any, lang?: string) => {
   try {
     const isFormData = bodyData instanceof FormData;
 
@@ -85,6 +106,7 @@ export const postApi = async (url: string, bodyData?: any, accessToken?: any) =>
         headers: {
           "Content-Type": isFormData ? "multipart/form-data" : "application/json",
           Authorization: `Bearer ${accessToken}`,
+          ...(lang ? { lang } : {}), // lang varsa əlavə et
         },
       }
     );
@@ -95,7 +117,6 @@ export const postApi = async (url: string, bodyData?: any, accessToken?: any) =>
     throw error;
   }
 };
-
 
 export const putApi = async (url: string, bodyData?: any, accessToken?: any) => {
   try {

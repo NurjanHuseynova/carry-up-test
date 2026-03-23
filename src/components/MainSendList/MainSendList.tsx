@@ -83,7 +83,7 @@ const MainSendList: React.FC<MainSendListProps> = ({
                 toggle();
               }}
             >
-              <div className="p-4">
+              <div className="p-3">
                 <div className={styles.routeContainer}>
                   <h3 className={`${styles.routeText} text-[#9166EF]`}>
                     {card?.sendPlaceDetails[0]?.fromPlace?.slice(0, 4)}
@@ -101,7 +101,7 @@ const MainSendList: React.FC<MainSendListProps> = ({
                   </h3>
                 </div>
 
-                <p className={styles.description}>
+                {/* <p className={styles.description}>
                   {card?.description.length > 30
                     ? `${card?.description.slice(0, 30)}...`
                     : card?.description}
@@ -110,7 +110,7 @@ const MainSendList: React.FC<MainSendListProps> = ({
                       {card?.description}
                     </span>
                   )}
-                </p>
+                </p> */}
 
                 <div className={styles.dates}>
                   <p className="text-[#9166EF]">

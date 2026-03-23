@@ -8,6 +8,8 @@ import date_icon from "@/assets/img/calendar.svg";
 import { currency, travelType } from "@/json/constant";
 import trash from "@/assets/img/trash.svg";
 import { useTranslations } from "next-intl";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/light.css";
 
 type FormDataType = {
   appointmentDate: Date | null;
@@ -242,11 +244,25 @@ function CarryCreate() {
                 {t("Date")}<span className={styles.reqField}> * </span>
               </label>
               <div className="relative">
-                <DatePicker
+                {/* <DatePicker
                   dateFormat="dd/MM/yyyy"
                   selected={formData.fromDate}
                   onChange={(date) => handleDateChange("fromDate", date)}
                   placeholderText="dd/mm/yyyy"
+                  className="pl-10"
+                /> */}
+                <Flatpickr
+                  value={formData.fromDate || ""}
+                  onChange={(dates) => {
+                    const date = Array.isArray(dates) ? dates[0] : dates;
+                    handleDateChange("fromDate", date);
+                  }}
+                  options={{
+                    dateFormat: "d.m.Y",
+                    allowInput: true,
+                    disableMobile: true,
+                  }}
+                  placeholder="dd/mm/yyyy"
                   className="pl-10"
                 />
                 <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
@@ -271,17 +287,31 @@ function CarryCreate() {
                 onChange={handleInputChange}
               />
             </div>
-            
+
             <div className={styles.input_group_item}>
               <label htmlFor="name" className="">
                 {t("Date")}<span className={styles.reqField}> * </span>
               </label>
               <div className="relative">
-                <DatePicker
+                {/* <DatePicker
                   dateFormat="dd/MM/yyyy"
                   selected={formData.toDate}
                   onChange={(date) => handleDateChange("toDate", date)}
                   placeholderText="dd/mm/yyyy"
+                  className="pl-10"
+                /> */}
+                <Flatpickr
+                  value={formData.toDate || ""}
+                  onChange={(dates) => {
+                    const date = Array.isArray(dates) ? dates[0] : dates;
+                    handleDateChange("toDate", date);
+                  }}
+                  options={{
+                    dateFormat: "d.m.Y",
+                    allowInput: true,
+                    disableMobile: true,
+                  }}
+                  placeholder="dd/mm/yyyy"
                   className="pl-10"
                 />
                 <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
@@ -293,7 +323,7 @@ function CarryCreate() {
           <div
             className={`grid gap-3 grid-cols-1 md:grid-cols-2 ${styles.input_group}`}
           >
-                <div className={styles.input_group_item}>
+            <div className={styles.input_group_item}>
               <label htmlFor="from" className="">
                 {t("From Country")}<span className={styles.reqField}> * </span>
               </label>
@@ -306,9 +336,9 @@ function CarryCreate() {
                 onChange={handleInputChange}
               />
             </div>
-              <div className={styles.input_group_item}>
+            <div className={styles.input_group_item}>
               <label htmlFor="to" className="">
-              {t("To Country")}<span className={styles.reqField}> * </span>
+                {t("To Country")}<span className={styles.reqField}> * </span>
               </label>
               <input
                 type="text"
@@ -321,7 +351,7 @@ function CarryCreate() {
             </div>
             <div className={styles.input_group_item}>
               <label htmlFor="travelType">
-               {t("Transport")} <span className={styles.reqField}> * </span>
+                {t("Transport")} <span className={styles.reqField}> * </span>
               </label>
               <select
                 name="travelType"
@@ -339,14 +369,28 @@ function CarryCreate() {
             </div>
             <div className={styles.input_group_item}>
               <label htmlFor="name" className="">
-               {t("Date of appointment")}<span className={styles.reqField}> * </span>
+                {t("Date of appointment")}<span className={styles.reqField}> * </span>
               </label>
               <div className="relative">
-                <DatePicker
+                {/* <DatePicker
                   dateFormat="dd/MM/yyyy"
                   selected={formData.appointmentDate}
                   onChange={(date) => handleDateChange("appointmentDate", date)}
                   placeholderText="dd/mm/yyyy"
+                  className="pl-10"
+                /> */}
+                <Flatpickr
+                  value={formData.appointmentDate || ""}
+                  onChange={(dates) => {
+                    const date = Array.isArray(dates) ? dates[0] : dates;
+                    handleDateChange("appointmentDate", date);
+                  }}
+                  options={{
+                    dateFormat: "d.m.Y",
+                    allowInput: true,
+                    disableMobile: true,
+                  }}
+                  placeholder="dd/mm/yyyy"
                   className="pl-10"
                 />
                 <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
@@ -356,14 +400,28 @@ function CarryCreate() {
             </div>
             <div className={styles.input_group_item}>
               <label htmlFor="name" className="">
-               {t("Last apply date")}<span className={styles.reqField}> * </span>
+                {t("Last apply date")}<span className={styles.reqField}> * </span>
               </label>
               <div className="relative">
-                <DatePicker
+                {/* <DatePicker
                   dateFormat="dd/MM/yyyy"
                   // selected={formData.appointmentDate}
                   // onChange={(date) => handleDateChange("appointmentDate", date)}
                   placeholderText="dd/mm/yyyy"
+                  className="pl-10"
+                /> */}
+                <Flatpickr
+                  // value={formData.fromDate || ""}
+                  // onChange={(dates) => {
+                  //   const date = Array.isArray(dates) ? dates[0] : dates;
+                  //   handleDateChange("fromDate", date);
+                  // }}
+                  options={{
+                    dateFormat: "d.m.Y",
+                    allowInput: true,
+                    disableMobile: true,
+                  }}
+                  placeholder="dd/mm/yyyy"
                   className="pl-10"
                 />
                 <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
@@ -465,7 +523,7 @@ function CarryCreate() {
           className={styles.save_btn}
           onClick={handleAddAnother}
         >
-         {t("Add another")} 
+          {t("Add another")}
         </button>
       </div>
 
@@ -497,14 +555,14 @@ function CarryCreate() {
                     {item.travelType == 0
                       ? "Bus"
                       : item.travelType == 1
-                      ? "Plane"
-                      : item.travelType == 2
-                      ? "Car"
-                      : item.travelType == 3
-                      ? "Ship"
-                      : item.travelType == 4
-                      ? "Train"
-                      : null}
+                        ? "Plane"
+                        : item.travelType == 2
+                          ? "Car"
+                          : item.travelType == 3
+                            ? "Ship"
+                            : item.travelType == 4
+                              ? "Train"
+                              : null}
                   </td>
                   <td
                     onClick={() => handleDelete(index)}
@@ -526,14 +584,14 @@ function CarryCreate() {
             className={styles.cancel_btn}
             onClick={clearInput}
           >
-           {t("Cancel")} 
+            {t("Cancel")}
           </button>
           <button
             type="submit"
             className={styles.save_btn}
             onClick={handleSubmit}
           >
-         {t("Save")}    
+            {t("Save")}
           </button>
         </div>
       )}

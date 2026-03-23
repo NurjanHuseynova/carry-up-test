@@ -327,8 +327,7 @@ width: 150px;
   width: 100% !important;
   font-size: 14px !important;
   height: 48px !important;
-  border: solid 1px rgba(41, 45, 50, 0.25) !important;
+  border: solid 1px rgba(41, 45, 50, 0.25) ;
   border-radius: 8px !important;
 }
-
 

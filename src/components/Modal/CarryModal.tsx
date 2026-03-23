@@ -164,7 +164,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
         :   <div className="carry-modal-container">
         <div className="carry-left">
           <div className="flex flex-col gap-3 md:gap-7">
-            <div className="carry-header">
+            {/* <div className="carry-header">
               <div className="flex items-center gap-3">
                 <span className="carry_icon">
                   <Image
@@ -180,11 +180,11 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
                 <span className="price-tag">
                   ${detailList?.package?.price}
                 </span>
-                {/* <span className="">
+                <span className="">
                   <Image src={heart} alt="" width={32} height={26} />
-                </span> */}
+                </span>
               </div>
-            </div>
+            </div> */}
 
             <div className="details-section">
               <h3>{t("details")}</h3>
