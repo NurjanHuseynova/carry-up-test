@@ -36,9 +36,8 @@ function SendCreate() {
   }, []);
 
   const [formData, setFormData] = useState({
-    title: "",
+ 
     category: "",
-    count: "",
     price: "",
     currency: null,
     from: "",
@@ -87,11 +86,9 @@ function SendCreate() {
     e.preventDefault();
     try {
       if (
-        !formData?.title ||
         !formData?.description ||
         !formData?.currency ||
         !formData?.price ||
-        !formData?.count ||
         !formData?.from ||
         !formData?.to ||
         !formData?.appointmentDate
@@ -100,7 +97,6 @@ function SendCreate() {
       }
 
       const obj = {
-        title: formData?.title,
         description: formData?.description,
         case: {
           userId: user?.id,
@@ -108,7 +104,6 @@ function SendCreate() {
         package: {
           currency: formData?.currency,
           price: formData?.price,
-          count: formData?.count,
           deadline: "2025-01-26T11:47:16.695Z",
           packageCategoryId: 1,
         },
@@ -136,9 +131,7 @@ function SendCreate() {
 
   const clearInput = () => {
     setFormData({
-      title: "",
       category: "",
-      count: "",
       price: "",
       currency: null,
       from: "",
@@ -151,8 +144,8 @@ function SendCreate() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div className="grid md:grid-cols-2 gap-3 mt-8">
-          <div className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}>
+        <div className="grid md:grid-cols-1 gap-3 mt-8">
+          <div className={`grid gap-3 md:grid-cols-3 ${styles.input_group}`}>
 
             <div className={styles.input_group_item}>
               <label htmlFor="category">
@@ -167,10 +160,7 @@ function SendCreate() {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className={`grid gap-3 grid-cols-2 md:grid-cols-3 mb-2 ${styles.input_group}`}>
-
-            <div className={`${styles.input_group_item}`}>
+               <div className={`${styles.input_group_item}`}>
               <label htmlFor="price">
                 {t("price")}<span className={styles.reqField}> * </span>
               </label>
@@ -213,6 +203,7 @@ function SendCreate() {
               </div>
             </div>
           </div>
+       
         </div>
 
         <div className="grid md:grid-cols-2 md:gap-3 md:mt-3">

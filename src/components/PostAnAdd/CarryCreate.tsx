@@ -10,6 +10,7 @@ import trash from "@/assets/img/trash.svg";
 import { useTranslations } from "next-intl";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/light.css";
+import plus from "@/assets/img/plus.svg"
 
 type FormDataType = {
   appointmentDate: Date | null;
@@ -46,9 +47,8 @@ function CarryCreate() {
   >([]);
 
   const [formData, setFormData] = useState({
-    title: "",
+ 
     category: "",
-    count: "",
     price: "",
     currency: null,
     from: "",
@@ -171,9 +171,7 @@ function CarryCreate() {
   };
   const clearInput = () => {
     setFormData({
-      title: "",
       category: "",
-      count: "",
       price: "",
       currency: null,
       from: "",
@@ -226,11 +224,12 @@ function CarryCreate() {
           <div
             className={`grid gap-3 grid-cols-1 md:grid-cols-2 ${styles.input_group}`}
           >
-            <div className={styles.input_group_item}>
+            <div className={`${styles.input_group_item} `}>
               <label htmlFor="from" className="">
                 {t("From City")}<span className={styles.reqField}> * </span>
               </label>
-              <input
+            <div className="flex gap-3">
+                <input
                 type="text"
                 id="from"
                 name="from"
@@ -238,7 +237,12 @@ function CarryCreate() {
                 value={formData.from}
                 onChange={handleInputChange}
               />
+                 <button className="border border-[#292D3240] py-2 px-2 rounded-md" >
+               <Image src={plus} alt="plus"/>
+             </button>
             </div>
+            </div>
+           
             <div className={styles.input_group_item}>
               <label htmlFor="name" className="">
                 {t("Date")}<span className={styles.reqField}> * </span>
@@ -278,7 +282,8 @@ function CarryCreate() {
               <label htmlFor="to" className="">
                 {t("To City")}<span className={styles.reqField}> * </span>
               </label>
-              <input
+          <div className="flex gap-3">
+                <input
                 type="text"
                 id="to"
                 name="to"
@@ -286,6 +291,11 @@ function CarryCreate() {
                 value={formData.to}
                 onChange={handleInputChange}
               />
+
+             <button className="border border-[#292D3240] py-2 px-2 rounded-md" >
+               <Image src={plus} alt="plus"/>
+             </button>
+          </div>
             </div>
 
             <div className={styles.input_group_item}>
