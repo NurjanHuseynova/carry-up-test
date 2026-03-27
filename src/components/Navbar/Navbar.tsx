@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "@/assets/css/navbar/navbar.module.css";
 import Image from "next/image";
-import Link from "next/link";
 import toast from "react-hot-toast";
 import { fetchApi } from "@/services/api";
 
@@ -17,6 +16,9 @@ import buliding from "@/assets/img/buliding.svg";
 import message from "@/assets/img/message.svg";
 import close from "@/assets/img/close.svg";
 import { useLocale, useTranslations } from "next-intl";
+import NavigationLink from "../UI/NavigationLink";
+import { AppPathnames } from "@/config";
+import LocaleSwitcher from "../UI/LocaleSwitcher";
 
 interface User {
   name: string;
@@ -106,9 +108,10 @@ function Navbar() {
     <section className={styles.navbar}>
       <header className={`custom_container ${styles.header}`}>
         <div className={styles.logo}>
-          <Link href="/" className="flex items-center">
+           <NavigationLink href={`/` as AppPathnames} className=""><Image src={carry_logo} alt="Carry Logo" width={153} height={43} /></NavigationLink>
+          {/* <Link href="/" className="flex items-center">
             <Image src={carry_logo} alt="Carry Logo" width={153} height={43} />
-          </Link>
+          </Link> */}
         </div>
 
         <button
@@ -147,25 +150,30 @@ function Navbar() {
               {!user ? (
                 <>
                   <li>
-                    <Link href="/login" className={styles.menuItem}>
+                         <NavigationLink
+                      href={`/login` as AppPathnames}
+                      className=""
+                    ></NavigationLink>
+                    {/* <Link href="/login" className={styles.menuItem}>
                       {t("login")}
-                    </Link>
+                    </Link> */}
                   </li>
                   {!isMobileMenuOpen && <span className={styles.radius}></span>}
                   <li>
-                    <Link href="/signUp" className={styles.menuItem}>
+                    <NavigationLink  href={`/signUp` as AppPathnames} className={styles.menuItem}>
                       {t("sign up")}
-                    </Link>
+                    </NavigationLink>
                   </li>
                 </>
               ) : (
                 <>
                   <li>
                     <button>
-                      <Link
-                        href="/profile?tab=profile"
-                        className={styles.menuItem}
-                        onClick={() => setIsMobileMenuOpen(false)}
+                      <NavigationLink
+                      href={`/profile?tab=profile` as AppPathnames}
+                     className=""
+                        // className={styles.menuItem}
+                        // onClick={() => setIsMobileMenuOpen(false)}
                       >
                         <Image
                           src={profile_icon}
@@ -175,13 +183,13 @@ function Navbar() {
                           className={styles.icon}
                         />
                         {t("profile")}
-                      </Link>
+                      </NavigationLink>
                     </button>
                   </li>
                   <li>
                     <button className={`getTabClass("password")`}>
-                      <Link
-                        href="/profile?tab=password"
+                      <NavigationLink
+                        href={`/profile?tab=password` as AppPathnames}
                         className={styles.menuItem}
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
@@ -191,13 +199,14 @@ function Navbar() {
                           className={styles.icon}
                         />
                         {t("password")}
-                      </Link>
+                      </NavigationLink>
                     </button>
                   </li>
                   <li>
                     <button className={`getTabClass("myAdsTrip")`}>
-                      <Link
-                        href="/profile?tab=myAdsTrip"
+                      <NavigationLink
+                      href={`/profile?tab=myAdsTrip` as AppPathnames}
+                       
                         className={styles.menuItem}
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
@@ -207,13 +216,14 @@ function Navbar() {
                           className={styles.icon}
                         />
                         {t("my ads trip")}
-                      </Link>
+                      </NavigationLink>
                     </button>
                   </li>
                   <li>
                     <button className={`getTabClass("myAdsSend")`}>
-                      <Link
-                        href="/profile?tab=myAdsSend"
+                      <NavigationLink
+                      href={`/profile?tab=myAdsSend` as AppPathnames}
+                       
                         className={styles.menuItem}
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
@@ -223,13 +233,14 @@ function Navbar() {
                           className={styles.icon}
                         />
                         {t("my ads send")}
-                      </Link>
+                      </NavigationLink>
                     </button>
                   </li>
                   <li>
                     <button className={`getTabClass("myPoints")`}>
-                      <Link
-                        href="/profile?tab=myPoints"
+                      <NavigationLink
+                      href={`/profile?tab=myPoints` as AppPathnames}
+                       
                         className={styles.menuItem}
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
@@ -239,13 +250,13 @@ function Navbar() {
                           className={styles.icon}
                         />
                         {t("my points")}
-                      </Link>
+                      </NavigationLink>
                     </button>
                   </li>
                   <li>
-                    <Link href={"post-an-add"} className={styles.postAdButton}>
-                      {t("post an add")}
-                    </Link>
+                    <NavigationLink  href={`/post-an-add` as AppPathnames} className={styles.postAdButton}>
+                      {t("Post an add")}
+                    </NavigationLink>
                   </li>
                   <li>
                     <button className={styles.menuItem} onClick={handleLogout}>
@@ -266,13 +277,13 @@ function Navbar() {
         <nav className={styles.nav}>
           {!user ? (
             <>
-              <Link href="/login" className={styles.navLink}>
+              <NavigationLink  href={`/login` as AppPathnames} className={styles.navLink}>
                 {t("login")}
-              </Link>
+              </NavigationLink>
               <span className={styles.radius}></span>
-              <Link href="/signUp" className={styles.navLink}>
+              <NavigationLink  href={`/signUp` as AppPathnames} className={styles.navLink}>
                 {t("sign up")}
-              </Link>
+              </NavigationLink>
            <div className={styles.langContainer}>
       <button
         className={styles.langTrigger}
@@ -283,6 +294,7 @@ function Navbar() {
 
       {menuOpen && (
         <div className={styles.langMenu}>
+          {/* <LocaleSwitcher /> */}
           {languages
             .filter((lang) => lang !== selectedLang)
             .map((lang) => (
@@ -319,7 +331,7 @@ function Navbar() {
               </div>
               {showMenu && (
                 <div className={styles.popupMenu} ref={menuRef}>
-                  <Link href="/profile" className={styles.menuItem}>
+                  <NavigationLink  href={`/profile` as AppPathnames} className={styles.menuItem}>
                     <Image
                       src={profile_icon}
                       width={36}
@@ -328,7 +340,7 @@ function Navbar() {
                       className={styles.popIcon}
                     />
                     {t("profile")}
-                  </Link>
+                  </NavigationLink>
                   <button className={styles.menuItem} onClick={handleLogout}>
                     <Image
                       src={logout_icon}
@@ -339,9 +351,9 @@ function Navbar() {
                   </button>
                 </div>
               )}
-              <Link href={"post-an-add"} className={styles.postAdButton}>
+              <NavigationLink   href={`/post-an-add` as AppPathnames}  className={styles.postAdButton}>
                 {t("post an add")}
-              </Link>
+              </NavigationLink>
             </div>
           )}
         </nav>

@@ -221,7 +221,7 @@ function CarryModal({ toggle, isOpen, detailList, setModal ,loading}: CarryModal
                           <p>
                             {detailList?.tripPlaceDetails?.[0]?.toPlace}{" "}
                           </p>
-                          <span className="label">To</span> <br />
+                          <span className="label">{t("to")}</span> <br />
                           <span className="text-[14px] text-[#505050]">
                             {moment(
                               detailList?.tripPlaceDetails?.[0]?.toTripDate

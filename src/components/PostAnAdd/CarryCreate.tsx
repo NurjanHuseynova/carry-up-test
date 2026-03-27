@@ -372,7 +372,7 @@ function CarryCreate() {
                 <option value="">{t("Select travel type")}</option>
                 {Object.entries(travelType).map(([key, value]) => (
                   <option key={value} value={value}>
-                    {key}
+                    {t(key)}
                   </option>
                 ))}
               </select>

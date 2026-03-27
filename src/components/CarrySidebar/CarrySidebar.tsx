@@ -69,7 +69,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
             {travelType &&
               Object.entries(travelType).map(([key, value]) => (
                 <option key={value} value={value}>
-                  {key}
+                  {t(key)}
                 </option>
               ))}
           </select>
@@ -84,7 +84,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
                 type="text"
                 name="minPrice"
                 value={formData.minPrice}
-                placeholder="Min price"
+                placeholder={t("Min price")}
                 onChange={handleInputChange}
               />
             </div>
@@ -94,7 +94,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
                 type="text"
                 name="maxPrice"
                 value={formData.maxPrice}
-                placeholder="Max price"
+                placeholder={t("Max price")}
                 onChange={handleInputChange}
               />
             </div>
@@ -141,7 +141,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
           <input
             type="text"
             name="fromPlace"
-            placeholder="Enter starting place"
+            placeholder={t("Enter starting place")}
             value={formData.fromPlace}
             onChange={handleInputChange}
             className="form-input"
@@ -153,7 +153,7 @@ const CarrySidebar: React.FC<CarrySidebarProps> = ({
           <input
             type="text"
             name="toPlace"
-            placeholder="Enter destination"
+             placeholder={t("Enter destination")}
             value={formData.toPlace}
             onChange={handleInputChange}
             className="form-input"

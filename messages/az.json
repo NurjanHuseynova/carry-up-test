@@ -103,7 +103,7 @@
     "ok": "Ok",
     "catchDate": "Tutma tarixi",
     "createdDate": "Yaradılma tarixi",
-    "to": "Ünvan",
+    "to": "Haraya",
     "deadline": "Son tarix",
     "actions": "Əməliyyatlar",
     "edit": "Redaktə et",
@@ -157,9 +157,27 @@
     "address": "Ünvan",
     "changePhoto": "Şəkli dəyiş",
     "selectImage": "Şəkil seçin",
-"failedLoadCountries": "Ölkələr yüklənmədi",
-  "errorFetchingCountryData": "Ölkə məlumatları yüklənərkən xəta baş verdi",
-  "userUpdated": "İstifadəçi uğurla yeniləndi",
-   "Search": "Axtar"
+    "failedLoadCountries": "Ölkələr yüklənmədi",
+    "errorFetchingCountryData": "Ölkə məlumatları yüklənərkən xəta baş verdi",
+    "userUpdated": "İstifadəçi uğurla yeniləndi",
+    "Search": "Axtar",
+
+    "document": "Sənəd",
+    "Bus": "Avtobus",
+    "Train": "Qatar",
+    "Plane": "Təyyarə",
+    "Car": "Avtomobil",
+    "Ship": "Gəmi",
+    "Min price": "Minimum qiymət",
+    "Max price": "Maksimum qiymət",
+    "Post an add": "Elan yerləşdir",
+    "Enter starting place": "Başlanğıc nöqtəni daxil et",
+    "Enter destination": "Təyinat nöqtəsini daxil et",
+    "Enter": "Daxil et",
+    "Select currency": "Valyuta seç"
+  },
+    "LocaleSwitcher": {
+    "label": "Dili dəyişdirin",
+    "locale": "{locale, select, az {AZ} en {EN} ru {RU} other {Unknown}}"
   }
 }

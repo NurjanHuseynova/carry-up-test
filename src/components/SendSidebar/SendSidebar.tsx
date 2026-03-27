@@ -49,7 +49,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
             type="text"
             name="toPlace"
             value={sendFormData.toPlace}
-            placeholder="Enter"
+            placeholder={t("Enter")}
             onChange={handleInputChange}
           />
         </div>
@@ -59,7 +59,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
             type="text"
             name="fromPlace"
             value={sendFormData.fromPlace}
-            placeholder="Enter"
+            placeholder={t("Enter")}
             onChange={handleInputChange}
           />
         </div>
@@ -87,7 +87,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
                 type="text"
                 name="minPrice"
                 value={sendFormData.minPrice}
-                placeholder="Min price"
+                placeholder={t("Min price")}
                 onChange={handleInputChange}
               />
             </div>
@@ -97,13 +97,13 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
                 type="text"
                 name="maxPrice"
                 value={sendFormData.maxPrice}
-                placeholder="Max price"
+                 placeholder={t("Max price")}
                 onChange={handleInputChange}
               />
             </div>
           </div>
         </div>
-        <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
+        {/* <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
           <label>{t("Title")}</label>
           <input
             type="text"
@@ -112,7 +112,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
             placeholder="Enter"
             onChange={handleInputChange}
           />
-        </div>
+        </div> */}
 
   
         <div className={`flex flex-col !gap-2 ${styles.input_group}`}>
@@ -123,7 +123,7 @@ const SendSidebar: React.FC<SendSidebarProps> = ({
             onChange={handleInputChange}
             className="form-select"
           >
-            <option value="">{t("select currency")}</option>
+            <option value="">{t("Select currency")}</option>
             {currency &&
               Object.entries(currency).map(([key, value]) => (
                 <option key={value} value={value}>

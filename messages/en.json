@@ -162,6 +162,27 @@
     "errorFetchingCountryData": "Error fetching country data",
 
     "userUpdated": "User updated successfully",
-    "Search":"Search"
+    "Search":"Search", 
+
+
+    "document":"Document",
+    "Bus":"Bus",
+    "Train":"Train",
+    "Plane":"Plane",
+    "Car":"Car",
+    "Ship":"Ship",
+    "Min price":"Min price",
+    "Max price":"Max price",
+    "Post an add":"Post an add",
+    "Enter starting place":"Enter starting place",
+    "Enter destination":"Enter destination",
+    "Enter":"Enter",
+    "Select currency":"Enter"
+
+
+  },
+    "LocaleSwitcher": {
+    "label": "Change Language",
+    "locale": "{locale, select, az {AZ} en {EN} ru {RU} other {Unknown}}"
   }
 }

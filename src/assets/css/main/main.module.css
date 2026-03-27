@@ -1,6 +1,7 @@
 .main_container{
  padding: 24px;
  gap: 20px;
+ height: calc(100vh - 136px); 
 }
 
 .right_section{
@@ -18,7 +19,7 @@
 }
 
 .left_section {
-    height: calc(100vh - 136px); 
+    height: 100%; 
     padding: 16px 8px 16px 16px;
     background-color: #fff;
     display: flex;

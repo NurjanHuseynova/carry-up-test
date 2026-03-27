@@ -102,7 +102,7 @@
     "ok": "Ok",
     "catchDate": "Дата получения",
     "createdDate": "Дата создания",
-    "to": "Кому",
+    "to": "Куда",
     "deadline": "Крайний срок",
     "actions": "Действия",
     "edit": "Редактировать",
@@ -157,8 +157,26 @@
     "changePhoto": "Сменить фото",
     "selectImage": "Выберите изображение",
     "failedLoadCountries": "Не удалось загрузить страны",
-  "errorFetchingCountryData": "Ошибка при загрузке данных о странах",
-  "userUpdated": "Пользователь успешно обновлён",
-  "Search": "Поиск"
+    "errorFetchingCountryData": "Ошибка при загрузке данных о странах",
+    "userUpdated": "Пользователь успешно обновлён",
+    "Search": "Поиск",
+
+    "document": "Документ",
+    "Bus": "Автобус",
+    "Train": "Поезд",
+    "Plane": "Самолёт",
+    "Car": "Автомобиль",
+    "Ship": "Корабль",
+    "Min price": "Минимальная цена",
+    "Max price": "Максимальная цена",
+    "Post an add": "Разместить объявление",
+    "Enter starting place": "Введите место отправления",
+    "Enter destination": "Введите пункт назначения",
+    "Enter": "Ввести",
+    "Select currency": "Выберите валюту"
+  },
+    "LocaleSwitcher": {
+    "label": "Изменить язык",
+    "locale": "{locale, select, az {AZ} en {EN} ru {RU} other {Unknown}}"
   }
 }
