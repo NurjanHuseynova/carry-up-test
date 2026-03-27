@@ -237,7 +237,7 @@ function CarryCreate() {
                 value={formData.from}
                 onChange={handleInputChange}
               />
-                 <button className="border border-[#292D3240] py-2 px-2 rounded-md" >
+                 <button className="border border-[#919EAB33] py-2 px-2 rounded-md" >
                <Image src={plus} alt="plus"/>
              </button>
             </div>
@@ -292,7 +292,7 @@ function CarryCreate() {
                 onChange={handleInputChange}
               />
 
-             <button className="border border-[#292D3240] py-2 px-2 rounded-md" >
+             <button className="border border-[#919EAB33] py-2 px-2 rounded-md" >
                <Image src={plus} alt="plus"/>
              </button>
           </div>

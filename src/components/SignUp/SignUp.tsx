@@ -404,10 +404,10 @@ const response = await postApi(
                 </div>
               </div>
 
-              <div
+              {/* <div
                 className={`grid gap-3 md:grid-cols-2 ${styles.input_group}`}
               >
-                {/* <div className={styles.input_group_item}>
+                <div className={styles.input_group_item}>
                   <label htmlFor="text" className="">
                    {t(" city")}<span className={styles.reqField}> * </span>
                   </label>
@@ -442,8 +442,8 @@ const response = await postApi(
                     ))}
                   </select>
                
-                </div> */}
-              </div>
+                </div>
+              </div> */}
 
               <div
                 className={`grid gap-3  md:grid-cols-2 ${styles.input_group}`}

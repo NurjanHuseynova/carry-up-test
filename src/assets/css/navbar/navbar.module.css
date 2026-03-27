@@ -33,7 +33,7 @@
 
 .navLink {
   /* margin: 0 24px 0 0; */
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
@@ -158,12 +158,12 @@
 .langContainer {
   position: relative;
   display: inline-block;
-  margin-top: 5px;
+  margin-top: 2px;
 }
 
 .langTrigger {
   background: #fff;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
@@ -203,7 +203,7 @@
 /* Large screen view */
 @media (min-width: 1025px) {
   .navLink {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .username {
@@ -226,7 +226,7 @@
 /* Tablet view */
 @media (max-width: 1024px) and (min-width: 769px) {
   .navLink {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .username {

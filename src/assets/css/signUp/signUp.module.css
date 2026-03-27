@@ -24,7 +24,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #f7ecff, #d1e9ff);
+  background: linear-gradient(135deg, #F7ECFF , #E9F4FF);
   min-height: 100vh;
   height: auto;
   padding: 30px 0;
@@ -93,11 +93,12 @@
 }
 
 .input_group input , .input_group select {
-  height: 48px;
+  height: 38px;
   width: 100%;
   padding: 0 14px;
   border-radius: 8px;
-  border: solid 1px #292D3240;
+      font-size: 14px;
+  border: solid 1px #919EAB33;
 }
 
 .input_group input:focus {

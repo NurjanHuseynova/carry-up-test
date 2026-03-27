@@ -8,8 +8,9 @@
 .input_group_item select {
     width: 100%;
     /* max-width: 334px; */
-    height: 48px;
+    height: 38px;
     padding: 10px;
+        font-size: 14px;
     border: solid 1px rgba(41, 45, 50, 0.25);
     border-radius: 8px;
 }
